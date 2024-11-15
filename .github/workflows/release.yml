@@ -1,0 +1,36 @@
+name: Create Release
+on:
+    push:
+        tags:
+            - "v*"
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Export Game
+              id: export
+              uses: firebelley/godot-export@v6.0.0
+              with:
+                  godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_linux.x86_64.zip
+                  godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_export_templates.tpz
+                  relative_project_path: ./game
+                  archive_output: true
+
+            - name: Create GitHub Release
+              uses: ncipollo/release-action@v1.14.0
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  tag: ${{ github.ref_name }}
+                  generateReleaseNotes: true
+                  artifacts: ${{ steps.export.outputs.archive_directory }}/*
+                  skipIfReleaseExists: true
+
+            # - name: Deploy to itch.io
+            #   env:
+            #       BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+            #   run: |
+            #       butler push ./exported_builds/ myusername/mygame:release
