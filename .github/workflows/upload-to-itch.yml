@@ -4,7 +4,7 @@ name: "Upload to ITCH.IO"
 on:
     push:
         tags:
-            - "v*"
+            - "build-*"
 
 jobs:
     # job id, can be anything
