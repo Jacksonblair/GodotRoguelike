@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd8h5djhwsjp5"]
+
+[ext_resource type="Script" path="res://scenes/npcs/Npc1.cs" id="1_d2npg"]
+[ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/PlayerCharacter.tres" id="2_xtslw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nvkrq"]
+radius = 25.83
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("1_d2npg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nvkrq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_xtslw")
+animation = &"idle"
+
+[node name="Label" type="Label" parent="."]
+visible = false
+z_index = 2
+offset_left = -29.0
+offset_top = -52.0
+offset_right = 35.0
+offset_bottom = -29.0
+text = "K to talk"

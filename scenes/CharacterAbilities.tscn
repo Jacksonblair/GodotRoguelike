@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://v3wduvlq05x"]
+
+[ext_resource type="Script" path="res://scenes/CharacterAbilities.cs" id="1_ca7yh"]
+
+[node name="CharacterAbilities" type="Node"]
+script = ExtResource("1_ca7yh")
+abilities = ["Test", "Hello"]

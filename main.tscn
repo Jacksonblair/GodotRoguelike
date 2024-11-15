@@ -1,0 +1,32 @@
+[gd_scene load_steps=10 format=3 uid="uid://dggbotfuyem7v"]
+
+[ext_resource type="Script" path="res://Main.cs" id="1_50u5v"]
+[ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://stone_level.tscn" id="2_wcj1k"]
+[ext_resource type="PackedScene" uid="uid://dmcsjw2y00n8i" path="res://scenes/CharacterState.tscn" id="3_g4uae"]
+[ext_resource type="PackedScene" uid="uid://db4wyjshk3nf4" path="res://scenes/PlayerCharacter.tscn" id="4_w02f7"]
+[ext_resource type="PackedScene" uid="uid://dd8h5djhwsjp5" path="res://scenes/npcs/npc1.tscn" id="5_k32cp"]
+[ext_resource type="PackedScene" uid="uid://dlbq872dj57g5" path="res://managers/KillTrackingManager.tscn" id="6_rlk1c"]
+[ext_resource type="PackedScene" uid="uid://uh4e2r30j7m1" path="res://managers/QuestManager.tscn" id="6_ssi5m"]
+[ext_resource type="PackedScene" uid="uid://8823bygfldnv" path="res://scenes/map_edge_spawner/MapEdgeSpawner.tscn" id="8_3minf"]
+[ext_resource type="PackedScene" uid="uid://cfq5nkrsaoxh5" path="res://scenes/framerate_displayer/FrameRateDisplayer.tscn" id="9_4dg4n"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_50u5v")
+
+[node name="FrameRateDisplayer" parent="." instance=ExtResource("9_4dg4n")]
+
+[node name="CharacterState" parent="." instance=ExtResource("3_g4uae")]
+
+[node name="StoneLevel" parent="." instance=ExtResource("2_wcj1k")]
+
+[node name="PlayerCharacter" parent="StoneLevel" instance=ExtResource("4_w02f7")]
+position = Vector2(-217, -412)
+
+[node name="Npc1" parent="StoneLevel" instance=ExtResource("5_k32cp")]
+position = Vector2(171, -135)
+
+[node name="KillTrackingManager" parent="." instance=ExtResource("6_rlk1c")]
+
+[node name="QuestManager" parent="." instance=ExtResource("6_ssi5m")]
+
+[node name="MapEdgeSpawner" parent="." instance=ExtResource("8_3minf")]

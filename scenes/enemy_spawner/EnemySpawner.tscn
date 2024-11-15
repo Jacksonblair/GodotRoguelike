@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://hqp5ajtmje8m"]
+
+[ext_resource type="Script" path="res://scenes/enemy_spawner/EnemySpawner.cs" id="1_vib3g"]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_vib3g")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
