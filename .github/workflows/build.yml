@@ -1,6 +1,8 @@
 name: 🚥 Status Checks
-on: push
-
+on:
+    push:
+        tags:
+            - "b*"
 jobs:
     tests:
         name: 👀 Evaluate on ${{ matrix.os }}
