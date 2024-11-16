@@ -55,7 +55,7 @@ public partial class ClosestEnemyGetter : Node2D
 
         // Find the closest enemy by calculating distance
         var _closestEnemy = enemies
-            .OrderBy(enemy => enemy.Position.DistanceTo(Global.Character.Position))
+            .OrderBy(enemy => enemy.Position.DistanceTo(GlobalVariables.Character.Position))
             .FirstOrDefault();
 
         if (_closestEnemy != null)
@@ -96,7 +96,7 @@ public partial class ClosestEnemyGetter : Node2D
 
         var camera = GetViewport().GetCamera2D();
 
-        // GD.Print(Global.GetCharacter().GlobalPosition);
+        // GD.Print(GlobalVariables.GetCharacter().GlobalPosition);
         // GD.Print(_closestEnemy.GlobalPosition);
 
         // Clear previous points from the Line2D node

@@ -19,7 +19,7 @@ public partial class PlayerCharacter : CharacterBody2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Global.Character = this;
+        GlobalVariables.Character = this;
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         sprite.Play();
         closestEnemyGetter = GetNode<ClosestEnemyGetter>("ClosestEnemyGetter");

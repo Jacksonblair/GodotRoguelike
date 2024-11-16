@@ -18,7 +18,7 @@ public partial class EnemySpawner : Node2D
     {
         if (enabled)
         {
-            var level = Global.Level;
+            var level = GlobalVariables.Level;
             var scene = GD.Load<PackedScene>("res://scenes/enemies/Enemy1.tscn");
             var instance = scene.Instantiate<Enemy1>();
             instance.Position = Position;

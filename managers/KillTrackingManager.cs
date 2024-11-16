@@ -38,7 +38,7 @@ public partial class KillTrackingManager : Node
             _killCounts[type] = 0;
         }
 
-        Global.KillTrackingManagerer = this;
+        GlobalVariables.KillTrackingManagerer = this;
         TrackKill(EnemyType.Ghost1);
     }
 

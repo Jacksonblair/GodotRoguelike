@@ -7,7 +7,7 @@ public partial class BaseEnemy : CharacterBody2D
 
     public void Die()
     {
-        Global.KillTrackingManagerer.TrackKill(enemyType);
+        GlobalVariables.KillTrackingManagerer.TrackKill(enemyType);
     }
 
     public void Init(EnemyType enemyType)

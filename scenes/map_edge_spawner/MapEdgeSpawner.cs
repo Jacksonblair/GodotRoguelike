@@ -68,7 +68,7 @@ public partial class MapEdgeSpawner : Node
     {
         var position = GetSpawnPosition();
         // GD.Print(GetSpawnPosition());
-        var level = Global.Level;
+        var level = GlobalVariables.Level;
         var scene = GD.Load<PackedScene>("res://scenes/enemies/Enemy1.tscn");
         var instance = scene.Instantiate<Enemy1>();
         instance.Position = position;
