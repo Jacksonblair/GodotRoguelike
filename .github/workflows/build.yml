@@ -1,31 +1,54 @@
-name: Build game
-on:
-    push:
-        tags:
-            - "build*"
+name: 🚥 Status Checks
+on: push
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+    tests:
+        name: 👀 Evaluate on ${{ matrix.os }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            # Don't cancel other OS runners if one fails.
+            fail-fast: false
+            matrix:
+                # Put the operating systems you want to run on here.
+                os: [windows-latest]
+        env:
+            DOTNET_CLI_TELEMETRY_OPTOUT: true
+            DOTNET_NOLOGO: true
+        defaults:
+            run:
+                # Use bash shells on all platforms.
+                shell: bash
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v3
+              name: 🧾 Checkout
 
-            - name: Export Game
-              uses: firebelley/godot-export@v6.0.0
+            - uses: actions/setup-dotnet@v3
+              name: 💽 Setup .NET SDK
               with:
-                  godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_linux.x86_64.zip
-                  godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_export_templates.tpz
-                  relative_project_path: ./
-                  relative_export_path: ./builds/
-                  archive_output: true
-                  cache: true
+                  # Use the .NET SDK from global.json in the root of the repository.
+                  global-json-file: global.json
 
-            - name: List files in builds directory
-              run: ls -alh ./builds/
+            - name: 📦 Restore Dependencies
+              run: dotnet restore
 
-            - name: Upload Build Artifacts
-              uses: actions/upload-artifact@v3
+            - uses: chickensoft-games/setup-godot@v1
+              name: 🤖 Setup Godot
               with:
-                  name: game-build
-                  path: ./builds/*
+                  # Version must include major, minor, and patch, and be >= 4.0.0
+                  # Pre-release label is optional.
+                  version: 4.0.0-beta16 # also valid: 4.0.0.rc1 or 4.0.0, etc
+                  # Use .NET-enabled version of Godot (the default is also true).
+                  use-dotnet: true
+                  # Include the Godot Export Templtes (the default is false).
+                  include-templates: true
+
+            - name: 🔬 Verify Setup
+              run: |
+                  dotnet --version
+                  godot --version
+
+            - name: 🧑‍🔬 Generate .NET Bindings
+              run: godot --headless --build-solutions --quit || exit 0
+
+            - name: 🦺 Build Projects
+              run: dotnet build
