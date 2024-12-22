@@ -1,16 +1,12 @@
 using System;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading;
 using Godot;
+using TESTCS.scenes.projectiles;
 
-public partial class Projectile : Area2D, IDamager
+public partial class BasicProjectile : BaseProjectile, IDamager
 {
-    public float speed = 250;
-    public Vector2 initDirection;
-    private IProjectileMover mover;
-    private Godot.Timer timer;
-    private bool hasHit = false;
-    private bool stopMoving = false;
+    private Godot.Timer _timer;
+    private bool _hasHit;
+    private bool _stopMoving;
 
     [Export]
     public int Damage = 100;
@@ -19,10 +15,10 @@ public partial class Projectile : Area2D, IDamager
     public override void _Ready()
     {
         // GD.Print("Projectile ready");
-        timer = GetNode<Godot.Timer>("Lifetime");
-        timer.WaitTime = 3f;
-        timer.Timeout += OnLifetimeEnd;
-        timer.Start();
+        _timer = GetNode<Godot.Timer>("Lifetime");
+        _timer.WaitTime = 3f;
+        _timer.Timeout += OnLifetimeEnd;
+        _timer.Start();
 
         // Add event listener to projectile
         BodyEntered += OnBodyEntered;
@@ -38,28 +34,28 @@ public partial class Projectile : Area2D, IDamager
     private void OnBodyEntered(Node2D body)
     {
         GD.Print("SETTING HASHIT TO TRUE");
-        stopMoving = true;
-        hasHit = true;
+        _stopMoving = true;
+        _hasHit = true;
         Explode();
     }
 
     public override void _Process(double delta)
     {
-        if (!stopMoving)
+        if (!_stopMoving)
         {
-            mover?.Move(this, delta);
+            Mover?.Move(this, delta);
         }
     }
 
     public void Init(IProjectileMover mover, Vector2 initDirection)
     {
-        this.mover = mover;
-        this.initDirection = initDirection;
+        Mover = mover;
+        InitDirection = initDirection;
     }
 
     private void OnLifetimeEnd()
     {
-        if (!hasHit)
+        if (!_hasHit)
         {
             Explode();
         }

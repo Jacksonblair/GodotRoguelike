@@ -1,5 +1,6 @@
-using System;
 using Godot;
+
+namespace TESTCS.scenes.projectiles;
 
 public partial class LinearProjectileMover : Node2D, IProjectileMover
 {
@@ -9,8 +10,8 @@ public partial class LinearProjectileMover : Node2D, IProjectileMover
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) { }
 
-    public void Move(Projectile proj, double delta)
+    public void Move(TESTCS.scenes.projectiles.BaseProjectile proj, double delta)
     {
-        proj.Position += proj.initDirection * proj.speed * (float)delta;
+        proj.Position += proj.InitDirection * proj.Speed * (float)delta;
     }
 }

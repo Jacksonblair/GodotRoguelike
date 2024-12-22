@@ -6,4 +6,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>TESTCS</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="menus\" />
+  </ItemGroup>
 </Project>

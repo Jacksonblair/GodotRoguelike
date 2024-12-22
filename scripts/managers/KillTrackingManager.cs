@@ -2,7 +2,6 @@ using Godot;
 using Godot.Collections;
 using TESTCS.enums;
 
-[GlobalClass]
 public partial class KillTrackingManager : Node
 {
     [Signal]
@@ -37,10 +36,5 @@ public partial class KillTrackingManager : Node
         {
             _killCounts[type] = 0;
         }
-
-        GlobalVariables.KillTrackingManagerer = this;
-        TrackKill(EnemyType.Ghost1);
     }
-
-    public override void _Process(double delta) { }
 }

@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://chtnxfyfswn6m"]
 
-[ext_resource type="Script" path="res://scenes/enemies/Enemy1.cs" id="1_rbyq7"]
+[ext_resource type="Script" path="res://scenes/enemies/GhostEnemy1.cs" id="1_rbyq7"]
 [ext_resource type="Texture2D" uid="uid://dlpiswsx5ccu4" path="res://assets/Monster sprites.png" id="2_olyov"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_if1bs"]

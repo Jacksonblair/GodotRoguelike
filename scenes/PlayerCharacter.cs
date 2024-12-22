@@ -19,7 +19,7 @@ public partial class PlayerCharacter : CharacterBody2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        GlobalVariables.Character = this;
+        GlobalVariables.Instance.Character = this;
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         sprite.Play();
         closestEnemyGetter = GetNode<ClosestEnemyGetter>("ClosestEnemyGetter");
@@ -130,24 +130,23 @@ public partial class PlayerCharacter : CharacterBody2D
     public void FireProjectileAtMouse()
     {
         // GD.Print("FIRE AT MOUSE");
-        var level = GetTree().Root.GetNode("Main").GetNode<StoneLevel>("StoneLevel");
+        var level = GlobalVariables.Instance.ActiveMainScene;
         var mousePos = level.GetLocalMousePosition();
         FireProjectile(mousePos);
     }
 
     public void FireProjectile(Vector2 target)
     {
-        var level = GetTree().Root.GetNode("Main").GetNode<StoneLevel>("StoneLevel");
-
+        var level = GlobalVariables.Instance.ActiveMainScene;
         var projectile = (PackedScene)GD.Load("res://scenes/projectiles/Projectile.tscn");
-        var inst2 = projectile.Instantiate<Projectile>();
+        var inst2 = projectile.Instantiate<BasicProjectile>();
 
         Vector2 direction = (target - Position).Normalized();
         inst2.Position = Position;
 
         // GD.Print(inst2.Position);
 
-        inst2.Init(new LinearProjectileMover(), direction);
+        inst2.Init(new TESTCS.scenes.projectiles.LinearProjectileMover(), direction);
         level?.CallDeferred("add_child", inst2);
 
         // GD.Print(inst2.Position.ToString());

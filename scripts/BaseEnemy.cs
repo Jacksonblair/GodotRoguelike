@@ -5,13 +5,13 @@ public partial class BaseEnemy : CharacterBody2D
 {
     public EnemyType enemyType;
 
-    public void Die()
+    protected BaseEnemy(EnemyType type)
     {
-        GlobalVariables.KillTrackingManagerer.TrackKill(enemyType);
+        enemyType = type;
     }
 
-    public void Init(EnemyType enemyType)
+    public void Die()
     {
-        this.enemyType = enemyType;
+        GlobalVariables.Instance.KillTrackingManager.TrackKill(enemyType);
     }
 }

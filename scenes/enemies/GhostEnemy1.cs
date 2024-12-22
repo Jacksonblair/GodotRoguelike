@@ -2,30 +2,31 @@ using System;
 using Godot;
 using TESTCS.enums;
 
-public partial class Enemy1 : BaseEnemy, IDamageable
+public partial class GhostEnemy1 : BaseEnemy, IDamageable
 {
     float max_health = 100;
     float health = 100;
-    IEnemyMover mover = new EnemyMoverFollow();
-    private CharacterBody2D _player;
+    private readonly TowardsTargetMover _mover;
     float speed = 50;
 
-    // Called when the node enters the scene tree for the first time.
+    GhostEnemy1() : base(EnemyType.Ghost1)
+    {
+        _mover = new TowardsTargetMover(GlobalVariables.Instance.Character);
+    }
+
     public override void _Ready()
     {
-        Init(EnemyType.Ghost1);
-        _player = GetNode<CharacterBody2D>("/root/Main/StoneLevel/PlayerCharacter");
+        _mover.target = GlobalVariables.Instance.Character;
     }
 
     public override void _Process(double delta)
     {
-        mover?.Move(this, _player, speed);
+        _mover?.Move(this, speed);
     }
 
     public void ReceiveDamage(int damage)
     {
         health -= damage;
-
         var healthNormalized = health / max_health;
 
         // GD.Print(healthNormalized);
@@ -33,7 +34,7 @@ public partial class Enemy1 : BaseEnemy, IDamageable
         // GD.Print(progressBar.Value);
         progressBar.Value = healthNormalized;
         // GD.Print(progressBar.Value);
-
+        
         if (health < 1)
         {
             GD.Print("DYING");

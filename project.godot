@@ -17,8 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://scripts/GlobalVariables.cs"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+LevelManager="*res://scripts/managers/GameSceneManager.cs"
+QuestManager="*res://scripts/managers/QuestManager.cs"
+KillTrackingManager="*res://scripts/managers/KillTrackingManager.cs"
+Global="*res://scripts/GlobalVariables.cs"
 
 [dialogue_manager]
 

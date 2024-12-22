@@ -18,11 +18,11 @@ public partial class EnemySpawner : Node2D
     {
         if (enabled)
         {
-            var level = GlobalVariables.Level;
-            var scene = GD.Load<PackedScene>("res://scenes/enemies/Enemy1.tscn");
-            var instance = scene.Instantiate<Enemy1>();
-            instance.Position = Position;
-            level.AddChild(instance);
+            // var level = GlobalVariables.Instance.LevelManager.CurrentLevel;
+            // var scene = GD.Load<PackedScene>("res://scenes/enemies/Enemy1.tscn");
+            // var instance = scene.Instantiate<Enemy1>();
+            // instance.Position = Position;
+            // level.AddChild(instance);
         }
     }
 

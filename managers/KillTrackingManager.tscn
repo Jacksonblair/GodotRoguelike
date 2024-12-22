@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dlbq872dj57g5"]
-
-[ext_resource type="Script" path="res://managers/KillTrackingManager.cs" id="1_84l0q"]
-
-[node name="KillTrackingManager" type="Node"]
-script = ExtResource("1_84l0q")

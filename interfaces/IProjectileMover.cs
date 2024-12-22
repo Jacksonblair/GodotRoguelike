@@ -2,5 +2,5 @@ using Godot;
 
 public interface IProjectileMover
 {
-    void Move(Projectile projectile, double delta);
+    void Move(TESTCS.scenes.projectiles.BaseProjectile projectile, double delta);
 }

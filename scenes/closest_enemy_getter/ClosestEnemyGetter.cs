@@ -41,7 +41,7 @@ public partial class ClosestEnemyGetter : Node2D
     public void UpdateClosestEnemy()
     {
         // Find all nodes in the "Enemy" group
-        var enemies = GetTree().GetNodesInGroup("Enemy").Cast<Enemy1>().ToList();
+        var enemies = GetTree().GetNodesInGroup("Enemy").Cast<GhostEnemy1>().ToList();
 
         if (enemies.Count == 0)
         {
@@ -55,7 +55,7 @@ public partial class ClosestEnemyGetter : Node2D
 
         // Find the closest enemy by calculating distance
         var _closestEnemy = enemies
-            .OrderBy(enemy => enemy.Position.DistanceTo(GlobalVariables.Character.Position))
+            .OrderBy(enemy => enemy.Position.DistanceTo(GlobalVariables.Instance.Character.Position))
             .FirstOrDefault();
 
         if (_closestEnemy != null)
