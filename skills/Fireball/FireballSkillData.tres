@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FireballSkillData" load_steps=3 format=3 uid="uid://b12re7hchfngy"]
+
+[ext_resource type="PackedScene" uid="uid://b7oxdeqskwrw4" path="res://skills/Fireball/FireballSkill.tscn" id="1_d2pj6"]
+[ext_resource type="Script" path="res://skills/Fireball/FireballSkillData.cs" id="2_itwgr"]
+
+[resource]
+script = ExtResource("2_itwgr")
+SkillName = ""
+SkillScene = ExtResource("1_d2pj6")
+Damage = 10
+Cooldown = 10
+Modifiers = Array[Resource]([])

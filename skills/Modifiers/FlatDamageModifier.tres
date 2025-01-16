@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="FlatDamageModifier" load_steps=2 format=3 uid="uid://d3oag61c2q05l"]
+
+[ext_resource type="Script" path="res://skills/Modifiers/FlatDamageModifier.cs" id="1_tx6no"]
+
+[resource]
+script = ExtResource("1_tx6no")
+AdditionalDamage = 0

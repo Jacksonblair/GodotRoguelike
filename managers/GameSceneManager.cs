@@ -15,7 +15,7 @@ public partial class GameSceneManager : Node
     private static readonly Dictionary<GameScenesEnum, NodePath> GameScenesPathDictionary = new Dictionary<GameScenesEnum, NodePath>
     {
         {
-            GameScenesEnum.StoneLevel, "res://stone_level.tscn"
+            GameScenesEnum.StoneLevel, "res://levels/stone_level.tscn"
         },
         {
             GameScenesEnum.MainMenu, "res://main_menu.tscn"
@@ -34,19 +34,19 @@ public partial class GameSceneManager : Node
         // Remove previous scene
         if (_currentActiveScene != null)
         {
-            GlobalVariables.Instance.ActiveMainScene.RemoveChild(_currentActiveScene);
+            GlobalVariables.Instance.ActiveMainSceneContainer.RemoveChild(_currentActiveScene);
         }
         
         // Instantiate specified scene
         var scene = GetGameScenePacked(gameScene);
         var inst = scene.Instantiate();
-        GlobalVariables.Instance.ActiveMainScene.AddChild(inst);
+        GlobalVariables.Instance.ActiveMainSceneContainer.AddChild(inst);
         
         // Update internal reference
         _currentActiveScene = inst;
         
         GD.Print("Loading: ", gameScene);
-        GD.Print(GlobalVariables.Instance.ActiveMainScene);
+        GD.Print(GlobalVariables.Instance.ActiveMainSceneContainer);
 
         // Add player to level
         // Rather... Despawn old level including player... and then respawn player in new level

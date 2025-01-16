@@ -1,17 +1,19 @@
+using System.Collections.Generic;
 using Godot;
+using TESTCS.enums;
+using TESTCS.helpers;
+using TESTCS.managers;
 
 public partial class PlayerCharacter : CharacterBody2D
 {
     float speed = 200;
     string current_terrain;
-
+    
     CollisionShape2D collision;
     AnimatedSprite2D sprite;
-    ClosestEnemyGetter closestEnemyGetter;
+    public ClosestEnemyGetter closestEnemyGetter;
     Timer getEnemyTimer;
     Area2D NPCArea2D;
-
-    bool aimPressed;
 
     // Nearby NPC
     IInteractable nearbyNPC;
@@ -23,9 +25,13 @@ public partial class PlayerCharacter : CharacterBody2D
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         sprite.Play();
         closestEnemyGetter = GetNode<ClosestEnemyGetter>("ClosestEnemyGetter");
-        getEnemyTimer = GetNode<Timer>("GetEnemyTimer");
-        getEnemyTimer.Timeout += FireProjectile;
-
+        
+        // Set up basic default skill
+        
+        // Automatically use skill
+        // getEnemyTimer = GetNode<Timer>("GetEnemyTimer");
+        // getEnemyTimer.Timeout += UseAutoSkill;
+        
         NPCArea2D = GetNode<Area2D>("NPCArea2D");
         NPCArea2D.AreaEntered += onNPCAreaEntered;
         NPCArea2D.AreaExited += onNPCAreaExited;
@@ -64,14 +70,34 @@ public partial class PlayerCharacter : CharacterBody2D
         {
             velocity.Y += 1;
         }
+        
+        if (Input.IsActionPressed(EnumHelper.GetEnumName(PlayerInputs.Skill1)))
+        {
+            GD.Print("Execute skill 1");
+            GlobalVariables.Instance.SkillManager.ActivateSkill(0);
+        }
+        
+        if (Input.IsActionPressed(EnumHelper.GetEnumName(PlayerInputs.Skill2)))
+        {
+            GD.Print("Execute skill 2");
+            GlobalVariables.Instance.SkillManager.ActivateSkill(1);
+            // GlobalVariables.Instance.SkillManager.ExecuteSkill(SkillSlotsEnum.Skill2);
+        }
 
+        if (Input.IsActionPressed(EnumHelper.GetEnumName(PlayerInputs.Skill3)))
+        {
+            // GlobalVariables.Instance.SkillManager.ExecuteSkill(SkillSlotsEnum.Skill3);
+        }
+        
         if (Input.IsActionJustPressed("interact"))
         {
             nearbyNPC?.Interact();
         }
 
-        aimPressed = Input.IsActionPressed("aim");
-
+        // Seperate parts
+        // - The ui 
+        // - The actual ability
+        
         /**
             If a character's input or other factors affect velocity, normalizing it and applying speed means the character’s movement remains consistent regardless of input strength.
             So, even if velocity varies, the actual speed won’t change—only the direction will.
@@ -100,60 +126,4 @@ public partial class PlayerCharacter : CharacterBody2D
         MoveAndSlide();
     }
 
-    public void FireProjectile()
-    {
-        if (aimPressed)
-        {
-            FireProjectileAtMouse();
-        }
-        else
-        {
-            FireProjectileAtClosestEnemy();
-        }
-    }
-
-    public void FireProjectileAtClosestEnemy()
-    {
-        // If aiming, fire at mouse, otherwise, fire at closest enemy
-        var closestEnemy = closestEnemyGetter.GetClosestEnemy();
-        if (closestEnemy != null)
-        {
-            // GD.Print("FIRE AT CLOSEST ENEMY");
-            FireProjectile(closestEnemy.Position);
-        }
-        else
-        {
-            // GD.Print("NO CLOSEST ENEMY");
-        }
-    }
-
-    public void FireProjectileAtMouse()
-    {
-        // GD.Print("FIRE AT MOUSE");
-        var level = GlobalVariables.Instance.ActiveMainScene;
-        var mousePos = level.GetLocalMousePosition();
-        FireProjectile(mousePos);
-    }
-
-    public void FireProjectile(Vector2 target)
-    {
-        var level = GlobalVariables.Instance.ActiveMainScene;
-        var projectile = (PackedScene)GD.Load("res://scenes/projectiles/Projectile.tscn");
-        var inst2 = projectile.Instantiate<BasicProjectile>();
-
-        Vector2 direction = (target - Position).Normalized();
-        inst2.Position = Position;
-
-        // GD.Print(inst2.Position);
-
-        inst2.Init(new TESTCS.scenes.projectiles.LinearProjectileMover(), direction);
-        level?.CallDeferred("add_child", inst2);
-
-        // GD.Print(inst2.Position.ToString());
-        // var mousePos = level.GetLocalMousePosition();
-        // Vector2 direction = (mousePos - Position).Normalized();
-        // ((Node2D)inst).Position += mousePos;
-    }
-
-    public void GetInput() { }
 }

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="IceballSkillData" load_steps=3 format=3 uid="uid://bfy1vpwmy2h85"]
+
+[ext_resource type="PackedScene" uid="uid://cpdsfhuvvr1c4" path="res://skills/Iceball/IceballSkilll.tscn" id="1_27pwm"]
+[ext_resource type="Script" path="res://skills/Iceball/IceballSkillData.cs" id="2_tdqnh"]
+
+[resource]
+script = ExtResource("2_tdqnh")
+SkillName = ""
+SkillScene = ExtResource("1_27pwm")
+Damage = 10
