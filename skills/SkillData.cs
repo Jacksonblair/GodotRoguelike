@@ -9,7 +9,7 @@ public partial class SkillData : Resource
     [Export] public int Damage { get; set; } = 10;
     [Export] public int Cooldown { get; set; } = 10;
     
-    public virtual Node InstantiateSkillScene()
+    public virtual Skill InstantiateSkillScene()
     {
         // Default implementation, can be empty or do nothing
         return null;

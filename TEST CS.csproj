@@ -8,6 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="resources\" />
-    <Folder Include="ui\" />
+    <Folder Include="ui\SkillsBar\" />
   </ItemGroup>
 </Project>

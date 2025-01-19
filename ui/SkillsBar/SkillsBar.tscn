@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://vulat7yh0c6k"]
+
+[ext_resource type="Script" path="res://ui/SkillsBar/SkillsBar.cs" id="1_baxk5"]
+[ext_resource type="Script" path="res://ui/SkillsBar/HBoxContainer.cs" id="2_h0c2v"]
+[ext_resource type="PackedScene" uid="uid://coj8bxpig4fod" path="res://ui/SkillsBar/SkillButton/SkillButton.tscn" id="3_l6cmq"]
+
+[node name="SkillsBar" type="CanvasLayer"]
+script = ExtResource("1_baxk5")
+ButtonScene = ExtResource("3_l6cmq")
+
+[node name="SkillHoverPanel" type="Panel" parent="."]
+offset_left = 16.0
+offset_right = 16.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="SkillHoverPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_h0c2v")
+
+[node name="SkillButton" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
+layout_mode = 2
+
+[node name="SkillButton2" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
+layout_mode = 2
+ButtonIndex = 1
+
+[node name="SkillButton3" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
+layout_mode = 2
+ButtonIndex = 2
+
+[node name="SkillButton4" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
+layout_mode = 2
+ButtonIndex = 3

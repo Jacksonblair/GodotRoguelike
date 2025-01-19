@@ -71,20 +71,20 @@ public partial class PlayerCharacter : CharacterBody2D
             velocity.Y += 1;
         }
         
-        if (Input.IsActionPressed(EnumHelper.GetEnumName(PlayerInputs.Skill1)))
+        if (Input.IsActionJustPressed(EnumHelper.GetEnumName(PlayerInputs.Skill1)))
         {
             GD.Print("Execute skill 1");
             GlobalVariables.Instance.SkillManager.ActivateSkill(0);
         }
         
-        if (Input.IsActionPressed(EnumHelper.GetEnumName(PlayerInputs.Skill2)))
+        if (Input.IsActionJustPressed(EnumHelper.GetEnumName(PlayerInputs.Skill2)))
         {
             GD.Print("Execute skill 2");
             GlobalVariables.Instance.SkillManager.ActivateSkill(1);
             // GlobalVariables.Instance.SkillManager.ExecuteSkill(SkillSlotsEnum.Skill2);
         }
 
-        if (Input.IsActionPressed(EnumHelper.GetEnumName(PlayerInputs.Skill3)))
+        if (Input.IsActionJustPressed(EnumHelper.GetEnumName(PlayerInputs.Skill3)))
         {
             // GlobalVariables.Instance.SkillManager.ExecuteSkill(SkillSlotsEnum.Skill3);
         }

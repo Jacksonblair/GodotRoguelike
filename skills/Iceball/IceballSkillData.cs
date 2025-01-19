@@ -3,10 +3,10 @@ using Godot;
 [GlobalClass]
 public partial class IceballSkillData : SkillData
 {
-    public override Node InstantiateSkillScene()
+    public override Skill InstantiateSkillScene()
     {
         var iceball = SkillScene.Instantiate<IceballSkill>();
-        iceball.Damage = Damage;
+        iceball.BaseDamage = Damage;
         return iceball;
     }
 }

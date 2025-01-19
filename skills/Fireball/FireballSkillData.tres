@@ -5,8 +5,7 @@
 
 [resource]
 script = ExtResource("2_itwgr")
-SkillName = ""
+SkillName = "Fireball"
 SkillScene = ExtResource("1_d2pj6")
 Damage = 10
 Cooldown = 10
-Modifiers = Array[Resource]([])

@@ -5,10 +5,10 @@ namespace TESTCS.skills.Fireball;
 [GlobalClass]
 public partial class FireballSkillData : SkillData
 {
-    public override Node InstantiateSkillScene()
+    public override Skill InstantiateSkillScene()
     {
         var fireball = SkillScene.Instantiate<FireballSkill>();
-        fireball.Damage = Damage;
+        fireball.BaseDamage = Damage;
         return fireball;
     }
 }
