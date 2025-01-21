@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://managers/SkillManager.cs" id="1_i67pm"]
 [ext_resource type="Resource" uid="uid://b12re7hchfngy" path="res://skills/Fireball/FireballSkillData.tres" id="2_qv12i"]
 [ext_resource type="Resource" uid="uid://bfy1vpwmy2h85" path="res://skills/Iceball/IceballSkillData.tres" id="3_4wdck"]
-[ext_resource type="PackedScene" uid="uid://b6o4eqplthdh6" path="res://skills/SkillCooldownManager.tscn" id="4_yyed3"]
+[ext_resource type="PackedScene" uid="uid://bfit4wj8oa7l2" path="res://skills/SkillCooldownManager.tscn" id="4_yyed3"]
 
 [node name="SkillManager" type="Node"]
 script = ExtResource("1_i67pm")

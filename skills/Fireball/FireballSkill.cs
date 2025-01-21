@@ -1,28 +1,18 @@
 using Godot;
-using System.Collections.Generic;
 using TESTCS.helpers;
+using TESTCS.skills.Fireball;
 using TESTCS.skills.Interfaces;
 using TESTCS.skills.Modifiers;
 
 public partial class FireballSkill : Skill, IProjectileSkill
 {
-	public int NumProjectiles { get; set; }
-	
-	public override void _Process(double delta)
-	{}
+	public FireballSkillData SkillData;
 
-	public override void _Ready()
-	{
-		// TODO: Remove this, put in another TESTER class
-		LocalModifiers.Add(new ExtraProjectileModifier(1));
-		LocalModifiers.Add(new ExtraProjectileModifier(2));
-		LocalModifiers.Add(new FlatDamageModifier(20));
-	}
 
-	public override void Execute()
+	public override void Execute(ModifierResults modifiers)
 	{
-		var dmg = BaseDamage + finalModifiers.AdditionalFlatDamage;
-		var numProj = NumProjectiles + finalModifiers.AdditionalProjectiles;
+		var dmg = SkillData.BaseDamage + modifiers.AdditionalFlatDamage;
+		var numProj = SkillData.BaseProjectiles + modifiers.AdditionalProjectiles;
 		
 		GD.Print("Executing fireball, with projectiles: ", numProj, " and Damage: ", dmg);
 		

@@ -9,7 +9,8 @@ public partial class BasicProjectile : BaseProjectile, IDamager
     private bool _stopMoving;
 
     [Export]
-    public int Damage = 100;
+    public int Damage = 50;
+    public int Weight = 20;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -83,9 +84,10 @@ public partial class BasicProjectile : BaseProjectile, IDamager
         var bodies = explosion.GetOverlappingBodies();
         foreach (Node2D body in bodies)
         {
-            if (body is IDamageable damageable)
+            if (body is IHittable damageable)
             {
-                damageable.ReceiveDamage(Damage);
+                damageable.ReceiveHit(new HitInformation(
+                    Damage, Weight, explosion.GlobalPosition));
             }
         }
     }

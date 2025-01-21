@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dggbotfuyem7v"]
+[gd_scene load_steps=7 format=3 uid="uid://dggbotfuyem7v"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_50u5v"]
 [ext_resource type="PackedScene" uid="uid://dthefedhth8j6" path="res://active_main_scene.tscn" id="3_njnb7"]
 [ext_resource type="PackedScene" uid="uid://dshoxsv7n8gak" path="res://managers/SkillManager.tscn" id="4_fcxde"]
 [ext_resource type="PackedScene" uid="uid://vulat7yh0c6k" path="res://ui/SkillsBar/SkillsBar.tscn" id="5_h1dfq"]
+[ext_resource type="PackedScene" uid="uid://o4x6u51u6ym4" path="res://ui/TestUI.tscn" id="6_27v6h"]
 [ext_resource type="PackedScene" uid="uid://cfq5nkrsaoxh5" path="res://scenes/framerate_displayer/FrameRateDisplayer.tscn" id="9_4dg4n"]
 
 [node name="Main" type="Node"]
@@ -13,9 +14,11 @@ script = ExtResource("1_50u5v")
 
 [node name="ActiveMainScene" parent="." instance=ExtResource("3_njnb7")]
 
-[node name="SkillsBar" parent="ActiveMainScene" instance=ExtResource("5_h1dfq")]
-offset = Vector2(100, 100)
-transform = Transform2D(1, 0, 0, 1, 100, 100)
-follow_viewport_enabled = true
-
 [node name="SkillManager" parent="." instance=ExtResource("4_fcxde")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TestUi" parent="CanvasLayer" instance=ExtResource("6_27v6h")]
+visible = false
+
+[node name="SkillsBar" parent="CanvasLayer" instance=ExtResource("5_h1dfq")]

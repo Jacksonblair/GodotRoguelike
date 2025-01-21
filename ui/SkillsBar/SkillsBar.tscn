@@ -4,11 +4,20 @@
 [ext_resource type="Script" path="res://ui/SkillsBar/HBoxContainer.cs" id="2_h0c2v"]
 [ext_resource type="PackedScene" uid="uid://coj8bxpig4fod" path="res://ui/SkillsBar/SkillButton/SkillButton.tscn" id="3_l6cmq"]
 
-[node name="SkillsBar" type="CanvasLayer"]
+[node name="SkillsBar" type="Control"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -73.0
+grow_horizontal = 2
+grow_vertical = 0
 script = ExtResource("1_baxk5")
 ButtonScene = ExtResource("3_l6cmq")
 
 [node name="SkillHoverPanel" type="Panel" parent="."]
+layout_mode = 0
 offset_left = 16.0
 offset_right = 16.0
 offset_bottom = 40.0
@@ -17,23 +26,19 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+text = "Hello"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("2_h0c2v")
-
-[node name="SkillButton" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
-layout_mode = 2
-
-[node name="SkillButton2" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
-layout_mode = 2
-ButtonIndex = 1
-
-[node name="SkillButton3" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
-layout_mode = 2
-ButtonIndex = 2
-
-[node name="SkillButton4" parent="HBoxContainer" instance=ExtResource("3_l6cmq")]
-layout_mode = 2
-ButtonIndex = 3

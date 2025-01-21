@@ -12,6 +12,7 @@ public partial class MapEdgeSpawner : Node
         // Assumes the spawner is in the same scene as the camera
         _viewport = GetViewport();
         _timer = GetNode<Timer>("Timer");
+        _timer.WaitTime = 1.0f;
         _timer.Timeout += SpawnEnemy;
     }
 

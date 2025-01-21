@@ -4,10 +4,12 @@ using TESTCS.skills.Modifiers;
 [GlobalClass]
 public partial class SkillData : Resource
 {
-    [Export] public string SkillName { get; set; }
     [Export] public PackedScene SkillScene { get; set; }
-    [Export] public int Damage { get; set; } = 10;
-    [Export] public int Cooldown { get; set; } = 10;
+    
+    // Common base skill properties
+    [Export] public string SkillName { get; set; }
+    [Export] public int Cooldown { get; set; } = 1;
+    [Export] public int Charges { get; set; } = 1;
     
     public virtual Skill InstantiateSkillScene()
     {
