@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dggbotfuyem7v"]
+[gd_scene load_steps=9 format=3 uid="uid://dpax7so0rssl5"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_50u5v"]
 [ext_resource type="PackedScene" uid="uid://dthefedhth8j6" path="res://active_main_scene.tscn" id="3_njnb7"]
-[ext_resource type="PackedScene" uid="uid://dshoxsv7n8gak" path="res://managers/SkillManager.tscn" id="4_fcxde"]
+[ext_resource type="PackedScene" uid="uid://jbeqs0nj0ri4" path="res://managers/SkillSlotManager.tscn" id="4_fcxde"]
+[ext_resource type="Resource" uid="uid://b12re7hchfngy" path="res://skills/Fireball/FireballSkillData.tres" id="5_glb4x"]
 [ext_resource type="PackedScene" uid="uid://vulat7yh0c6k" path="res://ui/SkillsBar/SkillsBar.tscn" id="5_h1dfq"]
 [ext_resource type="PackedScene" uid="uid://o4x6u51u6ym4" path="res://ui/TestUI.tscn" id="6_27v6h"]
+[ext_resource type="Resource" uid="uid://bfy1vpwmy2h85" path="res://skills/Iceball/IceballSkillData.tres" id="6_fwa78"]
 [ext_resource type="PackedScene" uid="uid://cfq5nkrsaoxh5" path="res://scenes/framerate_displayer/FrameRateDisplayer.tscn" id="9_4dg4n"]
 
 [node name="Main" type="Node"]
@@ -14,7 +16,9 @@ script = ExtResource("1_50u5v")
 
 [node name="ActiveMainScene" parent="." instance=ExtResource("3_njnb7")]
 
-[node name="SkillManager" parent="." instance=ExtResource("4_fcxde")]
+[node name="SkillSlotManager" parent="." instance=ExtResource("4_fcxde")]
+FireballSkillData = ExtResource("5_glb4x")
+IceballSkillData = ExtResource("6_fwa78")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

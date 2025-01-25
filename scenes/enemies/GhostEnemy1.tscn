@@ -40,8 +40,6 @@ animations = [{
 "speed": 4.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_uoakm"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwl72"]
 border_width_left = 2
 border_width_top = 2
@@ -51,6 +49,8 @@ border_color = Color(0.496151, 0.855614, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yhgi7"]
 bg_color = Color(0.814907, 0, 0.0173124, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uoakm"]
 
 [node name="Enemy1" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 8
@@ -63,11 +63,7 @@ autoplay = "idle"
 frame = 1
 frame_progress = 0.9875
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(2.36, 2.36)
-shape = SubResource("CircleShape2D_uoakm")
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="ProgressBar" type="ProgressBar" parent="AnimatedSprite2D"]
 layout_direction = 2
 offset_left = -32.0
 offset_top = -38.0
@@ -78,6 +74,10 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_yhgi7")
 max_value = 1.0
 value = 1.0
 show_percentage = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2.36, 2.36)
+shape = SubResource("CircleShape2D_uoakm")
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
 show_behind_parent = true

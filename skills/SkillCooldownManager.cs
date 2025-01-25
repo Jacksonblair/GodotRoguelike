@@ -6,85 +6,74 @@ using TESTCS.managers;
 // TODO: Derive SkillCooldownManager from a base CooldownManager class
 namespace TESTCS.skills;
 
-public class SkillCooldownManager
+/** Handles cooldowns for a single skill */
+// TODO: Handle an object that implements an IHasCooldowns interface (or something), instead of a skill
+public partial class SkillCooldownManager : GodotObject
 {
-    private List<SkillSlotState> skillData;
-    private Action<float, int> _startedCooldownHandler;
-    private Action<int, int> _chargesChangedHandler;
+    private SkillHandler skillHandler;
+    public float CooldownTimeRemaining = 0;
+    public int CurrentCharges = 0;
 
-    public SkillCooldownManager(List<SkillSlotState> SkillData, Action<float, int> startedCooldownHandler,
-        Action<int, int> chargesChangedHandler)
+    [Signal]
+    public delegate void GainedChargeEventHandler(int numCharges);
+    [Signal]
+    public delegate void StartedCooldownEventHandler(int numCharges);
+    
+    public SkillCooldownManager(SkillHandler skillHandler)
     {
-        // _skillData = skillData;
-        // _cooldownTimer = 0f;
-        // _currentCharges = _skillData.Charges;
-        _startedCooldownHandler = startedCooldownHandler;
-        _chargesChangedHandler = chargesChangedHandler;
-        skillData = SkillData;
+        this.skillHandler = skillHandler;
     }
 
     public void Update(double delta)
     {
-        for (int i = 0; i < skillData.Count; i++)
+        // If we still have less charges than skill max charges
+        if (CurrentCharges < skillHandler.GetMaxCharges())
         {
-            var skill = skillData[i];
-            if (skill == null) return; // Not guaranteed to have an object in each index
-
-            // If we still have less charges than skill max charges
-            if (skill.CurrentCharges < skill.GetMaxCharges())
+            // Reduce the cooldown
+            CooldownTimeRemaining -= (float)delta;
+            
+            // If the cooldown is finished, restore a charge.
+            // ...And then restart the cooldown for the next charge. 
+            if (CooldownTimeRemaining <= 0f)
             {
-                // Reduce the cooldown
-                skill.CurrentCooldown -= (float)delta;
-                // If the cooldown is finished, restore a charge.
-                // ...And then restart the cooldown for the next charge. 
-                if (skill.CurrentCooldown <= 0f)
-                {
-                    skill.CurrentCharges++;
-                    _chargesChangedHandler?.Invoke(skill.CurrentCharges, i);
-                    GD.Print("Restoring charges: ", skill.CurrentCharges, "/", skill.GetMaxCharges());
+                CurrentCharges++;
 
-                    if (skill.CurrentCharges < skill.GetMaxCharges())
-                    {
-                        skill.CurrentCooldown = skill.GetSkillCooldownTime();
-                        _startedCooldownHandler?.Invoke(skill.CurrentCooldown, i);
-                    }
+                EmitSignal(nameof(GainedCharge), CurrentCharges);
+                GD.Print("Restoring charges: ", CurrentCharges, "/", skillHandler.GetMaxCharges());
+
+                if (CurrentCharges < skillHandler.GetMaxCharges())
+                {
+                    CooldownTimeRemaining = skillHandler.GetSkillCooldownTime();
+                    EmitSignal(nameof(StartedCooldown), CooldownTimeRemaining);
                 }
             }
         }
     }
 
-    public bool TryUseCharge(int skillIndex)
+    public bool TryUseCharge()
     {
-        var skill = skillData[skillIndex];
-        if (skill == null) return false;
-
-        // GD.Print("Skill: ", skill.SkillData.SkillName, " has a base cooldown of: ", skill.GetSkillCooldownTime());
-        if (skill.CurrentCharges > 0)
+        if (CurrentCharges > 0)
         {
-            // GD.Print("Used charge");
-            skill.CurrentCharges--;
-            _chargesChangedHandler?.Invoke(skill.CurrentCharges, skillIndex);
-            skill.CurrentCooldown = skill.GetSkillCooldownTime();
-            _startedCooldownHandler?.Invoke(skill.CurrentCooldown, skillIndex);
-
-            // if (skill.CurrentCharges < skill.GetMaxCharges() && skill.CurrentCooldown <= 0f) {
-            //     GD.Print("Charge restoring in: ", skill.CurrentCooldown);
-            // }
+            CurrentCharges--;
+            CooldownTimeRemaining = skillHandler.GetSkillCooldownTime();
             return true;
         }
         else
         {
-            GD.Print("Could not use charge. Charge available in: ", skill.CurrentCooldown, "s");
+            GD.Print("Could not use charge. Charge available in: ", CooldownTimeRemaining, "s");
         }
 
         return false;
     }
 
-    public void ResetCharges(int skillIndex)
+    public bool HasCharges()
     {
-        var data = skillData[skillIndex];
-        if (data == null) return;
-        data.CurrentCharges = data.GetMaxCharges();
-        data.CurrentCooldown = 0f;
+        return CurrentCharges > 0;
+    }
+
+    public void ResetCharges()
+    {
+        CurrentCharges = skillHandler.GetMaxCharges();
+        CooldownTimeRemaining = 0f;
     }
 }

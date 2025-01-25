@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Godot.NativeInterop;
 using TESTCS.managers;
+using TESTCS.skills;
 
 public partial class SkillButton : TextureButton
 {
@@ -9,7 +10,8 @@ public partial class SkillButton : TextureButton
     private Label _label;
     private Label _chargeLabel;
     private TextureProgressBar _progressBar;
-    private float _cooldownTimeLeft;
+    public SkillHandler SkillState;
+    public int SkillIndex;
     
     public override void _Ready()
     {
@@ -17,48 +19,32 @@ public partial class SkillButton : TextureButton
         _chargeLabel = GetNode<Label>("ChargeLabel");
         _progressBar = GetNode<TextureProgressBar>("TextureProgressBar");
     }
-    
-    public void OnEquipSkill(string title, int defaultCharges)
-    {
-        GD.Print("Setting button label text to: ", title);
-        _label.Text = title;
-        _chargeLabel.Text = defaultCharges.ToString();
-    }
 
     public void OnUnequipSkill()
     {
         _label.Text = "";
         _chargeLabel.Text = "";
-    }
-
-    public void SetCooldown(float timeleft)
-    {
-        GD.Print("SETTING BUTTON COOLDOWN TO: ", timeleft);
-        
-        _cooldownTimeLeft = timeleft;
-        _progressBar.MaxValue = timeleft;
         _progressBar.Value = 0;
-    }
-
-    public void SetCharges(int charges)
-    {
-        _chargeLabel.Text = charges.ToString();   
+        _progressBar.MaxValue = 0;
+        _progressBar.Visible = false;
+        SkillState = null;
     }
     
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (_cooldownTimeLeft > 0)
+        var skill = GlobalVariables.Instance.SkillSlotManager.SkillSlots[SkillIndex];
+        if (skill == null)
         {
-            if (!_progressBar.Visible) _progressBar.Visible = true;
-            
-            _cooldownTimeLeft -= (float)delta;
-            _progressBar.Value = _cooldownTimeLeft;
-        }
-        else if (_progressBar.Visible)
-        {
-            // Hide overlay when cooldown is complete
+            _chargeLabel.Text = "";
             _progressBar.Visible = false;
+        }
+        else
+        {
+            // TODO: One day, do this more efficiently. Or dont, whatever.
+            _chargeLabel.Text = skill.SkillCooldownManager.CurrentCharges.ToString();
+            _progressBar.MaxValue = skill.SkillData.CooldownTime;
+            _progressBar.Value = skill.SkillCooldownManager.CooldownTimeRemaining;
+            _progressBar.Visible = skill.SkillCooldownManager.CooldownTimeRemaining > 0;
         }
     }
 }

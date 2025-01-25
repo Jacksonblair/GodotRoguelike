@@ -1,6 +1,8 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Godot;
 using TESTCS.enums;
+
 
 public partial class GhostEnemy1 : BaseEnemy, IHittable
 {
@@ -13,9 +15,11 @@ public partial class GhostEnemy1 : BaseEnemy, IHittable
     private float verticalVelocity = 0f; // Simulated vertical velocity
     private float gravity = 200f; // Simulated gravity
     
-
     private AnimatedSprite2D Sprite;
     private Sprite2D ShadowSprite;
+    
+    private float MAX_HIT_FORCE = 10;
+    private float MAX_SHADOW_HEIGHT = 50;
     
     GhostEnemy1() : base(EnemyType.Ghost1)
     {
@@ -32,12 +36,19 @@ public partial class GhostEnemy1 : BaseEnemy, IHittable
 
     public override void _Process(double delta)
     {
-
         // TODO: SCALE THE SHADOW UP AND DOWN BASED ON EHGITH OVER GROUND
+        var maxShadowScale = intialShadowScale * 0.5f;
+        var heightEffect = Mathf.Clamp(Height, 0, MAX_SHADOW_HEIGHT);
+        var normalisedHeightEffect = heightEffect / MAX_SHADOW_HEIGHT;
         
+        // Lerp between initial shadow scale and max shadow scale   
+        ShadowSprite.Scale = intialShadowScale.Lerp(intialShadowScale - maxShadowScale, normalisedHeightEffect);
+
         if (IsAirborne)
         {
-            // Vertical velocity starts negative, and it gets scaled higher.        
+            GD.Print(maxShadowScale);
+            GD.Print(normalisedHeightEffect);
+            
             Height += verticalVelocity * (float)delta;
 
             GD.Print("HEIGHT", Height);
@@ -82,10 +93,11 @@ public partial class GhostEnemy1 : BaseEnemy, IHittable
         health -= hitInformation.Damage;
         var healthNormalized = health / max_health;
         
-        // TODO: MOVE INTO A HANDLER
-
-        var hitForce = hitInformation.Weight * 100;
-        float knockbackForce = hitForce / this.Weight;
+        // Divide enemy weight by hit weight to get force of knockback 
+        // 10/5 == 2
+        // 50/5 == 10
+        // 2/1 == 2
+        float knockbackForce = (Math.Max(hitInformation.Weight / this.Weight, MAX_HIT_FORCE)) * 25;
         
         // Calculate knockback direction
         Vector2 knockbackDirection = (this.GlobalPosition - hitInformation.Position).Normalized();
@@ -102,7 +114,7 @@ public partial class GhostEnemy1 : BaseEnemy, IHittable
         IsAirborne = true;
         
         // GD.Print(healthNormalized);
-        var progressBar = GetNode<ProgressBar>("ProgressBar");
+        var progressBar = Sprite.GetNode<ProgressBar>("ProgressBar");
         // GD.Print(progressBar.Value);
         progressBar.Value = healthNormalized;
         // GD.Print(progressBar.Value);

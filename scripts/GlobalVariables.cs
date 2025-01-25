@@ -8,7 +8,7 @@ public partial class GlobalVariables : Node
     public static GlobalVariables Instance { get; private set; }
     
     /** Manages Skills */
-    public SkillManager SkillManager { get; set; }
+    public SkillSlotManager SkillSlotManager { get; set; }
     
     /** Global char reference */
     public PlayerCharacter Character { get; set; }
@@ -37,8 +37,9 @@ public partial class GlobalVariables : Node
         ActiveMainSceneContainer = GetTree().Root.GetNode("Main").GetNode<Node2D>("ActiveMainScene");
         // SkillManager = GetTree().Root.GetNode("Main").GetNode<Node>("SkillManager");
 
-        var nd = GetTree().Root.GetNode("Main").GetNode("SkillManager");
-        SkillManager = GetTree().Root.GetNode("Main").GetNode<SkillManager>("SkillManager");
+        // var nd = GetTree().Root.GetNode("Main").GetNode("SkillManager");
+        SkillSlotManager = GetTree().Root.GetNode("Main").GetNode<TESTCS.managers.SkillSlotManager>("SkillSlotManager");
+
         // GD.Print(nd.GetType());
         // GD.Print(QuestManager.GetType());
         

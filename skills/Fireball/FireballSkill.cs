@@ -1,23 +1,35 @@
+using System;
 using Godot;
 using TESTCS.helpers;
 using TESTCS.skills.Fireball;
 using TESTCS.skills.Interfaces;
 using TESTCS.skills.Modifiers;
 
+/**
+ * TODO:
+ * HANDLE CHARGING. I WANT TO CHARGE A FIREBALL AND LET IT RIP.
+ */
+
 public partial class FireballSkill : Skill, IProjectileSkill
 {
 	public FireballSkillData SkillData;
-
-
+	private float maxCharge = 1;
+	
+	public override void _Process(double delta) {}
+	
 	public override void Execute(ModifierResults modifiers)
 	{
 		var dmg = SkillData.BaseDamage + modifiers.AdditionalFlatDamage;
 		var numProj = SkillData.BaseProjectiles + modifiers.AdditionalProjectiles;
 		
 		GD.Print("Executing fireball, with projectiles: ", numProj, " and Damage: ", dmg);
-		
 		// TODO: Use properties? 
 		FireProjectileAtMouse();
+	}
+
+	public override void Charge()
+	{
+		
 	}
 
 	public void FireProjectileAtClosestEnemy(int numProjectiles)
@@ -46,6 +58,8 @@ public partial class FireballSkill : Skill, IProjectileSkill
 
 	public void FireProjectile(Vector2 target)
 	{
+		// TODO: Increase damage/AOE based on charge.
+		
 		var level = GlobalVariables.Instance.ActiveMainSceneContainer;
 		var projectile = (PackedScene)GD.Load("res://scenes/projectiles/Projectile.tscn");
 		var inst2 = projectile.Instantiate<BasicProjectile>();

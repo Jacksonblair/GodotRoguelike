@@ -10,7 +10,7 @@ public partial class BasicProjectile : BaseProjectile, IDamager
 
     [Export]
     public int Damage = 50;
-    public int Weight = 20;
+    public int Weight = 50;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
