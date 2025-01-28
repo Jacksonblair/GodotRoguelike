@@ -6,6 +6,7 @@ using TESTCS.skills.Modifiers;
 
 namespace TESTCS.managers;
 
+/** Manages which skills are equipped, and calls .Update on them */
 public partial class SkillSlotManager : Node
 {
     // Skilldata for spells

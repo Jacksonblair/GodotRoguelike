@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using TESTCS.enums;
 using TESTCS.helpers;
@@ -25,19 +26,36 @@ public partial class SkillInputHandler : Godot.GodotObject
     public delegate void StartedChargingSkillEventHandler();
     [Signal]
     public delegate void ExecutedSkillEventHandler();
-    private bool _pressed;
     
-    public void Update(PlayerInputs playerInput)
+    [Export] public float ChargeThreshold = 0.0f; // Time required to consider a press as charging
+    private float _chargeTimer = 0;
+    
+    // 'Charging' related properties
+    public bool IsCharging { get; set; } = false;
+    
+    public void Update(double delta, PlayerInputs playerInput)
     {
         var inputName = EnumHelper.GetEnumName(playerInput);
-        
-        if (Input.IsActionPressed(inputName) && !_pressed)
+
+        if (Input.IsActionPressed(inputName))
         {
-            EmitSignal(nameof(StartedChargingSkill));
+            _chargeTimer += (float)delta;
+
+            if (!IsCharging && _chargeTimer >= ChargeThreshold)
+            {
+                IsCharging = true;
+                EmitSignal(nameof(StartedChargingSkill));
+            }
+        }
+        else
+        {
+            IsCharging = false;
+            _chargeTimer = 0;
         }
 
         if (Input.IsActionJustReleased(inputName))
         {
+            IsCharging = false;
             EmitSignal(nameof(ExecutedSkill));
         }
     }

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://fviw404lp836"]
+
+[ext_resource type="Script" path="res://skills/SkillChargingRing.cs" id="1_488rx"]
+[ext_resource type="Texture2D" uid="uid://sd4indphhg5y" path="res://skills/ring.png" id="2_hswun"]
+
+[node name="SkillChargingRing" type="Node2D"]
+script = ExtResource("1_488rx")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_right = 69.0
+offset_bottom = 69.0
+step = 0.01
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("2_hswun")
+tint_progress = Color(0, 0.733333, 0.203922, 1)

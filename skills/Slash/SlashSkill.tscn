@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dych2tlnfpdfy"]
+
+[ext_resource type="Script" path="res://skills/Slash/SlashSkill.cs" id="1_bogx8"]
+
+[node name="SlashSkill" type="Node"]
+script = ExtResource("1_bogx8")

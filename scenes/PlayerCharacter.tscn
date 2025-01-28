@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://db4wyjshk3nf4"]
+[gd_scene load_steps=7 format=3 uid="uid://db4wyjshk3nf4"]
 
 [ext_resource type="Script" path="res://scenes/PlayerCharacter.cs" id="1_m87t4"]
 [ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/PlayerCharacter.tres" id="2_3lqu1"]
+[ext_resource type="PackedScene" uid="uid://fviw404lp836" path="res://skills/SkillChargingRing.tscn" id="4_50kkn"]
 [ext_resource type="PackedScene" uid="uid://edvhp5okinxo" path="res://scenes/closest_enemy_getter/ClosestEnemyGetter.tscn" id="4_gjr55"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_37i00"]
@@ -47,3 +48,6 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPCArea2D"]
 shape = SubResource("CapsuleShape2D_kxemy")
+
+[node name="SkillChargingRing" parent="." instance=ExtResource("4_50kkn")]
+position = Vector2(-34, -34)

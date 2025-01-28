@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RetaliateSkillData" load_steps=3 format=3 uid="uid://c7soi6m6jqdtv"]
+
+[ext_resource type="Script" path="res://skills/Retaliate/RetaliateSkillData.cs" id="1_kcm0f"]
+[ext_resource type="PackedScene" uid="uid://cqgjjapw5ksdt" path="res://skills/Retaliate/RetaliateSkill.tscn" id="1_rovh4"]
+
+[resource]
+script = ExtResource("1_kcm0f")
+SkillScene = ExtResource("1_rovh4")
+SkillName = ""
+CooldownTime = 1
+Charges = 1

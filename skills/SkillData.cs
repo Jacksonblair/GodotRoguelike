@@ -1,5 +1,6 @@
+using System.Collections.Generic;
 using Godot;
-using TESTCS.skills.Modifiers;
+using Godot.Collections;
 
 [GlobalClass]
 public partial class SkillData : Resource
@@ -10,6 +11,7 @@ public partial class SkillData : Resource
     [Export] public string SkillName { get; set; }
     [Export] public int CooldownTime { get; set; } = 1;
     [Export] public int Charges { get; set; } = 1;
+    [Export] public Array<float> ChargingStages { get; set; } = new Array<float>();
     
     public virtual Skill InstantiateSkillScene()
     {

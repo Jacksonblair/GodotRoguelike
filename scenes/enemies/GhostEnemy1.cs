@@ -46,13 +46,13 @@ public partial class GhostEnemy1 : BaseEnemy, IHittable
 
         if (IsAirborne)
         {
-            GD.Print(maxShadowScale);
-            GD.Print(normalisedHeightEffect);
+            // GD.Print(maxShadowScale);
+            // GD.Print(normalisedHeightEffect);
             
             Height += verticalVelocity * (float)delta;
 
-            GD.Print("HEIGHT", Height);
-            GD.Print("VERTICAL VELOCITY", verticalVelocity);
+            // GD.Print("HEIGHT", Height);
+            // GD.Print("VERTICAL VELOCITY", verticalVelocity);
             
             verticalVelocity -= gravity * (float)delta;
             
@@ -62,7 +62,7 @@ public partial class GhostEnemy1 : BaseEnemy, IHittable
             // Check if the enemy "lands"
             if (Height <= 0)
             {
-                GD.Print("LANDED");
+                // GD.Print("LANDED");
                 Height = 0;
                 IsAirborne = false;
                 verticalVelocity = 0;

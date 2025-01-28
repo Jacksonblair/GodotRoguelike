@@ -3,6 +3,7 @@ using Godot;
 using TESTCS.enums;
 using TESTCS.helpers;
 using TESTCS.managers;
+using TESTCS.skills;
 
 public partial class PlayerCharacter : CharacterBody2D
 {
@@ -14,6 +15,7 @@ public partial class PlayerCharacter : CharacterBody2D
     public ClosestEnemyGetter closestEnemyGetter;
     Timer getEnemyTimer;
     Area2D NPCArea2D;
+    public SkillChargingRing SkillChargingRing;
 
     // Nearby NPC
     IInteractable nearbyNPC;
@@ -35,6 +37,7 @@ public partial class PlayerCharacter : CharacterBody2D
         NPCArea2D = GetNode<Area2D>("NPCArea2D");
         NPCArea2D.AreaEntered += onNPCAreaEntered;
         NPCArea2D.AreaExited += onNPCAreaExited;
+        SkillChargingRing = GetNode<SkillChargingRing>("SkillChargingRing");
     }
 
     private void onNPCAreaExited(Area2D area)

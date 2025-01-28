@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using TESTCS.enums;
@@ -25,6 +26,9 @@ public partial class SkillHandler : GodotObject
     // Handler for cooldowns
     public SkillCooldownManager SkillCooldownManager { get; set; }
     
+    // Handler for charging
+    public SkillChargingManager SkillChargingManager { get; set; } = new();
+    
     // Handler for input
     public SkillInputHandler SkillInputHandler { get; set; }
     
@@ -33,9 +37,6 @@ public partial class SkillHandler : GodotObject
     
     // TODO: FIGURE THIS OUT
     public ModifierResults FinalSkillState { get; set; }
-    
-    // How 'Charged' the skill is
-    public float ChargeAmount { get; set; }
 
     public SkillHandler(PlayerInputs mappedInput, SkillData skillData, Skill skillNode, List<SkillModifier> modifiers)
     {
@@ -48,38 +49,26 @@ public partial class SkillHandler : GodotObject
         SkillInputHandler = new SkillInputHandler();
 
         SkillInputHandler.ExecutedSkill += OnExecutedSkill;
-        SkillInputHandler.StartedChargingSkill += OnStartedChargingSkill;
+        SkillChargingManager.SkillHandler = this;
     }
 
     public void Update(double delta)
     {
         // Update cooldown mgr
+        
         // TODO: Take modifiers into account
         SkillCooldownManager.Update(delta);
+        
         // Update input mgr
-        SkillInputHandler.Update(MappedInput);
-    }
-    
-    /**
-     * Ok now. If i want to execute a skill, how does it go:
-     * - InputMgr says 'hey we tried to execute'
-     * - CooldownMgr says yes or no.
-     * - Then we execute the skill. The node needs to know about this. 
-     */
-    
-    private void OnStartedChargingSkill()
-    {
-        if (SkillCooldownManager.HasCharges())
-        {
-            SkillNode.Charge();
-        }
+        SkillInputHandler.Update(delta, MappedInput);
+        SkillChargingManager.Update(delta);
     }
 
     private void OnExecutedSkill()
     {
         if (SkillCooldownManager.TryUseCharge())
         {
-            SkillNode.Execute(new ModifierResults());
+            SkillNode.Execute();
         }
     }
 

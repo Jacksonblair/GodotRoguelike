@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_tdqnh")
-SkillName = "Iceball"
 SkillScene = ExtResource("1_27pwm")
-Damage = 10
-Cooldown = 10
+SkillName = "Iceball"
+CooldownTime = 1
+Charges = 1
+ChargingStages = []

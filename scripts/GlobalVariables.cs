@@ -1,6 +1,8 @@
 using Godot;
+using Godot.Collections;
 using TESTCS.managers;
 using TESTCS.scripts;
+using TESTCS.scripts.managers;
 
 [GlobalClass]
 public partial class GlobalVariables : Node
@@ -17,13 +19,15 @@ public partial class GlobalVariables : Node
     public KillTrackingManager KillTrackingManager { get; set; }
     
     /** Manages levels */
-    public TESTCS.scripts.managers.GameSceneManager GameSceneManager { get; set; }
+    public GameSceneManager GameSceneManager { get; set; }
     
     /** Manages tracking quests */
     public QuestManager QuestManager { get; set; }
 
     /** Parent node of active MAIN scene (level, menu, etc) */
     public Node2D ActiveMainSceneContainer { get; set; }
+    
+    public GameStateManager GameStateManager { get; set; }
     
     // When global variables script is ready, update all references in game. 
     public override void _Ready()
@@ -39,14 +43,15 @@ public partial class GlobalVariables : Node
 
         // var nd = GetTree().Root.GetNode("Main").GetNode("SkillManager");
         SkillSlotManager = GetTree().Root.GetNode("Main").GetNode<TESTCS.managers.SkillSlotManager>("SkillSlotManager");
+        GameStateManager = GetTree().Root.GetNode("Main").GetNode<GameStateManager>("GameStateManager");
 
         // GD.Print(nd.GetType());
         // GD.Print(QuestManager.GetType());
         
         GD.Print("Bootstrapped globals");
-        GD.Print("KIll mgr", KillTrackingManager);
-        GD.Print("GAME SCENE mgr", GameSceneManager);
-        GD.Print("QUEST mgr", QuestManager);
-        GD.Print("ACTIVE MAIN SCENE", ActiveMainSceneContainer);
+        // GD.Print("KIll mgr", KillTrackingManager);
+        // GD.Print("GAME SCENE mgr", GameSceneManager);
+        // GD.Print("QUEST mgr", QuestManager);
+        // GD.Print("ACTIVE MAIN SCENE", ActiveMainSceneContainer);
     }
 }

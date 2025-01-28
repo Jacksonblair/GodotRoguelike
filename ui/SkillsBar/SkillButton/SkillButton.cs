@@ -41,6 +41,7 @@ public partial class SkillButton : TextureButton
         else
         {
             // TODO: One day, do this more efficiently. Or dont, whatever.
+
             _chargeLabel.Text = skill.SkillCooldownManager.CurrentCharges.ToString();
             _progressBar.MaxValue = skill.SkillData.CooldownTime;
             _progressBar.Value = skill.SkillCooldownManager.CooldownTimeRemaining;

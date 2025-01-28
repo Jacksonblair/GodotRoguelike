@@ -10,7 +10,7 @@ namespace TESTCS.skills;
 // TODO: Handle an object that implements an IHasCooldowns interface (or something), instead of a skill
 public partial class SkillCooldownManager : GodotObject
 {
-    private SkillHandler skillHandler;
+    private SkillHandler _skillHandler;
     public float CooldownTimeRemaining = 0;
     public int CurrentCharges = 0;
 
@@ -21,13 +21,13 @@ public partial class SkillCooldownManager : GodotObject
     
     public SkillCooldownManager(SkillHandler skillHandler)
     {
-        this.skillHandler = skillHandler;
+        this._skillHandler = skillHandler;
     }
 
     public void Update(double delta)
     {
         // If we still have less charges than skill max charges
-        if (CurrentCharges < skillHandler.GetMaxCharges())
+        if (CurrentCharges < _skillHandler.GetMaxCharges())
         {
             // Reduce the cooldown
             CooldownTimeRemaining -= (float)delta;
@@ -39,11 +39,11 @@ public partial class SkillCooldownManager : GodotObject
                 CurrentCharges++;
 
                 EmitSignal(nameof(GainedCharge), CurrentCharges);
-                GD.Print("Restoring charges: ", CurrentCharges, "/", skillHandler.GetMaxCharges());
+                GD.Print("Restoring charges: ", CurrentCharges, "/", _skillHandler.GetMaxCharges());
 
-                if (CurrentCharges < skillHandler.GetMaxCharges())
+                if (CurrentCharges < _skillHandler.GetMaxCharges())
                 {
-                    CooldownTimeRemaining = skillHandler.GetSkillCooldownTime();
+                    CooldownTimeRemaining = _skillHandler.GetSkillCooldownTime();
                     EmitSignal(nameof(StartedCooldown), CooldownTimeRemaining);
                 }
             }
@@ -55,7 +55,7 @@ public partial class SkillCooldownManager : GodotObject
         if (CurrentCharges > 0)
         {
             CurrentCharges--;
-            CooldownTimeRemaining = skillHandler.GetSkillCooldownTime();
+            CooldownTimeRemaining = _skillHandler.GetSkillCooldownTime();
             return true;
         }
         else
@@ -73,7 +73,7 @@ public partial class SkillCooldownManager : GodotObject
 
     public void ResetCharges()
     {
-        CurrentCharges = skillHandler.GetMaxCharges();
+        CurrentCharges = _skillHandler.GetMaxCharges();
         CooldownTimeRemaining = 0f;
     }
 }

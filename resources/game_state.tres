@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="GameState" load_steps=2 format=3 uid="uid://cblxsi7y72gkc"]
+
+[ext_resource type="Script" path="res://resources/GameState.cs" id="1_k7vxx"]
+
+[resource]
+script = ExtResource("1_k7vxx")
+CurrentSceneID = ""

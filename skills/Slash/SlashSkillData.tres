@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SlashSkillData" load_steps=3 format=3 uid="uid://i1406k8wnmir"]
+
+[ext_resource type="Script" path="res://skills/Slash/SlashSkillData.cs" id="1_0lbec"]
+[ext_resource type="PackedScene" uid="uid://dych2tlnfpdfy" path="res://skills/Slash/SlashSkill.tscn" id="1_pbyo7"]
+
+[resource]
+script = ExtResource("1_0lbec")
+SkillScene = ExtResource("1_pbyo7")
+SkillName = ""
+CooldownTime = 1
+Charges = 1

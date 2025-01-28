@@ -7,7 +7,15 @@
     <RootNamespace>TESTCS</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="resources\" />
     <Folder Include="ui\SkillsBar\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DETAILS.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="levels\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="levels\**" />
   </ItemGroup>
 </Project>
