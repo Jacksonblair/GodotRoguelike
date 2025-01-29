@@ -1,7 +1,8 @@
 using Godot;
 using System;
+using TESTCS.levels;
 
-public partial class OtherLevel : Node2D
+public partial class OtherLevel : BaseLevel
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

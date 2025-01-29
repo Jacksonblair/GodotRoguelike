@@ -9,27 +9,18 @@ public enum GameScenesEnum
     StoneLevel
 }
 
-/** Manages the current MAIN scene */
+/** Specifically for loading/unloading scenes and handling transitions */
 public partial class GameSceneManager : Node
 {
-    private static readonly Dictionary<GameScenesEnum, NodePath> GameScenesPathDictionary = new Dictionary<GameScenesEnum, NodePath>
-    {
-        {
-            GameScenesEnum.StoneLevel, "res://levels/stone_level.tscn"
-        },
-        {
-            GameScenesEnum.MainMenu, "res://main_menu.tscn"
-        }
-    };
-
-    private Node _currentActiveScene; 
+    private Node _currentActiveScene;
     
-    public override void _Ready()
-    {
-        GD.Print("GameSceneManager initialized");
-    }
+    [Export]
+    public PackedScene MainMenuScene { get; set; }
 
-    public void LoadGameScene(GameScenesEnum gameScene)
+    public override void _Ready()
+    {}
+
+    public void LoadGameScene(PackedScene gameScene)
     {
         // Remove previous scene
         if (_currentActiveScene != null)
@@ -38,8 +29,7 @@ public partial class GameSceneManager : Node
         }
         
         // Instantiate specified scene
-        var scene = GetGameScenePacked(gameScene);
-        var inst = scene.Instantiate();
+        var inst = gameScene.Instantiate();
         GlobalVariables.Instance.ActiveMainSceneContainer.AddChild(inst);
         
         // Update internal reference
@@ -54,15 +44,23 @@ public partial class GameSceneManager : Node
         // TODO: Transition?
     }
 
-    private static NodePath GetGameScenePath(GameScenesEnum gameScene)
-    {
-        return GameScenesPathDictionary[gameScene];
-    }
-
-    private static PackedScene GetGameScenePacked(GameScenesEnum gameScene)
-    { 
-        return GD.Load<PackedScene>(GetGameScenePath(gameScene));
-    }
+    
+    // public void LoadGameLevel(PackedScene scene)
+    // {
+    //     /**
+    //      * When loading a level
+    //      * - Make sure level managers are set up
+    //      */
+    // }
+    //
+    // public void LoadMenuLevel(PackedScene scene)
+    // {
+    //     /**
+    //      * When loading a menu
+    //      * - Make sure level managers are torn down
+    //      */
+    // }    
+    
 
     // Should this go elsewhere?
     // public void AddPlayerToScene()

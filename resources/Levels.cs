@@ -9,10 +9,6 @@ public enum LevelsEnum
 [GlobalClass]
 public partial class Levels : Resource
 {
-    public static Dictionary<LevelsEnum, PackedScene> LevelsDict = new Dictionary<LevelsEnum, PackedScene>
-    {
-
-    };
-    [Export]
-    public PackedScene GameLevel { get; set; }
+    [Export] public PackedScene StoneLevel { get; set; }
+    [Export] public PackedScene OtherLevel { get; set; }
 }

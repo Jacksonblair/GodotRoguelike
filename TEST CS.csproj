@@ -12,10 +12,4 @@
   <ItemGroup>
     <Content Include="DETAILS.md" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="levels\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="levels\**" />
-  </ItemGroup>
 </Project>

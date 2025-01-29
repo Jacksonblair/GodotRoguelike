@@ -18,6 +18,12 @@ namespace TESTCS.scripts.managers;
  *      - Tell GameState what scene we are in when changing
  * - Load that scene again when we open game
  *      - Game should grab scene based on GameState, and put into the game
+ *
+ * - When game loads, find which level we were on in the last save.
+ * - Load that level into the game
+ * - Start the game?
+ *
+ * 
  */
 
 [GlobalClass]
@@ -28,12 +34,39 @@ public partial class GameStateManager : Node
     private const string SlotPrefix = "slot";
     private const string TimestampFormat = "yyyyMMdd_HHmmss";
 
-    private PackedScene StoneLevel;
-    private PackedScene OtherLevel;
+    [Export]
+    public PackedScene StoneLevel;
+    [Export]
+    public PackedScene OtherLevel;
     
     [Export]
     public GameState GameState { get; set; }
 
+
+    /** TODO: Parse gameState */
+    // private void OnGameStateLoad()
+    // {
+    //     if (GameState == null) return;
+    //
+    //     PackedScene scene;
+    //     switch (GameState.CurrentSceneID)
+    //     {
+    //         case 1: 
+    //             scene = StoneLevel;
+    //             break;
+    //         case 2:
+    //             scene = OtherLevel;
+    //             break;
+    //         default:
+    //             scene = null;
+    //             break;
+    //     }
+    //
+    //     if (scene == null) return;
+    //     
+    //     GlobalVariables.GameSceneManager.LoadGameScene(scene);
+    // }
+    
     public static string FormatFileName(int slot, string timestamp)
     {
         return $"{SlotPrefix}{slot}_{GameStateFilePathPrefix}{timestamp}.tres";
@@ -87,7 +120,6 @@ public partial class GameStateManager : Node
 
     public void SaveCurrentGameState(int slot)
     {
-        // TODO: Get SLOT
         SaveGameState(GameState, slot);
     }
     
@@ -120,20 +152,23 @@ public partial class GameStateManager : Node
         // Sort the save files by timestamp (descending)
         saveFiles.Sort((a, b) =>
         {
-            string aTimestamp = a.Replace(GameStateFilePathPrefix, "").Replace(".tres", "");
-            string bTimestamp = b.Replace(GameStateFilePathPrefix, "").Replace(".tres", "");
+            var aTimestamp = a.Replace(GameStateFilePathPrefix, "").Replace(".tres", "");
+            var bTimestamp = b.Replace(GameStateFilePathPrefix, "").Replace(".tres", "");
             return bTimestamp.CompareTo(aTimestamp); // Descending order
         });
 
         // Load the most recent save file
-        string mostRecentSave = saveFiles[0];
+        var mostRecentSave = saveFiles[0];
         GD.Print($"Loading most recent save for slot {slot}: {mostRecentSave}");
         return LoadGameStateFile(mostRecentSave);
     }
 
     public void CreateNewGameSave(int slot)
     {
-        GD.Print("Creating new game save");
-        SaveGameState(new GameState(), slot);
+        var gameState = new GameState();
+        gameState.CurrentSceneID = 1;
+        this.GameState = gameState;
+        // GD.Print("Creating new game save");
+        SaveGameState(gameState, slot);
     }
 }

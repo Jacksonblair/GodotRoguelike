@@ -16,7 +16,7 @@ public partial class Quest1 : Node
     public override void _Ready()
     {
         GD.Print("QUEST 1 is READY");
-        GlobalVariables.Instance.KillTrackingManager.EnemyKilled += OnEnemyKilled;
+        // GlobalVariables.Instance.KillTrackingManager.EnemyKilled += OnEnemyKilled;
     }
 
     private void OnEnemyKilled(EnemyType type, int killCount)

@@ -1,31 +1,35 @@
-[gd_scene load_steps=10 format=3 uid="uid://dpax7so0rssl5"]
+[gd_scene load_steps=13 format=3 uid="uid://dpax7so0rssl5"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_50u5v"]
+[ext_resource type="PackedScene" uid="uid://cuhg1d0m228ir" path="res://menus/MainMenu.tscn" id="3_3uhs0"]
+[ext_resource type="PackedScene" uid="uid://cr6lnjie2ibmv" path="res://managers/LevelManagers/LevelManagers.tscn" id="3_dim20"]
 [ext_resource type="PackedScene" uid="uid://dthefedhth8j6" path="res://active_main_scene.tscn" id="3_njnb7"]
-[ext_resource type="PackedScene" uid="uid://jbeqs0nj0ri4" path="res://managers/SkillSlotManager.tscn" id="4_fcxde"]
-[ext_resource type="Resource" uid="uid://b12re7hchfngy" path="res://skills/Fireball/FireballSkillData.tres" id="5_glb4x"]
-[ext_resource type="PackedScene" uid="uid://vulat7yh0c6k" path="res://ui/SkillsBar/SkillsBar.tscn" id="5_h1dfq"]
-[ext_resource type="PackedScene" uid="uid://o4x6u51u6ym4" path="res://ui/TestUI.tscn" id="6_27v6h"]
-[ext_resource type="Resource" uid="uid://bfy1vpwmy2h85" path="res://skills/Iceball/IceballSkillData.tres" id="6_fwa78"]
-[ext_resource type="PackedScene" uid="uid://ocvgk0pfruth" path="res://managers/GameStateManager.tscn" id="7_3a8dr"]
+[ext_resource type="Script" path="res://managers/GameStateManager.cs" id="4_ox77f"]
+[ext_resource type="Resource" uid="uid://m2v336om28tl" path="res://resources/Levels.tres" id="4_yyvq6"]
+[ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/stone_level.tscn" id="5_hnfkl"]
+[ext_resource type="PackedScene" uid="uid://tjo6tkwode2q" path="res://levels/OtherLevel.tscn" id="6_ht3e6"]
+[ext_resource type="Resource" uid="uid://cblxsi7y72gkc" path="res://resources/game_state.tres" id="7_svh80"]
+[ext_resource type="Script" path="res://managers/GameManagers/GameSetupyPoos.cs" id="8_05xvc"]
 [ext_resource type="PackedScene" uid="uid://cfq5nkrsaoxh5" path="res://scenes/framerate_displayer/FrameRateDisplayer.tscn" id="9_4dg4n"]
+[ext_resource type="PackedScene" uid="uid://irf1ikddo7ik" path="res://managers/GameManagers/GameManager.tscn" id="10_bqj8h"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_50u5v")
 
-[node name="FrameRateDisplayer" parent="." instance=ExtResource("9_4dg4n")]
-
 [node name="ActiveMainScene" parent="." instance=ExtResource("3_njnb7")]
 
-[node name="SkillSlotManager" parent="." instance=ExtResource("4_fcxde")]
-FireballSkillData = ExtResource("5_glb4x")
-IceballSkillData = ExtResource("6_fwa78")
+[node name="GameManager" parent="." instance=ExtResource("10_bqj8h")]
+Levels = ExtResource("4_yyvq6")
+MainMenuScene = ExtResource("3_3uhs0")
+LevelManagersPackedScene = ExtResource("3_dim20")
 
-[node name="GameStateManager" parent="." instance=ExtResource("7_3a8dr")]
+[node name="GameStateManager" type="Node" parent="."]
+script = ExtResource("4_ox77f")
+StoneLevel = ExtResource("5_hnfkl")
+OtherLevel = ExtResource("6_ht3e6")
+GameState = ExtResource("7_svh80")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="GameSetupyPoos" type="Node" parent="."]
+script = ExtResource("8_05xvc")
 
-[node name="TestUi" parent="CanvasLayer" instance=ExtResource("6_27v6h")]
-visible = false
-
-[node name="SkillsBar" parent="CanvasLayer" instance=ExtResource("5_h1dfq")]
+[node name="FrameRateDisplayer" parent="." instance=ExtResource("9_4dg4n")]

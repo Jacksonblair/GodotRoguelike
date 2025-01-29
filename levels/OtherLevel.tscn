@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://tjo6tkwode2q"]
 
-[ext_resource type="Script" path="res://resources/OtherLevel.cs" id="1_dfosm"]
+[ext_resource type="Script" path="res://levels/OtherLevel.cs" id="1_72geh"]
 
-[node name="OtherLevel" type="Node2D"]
-script = ExtResource("1_dfosm")
+[node name="Node" type="Node"]
+script = ExtResource("1_72geh")

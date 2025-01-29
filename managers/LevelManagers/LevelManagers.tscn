@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr6lnjie2ibmv"]
+
+[ext_resource type="PackedScene" uid="uid://jbeqs0nj0ri4" path="res://managers/LevelManagers/SkillSlotManager.tscn" id="1_vrtig"]
+[ext_resource type="Resource" uid="uid://b12re7hchfngy" path="res://skills/Fireball/FireballSkillData.tres" id="2_8oo0r"]
+[ext_resource type="Resource" uid="uid://bfy1vpwmy2h85" path="res://skills/Iceball/IceballSkillData.tres" id="3_ok0ym"]
+[ext_resource type="PackedScene" uid="uid://vulat7yh0c6k" path="res://ui/SkillsBar/SkillsBar.tscn" id="4_gtmuj"]
+
+[node name="LevelManagers" type="Node"]
+
+[node name="SkillSlotManager" parent="." instance=ExtResource("1_vrtig")]
+FireballSkillData = ExtResource("2_8oo0r")
+IceballSkillData = ExtResource("3_ok0ym")
+
+[node name="SkillsBar" parent="." instance=ExtResource("4_gtmuj")]

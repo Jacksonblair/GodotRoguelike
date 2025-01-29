@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Levels" load_steps=4 format=3 uid="uid://m2v336om28tl"]
+
+[ext_resource type="PackedScene" uid="uid://tjo6tkwode2q" path="res://levels/OtherLevel.tscn" id="1_fjrc3"]
+[ext_resource type="Script" path="res://resources/Levels.cs" id="1_q68yx"]
+[ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/stone_level.tscn" id="2_lmtki"]
+
+[resource]
+script = ExtResource("1_q68yx")
+StoneLevel = ExtResource("2_lmtki")
+OtherLevel = ExtResource("1_fjrc3")

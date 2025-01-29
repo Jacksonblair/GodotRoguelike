@@ -1,7 +1,8 @@
 using System;
 using Godot;
+using TESTCS.levels;
 
-public partial class StoneLevel : TileMapLayer
+public partial class StoneLevel : BaseLevel
 {
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
