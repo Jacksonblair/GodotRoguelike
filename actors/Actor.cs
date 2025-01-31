@@ -2,27 +2,23 @@ using Godot;
 
 namespace TESTCS.actors;
 
-public partial class Actor : CharacterBody2D
+public abstract partial class Actor : CharacterBody2D
 {
-    public float MovementSpeed { get; set; }
+    public int MaxHealth = 100;
+    public int Health = 100;
+    public float Weight = 10;
+    public float Height = 0;
+    public float MovementSpeed = 200;
+    public bool IsAirborne = false;
     public ActorController Controller;
+    public float VerticalVelocity = 0;
+
+    public float RemainingHealthPercent()
+    {
+        return (float)Health / MaxHealth;
+    }
     
     // Debug
     [Export]
-    public bool DebugVelocity { get; set; }
-
-    // public override void _PhysicsProcess(double delta)
-    // {
-    //     if (Controller == null) return;
-    //
-    //     Vector2 movement = Controller.GetMovementInput(this.Position);
-    //     Velocity = movement * Speed;
-    //
-    //     MoveAndSlide();
-    // }
-    //
-    // private void Interact()
-    // {
-    //     GD.Print($"{Name} interacted with something!");
-    // }
+    public bool DebugGlobalPosition { get; set; }
 }

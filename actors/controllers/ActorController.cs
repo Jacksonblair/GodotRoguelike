@@ -24,4 +24,18 @@ public abstract partial class ActorController : Node
     
     public abstract Vector2 GetMovementInput(Vector2 actorPosition);
     public abstract Vector2 GetAimDirection(Vector2 actorPosition);
+    
+    
+    /**
+     * If in range of player:
+     * - Get direction of player from me
+     * - Attack in that direction.
+     * - Pray it hits something.
+     */
+    
+    public bool CanHitPosition(Vector2 actorPosition, Vector2 targetPosition, float range)
+    {
+        var distance = actorPosition.DistanceTo(targetPosition);
+        return distance <= range;
+    }
 }

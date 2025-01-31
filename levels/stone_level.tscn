@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://wrhnknm5o2bd" path="res://tilesets/stone_level.tres" id="1_r5moy"]
 [ext_resource type="Script" path="res://levels/StoneLevel.cs" id="2_atf2c"]
 [ext_resource type="PackedScene" uid="uid://8823bygfldnv" path="res://scenes/map_edge_spawner/MapEdgeSpawner.tscn" id="3_e2tvx"]
-[ext_resource type="PackedScene" uid="uid://db4wyjshk3nf4" path="res://scenes/PlayerCharacter.tscn" id="4_xf5gy"]
+[ext_resource type="PackedScene" uid="uid://db4wyjshk3nf4" path="res://actors/PlayerCharacter.tscn" id="4_xf5gy"]
 
 [node name="Node" type="Node"]
 script = ExtResource("2_atf2c")
@@ -22,3 +22,4 @@ tile_set = ExtResource("1_r5moy")
 
 [node name="CharacterBody2D" parent="StoneLevel" instance=ExtResource("4_xf5gy")]
 position = Vector2(139, 113)
+DebugVelocity = null

@@ -2,10 +2,8 @@ using Godot;
 using TESTCS.actors;
 using TESTCS.actors.controllers;
 
-public partial class PlayerCharacter : Actor
+public partial class PlayerCharacter : Actor, IHittable
 {
-    float Speed = 200;
-    
     string current_terrain;
     CollisionShape2D collision;
     AnimatedSprite2D sprite;
@@ -30,11 +28,7 @@ public partial class PlayerCharacter : Actor
         NPCArea2D.AreaExited += onNPCAreaExited;
         SkillChargingRing = GetNode<SkillChargingRing>("SkillChargingRing");
 
-        // Set up player controller
-        // TODO: Move to function
-        var controller = new PlayerController();
-        AddChild(controller);
-        Controller = controller;
+        Controller = new PlayerController();
         
         Controller.AbilityPressed += OnAbilityPressed;
         Controller.Interacted += OnInteracted;
@@ -80,7 +74,7 @@ public partial class PlayerCharacter : Actor
                 sprite.FlipH = velocity.X < 0;
             }
 
-            velocity = velocity.Normalized() * Speed;
+            velocity = velocity.Normalized() * MovementSpeed;
         }
         else
         {
@@ -92,5 +86,15 @@ public partial class PlayerCharacter : Actor
 
         Velocity = velocity;
         MoveAndSlide();
+    }
+
+    public void ReceiveHit(HitInformation hitInformation)
+    {
+        Health -= hitInformation.Damage;
+
+        if (Health > 0) return;
+        
+        GD.Print("PLAYED DIEDY POOS");        
+        QueueFree();
     }
 }

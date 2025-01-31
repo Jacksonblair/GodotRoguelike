@@ -8,6 +8,8 @@ using TESTCS.scripts.managers;
 [GlobalClass]
 public partial class GlobalVariables : Node
 {
+    public const float Gravity = 200f;
+    
     public static GlobalVariables Instance { get; private set; }
     
     public GameManager _gameManager { get; set; }

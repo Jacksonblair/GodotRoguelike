@@ -26,6 +26,7 @@ offset_bottom = 40.0
 
 [node name="SkillHoverPanel" type="Panel" parent="CanvasLayer/Control"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 16.0
 offset_top = 575.0
 offset_right = 16.0

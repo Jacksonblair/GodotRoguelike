@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://db4wyjshk3nf4"]
 
-[ext_resource type="Script" path="res://scenes/PlayerCharacter.cs" id="1_m87t4"]
+[ext_resource type="Script" path="res://actors/PlayerCharacter.cs" id="1_1rxg6"]
 [ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/PlayerCharacter.tres" id="2_3lqu1"]
 [ext_resource type="PackedScene" uid="uid://fviw404lp836" path="res://skills/SkillChargingRing.tscn" id="4_50kkn"]
 [ext_resource type="PackedScene" uid="uid://edvhp5okinxo" path="res://scenes/closest_enemy_getter/ClosestEnemyGetter.tscn" id="4_gjr55"]
@@ -11,7 +11,7 @@
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 4
-script = ExtResource("1_m87t4")
+script = ExtResource("1_1rxg6")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
