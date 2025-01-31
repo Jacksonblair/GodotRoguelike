@@ -8,7 +8,6 @@ public partial class SkillsBar : Control
 {
 	[Export] public PackedScene ButtonScene; // The button scene to instantiate
 
-	private SkillSlotManager _skillSlotManager;
 	private readonly List<SkillButton> _skillButtons = new();
 
 	// Hover elements
@@ -18,16 +17,22 @@ public partial class SkillsBar : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_skillSlotManager = GlobalVariables.Instance.SkillSlotManager;
-		_skillHoverPanel = GetNode<Panel>("SkillHoverPanel");
-		_skillHoverLabel = _skillHoverPanel. GetNode<Label>("Label");
-			
-		var ctr = GetNode<HBoxContainer>("HBoxContainer");
+		GlobalVariables.GameManager.LevelManagersReady += OnLevelManagersReady;
+	}
+
+	private void OnLevelManagersReady()
+	{
+		GD.Print("SETTING UP SKILLS BAR NOW");
 		
-		GD.Print(_skillSlotManager.SkillSlots.Count);
+		_skillHoverPanel = GetNode<Panel>("%SkillHoverPanel");
+		_skillHoverLabel = GetNode<Label>("%SkillHoverLabel");
+			
+		var ctr = GetNode<HBoxContainer>("%HBoxContainer");
+		
+		GD.Print(GlobalVariables.SkillSlotManager.SkillSlots.Count);
 		
 		// Create buttons as children of hbox container
-		for (int i = 0; i < _skillSlotManager.SkillSlots.Count; i++)
+		for (int i = 0; i < GlobalVariables.SkillSlotManager.SkillSlots.Count; i++)
 		{
 			var button = ButtonScene.Instantiate<SkillButton>();
 			button.SkillIndex = i;

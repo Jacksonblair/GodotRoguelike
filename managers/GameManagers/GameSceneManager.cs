@@ -3,12 +3,6 @@ using Godot.Collections;
 
 namespace TESTCS.scripts.managers;
 
-public enum GameScenesEnum
-{
-    MainMenu,
-    StoneLevel
-}
-
 /** Specifically for loading/unloading scenes and handling transitions */
 public partial class GameSceneManager : Node
 {

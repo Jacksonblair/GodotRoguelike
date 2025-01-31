@@ -70,9 +70,9 @@ public partial class SkillChargingManager : GodotObject
         
         if (SkillHandler.SkillInputHandler.IsCharging)
         {
-            if (GlobalVariables.Instance.Character != null)
+            if (GlobalVariables.Instance._character != null)
             {
-                GlobalVariables.Instance.Character.SkillChargingRing.SkillChargingManager = this;
+                GlobalVariables.Instance._character.SkillChargingRing.SkillChargingManager = this;
             }
 
             ChargedFor += (float)delta;
@@ -94,9 +94,9 @@ public partial class SkillChargingManager : GodotObject
         }
         else
         {
-            if (GlobalVariables.Instance.Character != null)
+            if (GlobalVariables.Instance._character != null)
             {
-                GlobalVariables.Instance.Character.SkillChargingRing.SkillChargingManager = null;
+                GlobalVariables.Instance._character.SkillChargingRing.SkillChargingManager = null;
             }
 
             ChargeStage = 0;

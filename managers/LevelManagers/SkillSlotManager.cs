@@ -48,7 +48,7 @@ public partial class SkillSlotManager : Node
         if (skillIndex < 0 || skillIndex >= MaxSlots) return;
 
         // Unload existing skill, if there is one
-        UnassignSkill(skillIndex);
+        UnassignSkill(skillIndex);  
 
         // SET UP NEW SKILL 
         var skillNode = skillData.InstantiateSkillScene();

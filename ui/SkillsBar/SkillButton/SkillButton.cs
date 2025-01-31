@@ -15,6 +15,8 @@ public partial class SkillButton : TextureButton
     
     public override void _Ready()
     {
+        GD.Print("FINISHING CREATING SKILL BUTTON");
+        
         _label = GetNode<Label>("Label");
         _chargeLabel = GetNode<Label>("ChargeLabel");
         _progressBar = GetNode<TextureProgressBar>("TextureProgressBar");
@@ -32,7 +34,7 @@ public partial class SkillButton : TextureButton
     
     public override void _Process(double delta)
     {
-        var skill = GlobalVariables.Instance.SkillSlotManager.SkillSlots[SkillIndex];
+        var skill = GlobalVariables.SkillSlotManager.SkillSlots[SkillIndex];
         if (skill == null)
         {
             _chargeLabel.Text = "";

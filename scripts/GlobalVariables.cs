@@ -8,16 +8,13 @@ using TESTCS.scripts.managers;
 [GlobalClass]
 public partial class GlobalVariables : Node
 {
-    
     public static GlobalVariables Instance { get; private set; }
     
     public GameManager _gameManager { get; set; }
-    
-    /** Manages Skills */
-    public SkillSlotManager SkillSlotManager { get; set; }
+    public TESTCS.managers.LevelManagers.LevelManagers _levelManagers { get; set; }
     
     /** Global char reference */
-    public PlayerCharacter Character { get; set; }
+    public PlayerCharacter _character { get; set; }
     
     /** Manages tracking kills */
     // public KillTrackingManager KillTrackingManager { get; set; }
@@ -42,6 +39,9 @@ public partial class GlobalVariables : Node
     public static GameSceneManager GameSceneManager => Instance._gameSceneManager; // Correct alias
     public static GameManager GameManager => Instance._gameManager;
     public static GameStateManager GameStateManager => Instance._gamePersistenceManager;
+    public static SkillSlotManager SkillSlotManager => Instance._levelManagers.SkillSlotManager;
+    public static PlayerCharacter PlayerCharacter => Instance._character;
+    
     
     // When global variables script is ready, update all references in game. 
     public override void _Ready()

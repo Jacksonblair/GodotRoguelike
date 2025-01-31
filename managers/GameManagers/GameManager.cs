@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using TESTCS.levels;
+using TESTCS.managers.LevelManagers;
 
 public partial class GameManager : Node
 {
@@ -9,6 +10,10 @@ public partial class GameManager : Node
 	[Export] public PackedScene CreditsScene { get; set; }
 	[Export] public PackedScene LevelManagersPackedScene { get; set; }
 	private Node LevelManagersScene;
+	
+	// Emit signal when level managers are ready. 
+	[Signal]
+	public delegate void LevelManagersReadyEventHandler();
 	
 	// Called when the node enters the scene tree for the first time.
 	// public override void _Ready()
@@ -73,6 +78,7 @@ public partial class GameManager : Node
 		if (LevelManagersScene == null) return;
 		LevelManagersScene.QueueFree();
 		LevelManagersScene = null;
+		GlobalVariables.Instance._levelManagers = null;
 	}
 
 	private void LoadLevelManagers()
@@ -80,5 +86,13 @@ public partial class GameManager : Node
 		var levelManagers = LevelManagersPackedScene.Instantiate();
 		GlobalVariables.Instance.ActiveMainSceneContainer.AddChild(levelManagers);
 		LevelManagersScene = levelManagers;
+		GlobalVariables.Instance._levelManagers = (LevelManagers)levelManagers;
+		CallDeferred("NotifyLevelManagersReady");
+	}
+
+	// Emit signal notifying that level managers are ready to go
+	private void NotifyLevelManagersReady()
+	{
+		EmitSignal(nameof(LevelManagersReady));
 	}
 }

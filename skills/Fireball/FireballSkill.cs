@@ -32,7 +32,7 @@ public partial class FireballSkill : Skill, IProjectileSkill
     public void FireProjectileAtClosestEnemy(int numProjectiles)
     {
         // If aiming, fire at mouse, otherwise, fire at closest enemy
-        var closestEnemy = GlobalVariables.Instance.Character.closestEnemyGetter.GetClosestEnemy();
+        var closestEnemy = GlobalVariables.Instance._character.closestEnemyGetter.GetClosestEnemy();
         if (closestEnemy != null)
         {
             // GD.Print("FIRE AT CLOSEST ENEMY");
@@ -59,8 +59,8 @@ public partial class FireballSkill : Skill, IProjectileSkill
         var level = GlobalVariables.Instance.ActiveMainSceneContainer;
         var projectile = (PackedScene)GD.Load("res://scenes/projectiles/Projectile.tscn");
         var inst2 = projectile.Instantiate<BasicProjectile>();
-        Vector2 direction = (target - GlobalVariables.Instance.Character.Position).Normalized();
-        inst2.Position = GlobalVariables.Instance.Character.Position;
+        Vector2 direction = (target - GlobalVariables.Instance._character.Position).Normalized();
+        inst2.Position = GlobalVariables.Instance._character.Position;
 
         // GD.Print(inst2.Position);
         inst2.Init(new TESTCS.scenes.projectiles.LinearProjectileMover(), direction);

@@ -23,12 +23,12 @@ public partial class GhostEnemy1 : BaseEnemy, IHittable
     
     GhostEnemy1() : base(EnemyType.Ghost1)
     {
-        _mover = new TowardsTargetMover(GlobalVariables.Instance.Character);
+        _mover = new TowardsTargetMover(GlobalVariables.Instance._character);
     }
 
     public override void _Ready()
     {
-        _mover.target = GlobalVariables.Instance.Character;
+        _mover.target = GlobalVariables.Instance._character;
         Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         ShadowSprite = GetNode<Sprite2D>("ShadowSprite");
         intialShadowScale = ShadowSprite.Scale;

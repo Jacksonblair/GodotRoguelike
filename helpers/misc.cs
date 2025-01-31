@@ -15,6 +15,6 @@ public static class MiscHelper
 
     public static Node2D? GetClosestEnemy()
     {
-        return GlobalVariables.Instance.Character.closestEnemyGetter.GetClosestEnemy();
+        return GlobalVariables.Instance._character.closestEnemyGetter.GetClosestEnemy();
     }
 }

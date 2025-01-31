@@ -55,7 +55,7 @@ public partial class ClosestEnemyGetter : Node2D
 
         // Find the closest enemy by calculating distance
         var _closestEnemy = enemies
-            .OrderBy(enemy => enemy.Position.DistanceTo(GlobalVariables.Instance.Character.Position))
+            .OrderBy(enemy => enemy.Position.DistanceTo(GlobalVariables.Instance._character.Position))
             .FirstOrDefault();
 
         if (_closestEnemy != null)
