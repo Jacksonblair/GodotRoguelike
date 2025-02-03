@@ -22,7 +22,7 @@ public partial class SkillChargingRing : Node2D
 			return;
 		};
 		
-		// TODO: Make this function less absolute shit
+		// TODO: Make this function less crappy you legend
 		// GD.Print(SkillChargingManager.ChargedFor);
 		// GD.Print(SkillChargingManager.NextStageAt);
 

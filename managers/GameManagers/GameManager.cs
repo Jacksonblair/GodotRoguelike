@@ -1,15 +1,26 @@
 using Godot;
 using System;
+using TESTCS.actors;
 using TESTCS.levels;
 using TESTCS.managers.LevelManagers;
+using TESTCS.projectiles;
 
 public partial class GameManager : Node
 {
+	[Export] public GameProjectiles GameProjectiles { get; set; }
+	
+	// public ENetMultiplayerPeer EnetPeer = new ENetMultiplayerPeer();
+	[Export] public PackedScene PlayerScene { get; set; }
+	
 	[Export] public Levels Levels { get; set; }
 	[Export] public PackedScene MainMenuScene { get; set; }
 	[Export] public PackedScene CreditsScene { get; set; }
+
+	[Export] public PackedScene LevelUIPackedScene { get; set; }
+	private Node LevelUISceneRef;
+
 	[Export] public PackedScene LevelManagersPackedScene { get; set; }
-	private Node LevelManagersScene;
+	private Node LevelManagersSceneRef;
 	
 	// Emit signal when level managers are ready. 
 	[Signal]
@@ -17,17 +28,30 @@ public partial class GameManager : Node
 	
 	// Called when the node enters the scene tree for the first time.
 	// public override void _Ready()
-	// {
-	// }
+	// {}
 
 	// // Called every frame. 'delta' is the elapsed time since the previous frame.
 	// public override void _Process(double delta)
-	// {
-	// }
+	// {}
+
+	public void OnStartGame()
+	{
+		/**
+		 * - Load player details (name, items?, stats?, configuration)
+		 * - Load location
+		 * - Spawn player actor in, get details from global store
+		 * - Chuck actor into location
+		 */
+
+		LoadLastSave();
+		var player = PlayerScene.Instantiate<PlayerCharacter>();
+		GlobalVariables.Instance._character = player;
+		GlobalVariables.ActiveMainSceneContainer.AddChild(player);
+	}
 
 	public void LoadMainMenu()
 	{
-		UnloadLevelManagers();
+		UnloadLevelSpecificStuff();
 		GlobalVariables.GameSceneManager.LoadGameScene(MainMenuScene);
 	}
 
@@ -56,9 +80,9 @@ public partial class GameManager : Node
 		if (levelInstance is BaseLevel)
 		{
 			// Proceed with the level loading process
-			UnloadLevelManagers();
+			UnloadLevelSpecificStuff();
 			GlobalVariables.GameSceneManager.LoadGameScene(scene);
-			LoadLevelManagers();
+			LoadLevelSpecificStuff();
 		}
 		else
 		{
@@ -69,30 +93,76 @@ public partial class GameManager : Node
 
 	public void LoadCredits()
 	{
-		UnloadLevelManagers();
+		UnloadLevelSpecificStuff();
 		GlobalVariables.GameSceneManager.LoadGameScene(CreditsScene);
 	}
 
-	private void UnloadLevelManagers()
+	private void UnloadLevelSpecificStuff()
 	{
-		if (LevelManagersScene == null) return;
-		LevelManagersScene.QueueFree();
-		LevelManagersScene = null;
-		GlobalVariables.Instance._levelManagers = null;
+		if (LevelManagersSceneRef != null)
+		{
+			LevelManagersSceneRef.QueueFree();
+			LevelManagersSceneRef = null;
+			GlobalVariables.Instance._levelManagers = null;
+		}
+
+		if (LevelUISceneRef != null)
+		{
+			LevelUISceneRef.QueueFree();
+			LevelUISceneRef = null;
+		}
 	}
 
-	private void LoadLevelManagers()
+	private void LoadLevelSpecificStuff()
 	{
+		// Setup level managers
 		var levelManagers = LevelManagersPackedScene.Instantiate();
-		GlobalVariables.Instance.ActiveMainSceneContainer.AddChild(levelManagers);
-		LevelManagersScene = levelManagers;
+		LevelManagersSceneRef = levelManagers;
 		GlobalVariables.Instance._levelManagers = (LevelManagers)levelManagers;
-		CallDeferred("NotifyLevelManagersReady");
-	}
+		GlobalVariables.Instance._activeMainSceneContainer.AddChild(levelManagers);
 
-	// Emit signal notifying that level managers are ready to go
-	private void NotifyLevelManagersReady()
-	{
-		EmitSignal(nameof(LevelManagersReady));
+		// Setup level UI	
+		var levelUI = LevelUIPackedScene.Instantiate<LevelUI>();
+		LevelUISceneRef = levelUI;
+		GlobalVariables.Instance._activeMainSceneContainer.AddChild(levelUI);
 	}
+	
+	// public void OnHostButtonPressed()
+	// {
+	// 	// TODO: Hide main menu
+	// 	EnetPeer.CreateServer(GlobalVariables.Port);
+	// 	Multiplayer.MultiplayerPeer = EnetPeer;
+	// 	Multiplayer.PeerConnected += OnPeerConnected;
+	//
+	// 	LoadLevel(Levels.StoneLevel);
+	// 	AddPlayer(Multiplayer.GetUniqueId());
+	// }
+
+	// private void OnPeerConnected(long id)
+	// {
+	// 	GD.Print("Player joined, peer id: ", id.ToString());
+	// 	AddPlayer(id);	
+	// }
+
+	// public void OnJoinButtonPressed(string serverAddress)
+	// {
+	// 	// TODO: Hide main menu
+	// 	EnetPeer.CreateClient(serverAddress, GlobalVariables.Port);
+	// 	Multiplayer.MultiplayerPeer = EnetPeer;
+	// 	LoadLevel(Levels.StoneLevel);	
+	// }
+
+	// public void AddPlayer(long peerID)
+	// {
+	// 	var player = PlayerScene.Instantiate<PlayerCharacter>();
+	// 	player.Name = peerID.ToString();
+	// 	player.SetMultiplayerAuthority((int)peerID);
+	// 	GlobalVariables.ActiveMainSceneContainer.AddChild(player);
+	// 	
+	// 	GD.Print($"Spawned player node: {player.Name} for peerID: {peerID}");
+	//
+	// 	// Instantiate player scene
+	// 	// Assign PeerID to it as ID
+	// 	// Add it to scene
+	// }
 }

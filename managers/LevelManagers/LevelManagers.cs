@@ -4,12 +4,10 @@ namespace TESTCS.managers.LevelManagers;
 
 public partial class LevelManagers : Node
 {
-	public SkillSlotManager SkillSlotManager { get; set; }
-	
+	public PlayerSkillSlotManager PlayerSkillSlotManager { get; set; }
+		
 	public override void _Ready()
 	{
-		SkillSlotManager = GetNode<SkillSlotManager>("%SkillSlotManager");
+		this.PlayerSkillSlotManager = GetNode<PlayerSkillSlotManager>("PlayerSkillSlotManager");
 	}
-	
-	// public override void _Process(double delta)
 }

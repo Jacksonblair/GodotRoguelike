@@ -1,0 +1,32 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://c2n4qbgy7ab1b"]
+
+[ext_resource type="Texture2D" uid="uid://ilnss5qmt4sc" path="res://assets/images/säure2.png" id="1_sc3n7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vy5kr"]
+atlas = ExtResource("1_sc3n7")
+region = Rect2(0, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hlru"]
+atlas = ExtResource("1_sc3n7")
+region = Rect2(16, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_juf8p"]
+atlas = ExtResource("1_sc3n7")
+region = Rect2(32, 0, 16, 19)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vy5kr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4hlru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_juf8p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]

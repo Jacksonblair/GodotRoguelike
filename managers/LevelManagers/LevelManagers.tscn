@@ -1,17 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://cr6lnjie2ibmv"]
+[gd_scene load_steps=5 format=3 uid="uid://cr6lnjie2ibmv"]
 
 [ext_resource type="Script" path="res://managers/LevelManagers/LevelManagers.cs" id="1_rlmas"]
-[ext_resource type="PackedScene" uid="uid://jbeqs0nj0ri4" path="res://managers/LevelManagers/SkillSlotManager.tscn" id="1_vrtig"]
+[ext_resource type="PackedScene" uid="uid://jbeqs0nj0ri4" path="res://managers/LevelManagers/PlayerSkillSlotManager.tscn" id="1_vrtig"]
 [ext_resource type="Resource" uid="uid://b12re7hchfngy" path="res://skills/Fireball/FireballSkillData.tres" id="2_8oo0r"]
 [ext_resource type="Resource" uid="uid://bfy1vpwmy2h85" path="res://skills/Iceball/IceballSkillData.tres" id="3_ok0ym"]
-[ext_resource type="PackedScene" uid="uid://vulat7yh0c6k" path="res://ui/SkillsBar/SkillsBar.tscn" id="4_gtmuj"]
 
 [node name="LevelManagers" type="Node"]
 script = ExtResource("1_rlmas")
 
-[node name="SkillSlotManager" parent="." instance=ExtResource("1_vrtig")]
+[node name="PlayerSkillSlotManager" parent="." instance=ExtResource("1_vrtig")]
 unique_name_in_owner = true
 FireballSkillData = ExtResource("2_8oo0r")
 IceballSkillData = ExtResource("3_ok0ym")
-
-[node name="SkillsBar" parent="." instance=ExtResource("4_gtmuj")]

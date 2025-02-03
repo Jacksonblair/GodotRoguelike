@@ -19,18 +19,18 @@ public partial class GameSceneManager : Node
         // Remove previous scene
         if (_currentActiveScene != null)
         {
-            GlobalVariables.Instance.ActiveMainSceneContainer.RemoveChild(_currentActiveScene);
+            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(_currentActiveScene);
         }
         
         // Instantiate specified scene
         var inst = gameScene.Instantiate();
-        GlobalVariables.Instance.ActiveMainSceneContainer.AddChild(inst);
+        GlobalVariables.Instance._activeMainSceneContainer.AddChild(inst);
         
         // Update internal reference
         _currentActiveScene = inst;
         
         GD.Print("Loading: ", gameScene);
-        GD.Print(GlobalVariables.Instance.ActiveMainSceneContainer);
+        GD.Print(GlobalVariables.Instance._activeMainSceneContainer);
 
         // Add player to level
         // Rather... Despawn old level including player... and then respawn player in new level

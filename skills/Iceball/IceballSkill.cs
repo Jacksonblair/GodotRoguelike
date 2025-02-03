@@ -1,4 +1,5 @@
 using Godot;
+using TESTCS.actors;
 using TESTCS.enums;
 using TESTCS.helpers;
 using TESTCS.skills.Interfaces;
@@ -12,7 +13,5 @@ public partial class IceballSkill : Skill, IProjectileSkill
     public override void _Process(double delta)
     {}
 
-    public override void Execute()
-    {
-    }
+    public override void Execute(Actor executedBy, ModifierResults modifiers) {}
 }

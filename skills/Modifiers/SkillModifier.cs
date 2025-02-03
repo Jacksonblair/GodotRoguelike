@@ -2,4 +2,5 @@ using Godot;
 
 namespace TESTCS.skills.Modifiers;
 
-public class SkillModifier {}
+public abstract class SkillModifier
+{ }

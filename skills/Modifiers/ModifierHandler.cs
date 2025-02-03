@@ -9,6 +9,7 @@ public class ModifierResults
     public int AdditionalFlatDamage = 0;
     public int AdditionalCharges = 0;
     public int CooldownReduction = 0;
+    public int CurrentCharges = 0;
 
     public ModifierResults() {}
 }
@@ -30,19 +31,19 @@ public class ModifierResults
  */
 public class ModifierHandler
 {
-    public ModifierResults Results;
+    public ModifierResults SkillModifierResults;
     
-    public void CalculateModifierResults(ModifierResults results, List<SkillModifier> modifiers)
+    public void CalculateModifierResults(List<SkillModifier> modifiers)
     {
         foreach (var modifier in modifiers)
         {
             switch (modifier)
             {
                 case ExtraProjectileModifier projModifier:
-                    results.AdditionalProjectiles += projModifier.ExtraProjectiles;
+                    SkillModifierResults.AdditionalProjectiles += projModifier.ExtraProjectiles;
                     break;
                 case FlatDamageModifier dmgModifier:
-                    results.AdditionalFlatDamage += dmgModifier.AdditionalDamage;
+                    SkillModifierResults.AdditionalFlatDamage += dmgModifier.AdditionalDamage;
                     break;
                 default:
                     GD.PushWarning("Modifier type: " + modifier.GetType().Name + " is not being handled.");

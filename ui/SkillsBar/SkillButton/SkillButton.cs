@@ -1,8 +1,7 @@
 using Godot;
-using System;
-using Godot.NativeInterop;
-using TESTCS.managers;
 using TESTCS.skills;
+
+namespace TESTCS.ui.SkillsBar.SkillButton;
 
 public partial class SkillButton : TextureButton
 {
@@ -12,11 +11,10 @@ public partial class SkillButton : TextureButton
     private TextureProgressBar _progressBar;
     public SkillHandler SkillState;
     public int SkillIndex;
+    public SkillHandler SkillHandler;
     
     public override void _Ready()
     {
-        GD.Print("FINISHING CREATING SKILL BUTTON");
-        
         _label = GetNode<Label>("Label");
         _chargeLabel = GetNode<Label>("ChargeLabel");
         _progressBar = GetNode<TextureProgressBar>("TextureProgressBar");
@@ -34,8 +32,7 @@ public partial class SkillButton : TextureButton
     
     public override void _Process(double delta)
     {
-        var skill = GlobalVariables.SkillSlotManager.SkillSlots[SkillIndex];
-        if (skill == null)
+        if (SkillHandler == null)
         {
             _chargeLabel.Text = "";
             _progressBar.Visible = false;
@@ -44,10 +41,10 @@ public partial class SkillButton : TextureButton
         {
             // TODO: One day, do this more efficiently. Or dont, whatever.
 
-            _chargeLabel.Text = skill.SkillCooldownManager.CurrentCharges.ToString();
-            _progressBar.MaxValue = skill.SkillData.CooldownTime;
-            _progressBar.Value = skill.SkillCooldownManager.CooldownTimeRemaining;
-            _progressBar.Visible = skill.SkillCooldownManager.CooldownTimeRemaining > 0;
+            _chargeLabel.Text = SkillHandler.SkillCooldownManager.CurrentCharges.ToString();
+            _progressBar.MaxValue = SkillHandler.SkillData.CooldownTime;
+            _progressBar.Value = SkillHandler.SkillCooldownManager.CooldownTimeRemaining;
+            _progressBar.Visible = SkillHandler.SkillCooldownManager.CooldownTimeRemaining > 0;
         }
     }
 }

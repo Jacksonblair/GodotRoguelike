@@ -1,4 +1,5 @@
 using Godot;
+using TESTCS.projectiles;
 
 namespace TESTCS.scenes.projectiles;
 
@@ -21,18 +22,7 @@ public partial class SpiralProjectileMover : Node2D, IProjectileMover
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) { }
 
-    public void Move(TESTCS.scenes.projectiles.BaseProjectile proj, double delta)
-    {
-        if (!_hasSetCenterPosition)
-        {
-            _centerPosition = proj.Position;
-            _hasSetCenterPosition = true;
-        }
-        MoveInSpiral(proj, (float)delta);
-        GD.Print(_centerPosition);
-    }
-
-    private void MoveInSpiral(BaseProjectile proj, float delta)
+    private void MoveInSpiral(Projectile proj, float delta)
     {
         // Update the angle for circular movement
         _angle += CircleSpeed * delta;
@@ -42,6 +32,17 @@ public partial class SpiralProjectileMover : Node2D, IProjectileMover
         var yOffset = Mathf.Sin(_angle) * Radius;
 
         proj.Position = _centerPosition + new Vector2(xOffset, yOffset);
-        _centerPosition += proj.InitDirection * proj.Speed * (float)delta;
+        _centerPosition += proj.InitialDirection * proj.Speed * (float)delta;
+    }
+
+    public void Move(Projectile projectile, double delta)
+    {
+        if (!_hasSetCenterPosition)
+        {
+            _centerPosition = projectile.Position;
+            _hasSetCenterPosition = true;
+        }
+        MoveInSpiral(projectile, (float)delta);
+        GD.Print(_centerPosition);
     }
 }

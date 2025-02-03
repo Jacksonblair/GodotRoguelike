@@ -1,18 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://db4wyjshk3nf4"]
+[gd_scene load_steps=6 format=3 uid="uid://db4wyjshk3nf4"]
 
 [ext_resource type="Script" path="res://actors/PlayerCharacter.cs" id="1_1rxg6"]
 [ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/PlayerCharacter.tres" id="2_3lqu1"]
-[ext_resource type="PackedScene" uid="uid://fviw404lp836" path="res://skills/SkillChargingRing.tscn" id="4_50kkn"]
-[ext_resource type="PackedScene" uid="uid://edvhp5okinxo" path="res://scenes/closest_enemy_getter/ClosestEnemyGetter.tscn" id="4_gjr55"]
+[ext_resource type="PackedScene" uid="uid://fviw404lp836" path="res://skills/SkillChargingRing.tscn" id="3_y7pyh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_37i00"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kxemy"]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+z_index = 10
 collision_layer = 4
 script = ExtResource("1_1rxg6")
 metadata/_edit_group_ = true
+
+[node name="SkillChargingRing" parent="." instance=ExtResource("3_y7pyh")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_37i00")
@@ -31,16 +33,12 @@ offset_right = 56.0
 offset_bottom = -10.0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 8
-text = "test"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+z_as_relative = false
 position_smoothing_enabled = true
-
-[node name="ClosestEnemyGetter" parent="." instance=ExtResource("4_gjr55")]
-
-[node name="GetEnemyTimer" type="Timer" parent="."]
-wait_time = 0.25
-autostart = true
 
 [node name="NPCArea2D" type="Area2D" parent="."]
 collision_layer = 0
@@ -48,6 +46,3 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPCArea2D"]
 shape = SubResource("CapsuleShape2D_kxemy")
-
-[node name="SkillChargingRing" parent="." instance=ExtResource("4_50kkn")]
-position = Vector2(-34, -34)

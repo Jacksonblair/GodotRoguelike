@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3s1seuui78oh"]
+
+[ext_resource type="SpriteFrames" uid="uid://c2n4qbgy7ab1b" path="res://projectiles/sprites/FireballSprite.tres" id="1_1jkdr"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_1jkdr")
+autoplay = "default"
+frame = 1
+frame_progress = 0.245229

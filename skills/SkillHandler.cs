@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using TESTCS.actors;
 using TESTCS.enums;
 using TESTCS.skills.Modifiers;
 
@@ -16,6 +17,8 @@ public partial class SkillHandler : GodotObject
      */
     
     public PlayerInputs MappedInput { get; set; }
+    
+    public Actor Actor { get; set; }
     
     // Skill scene
     public Skill SkillNode { get; set; }
@@ -34,17 +37,17 @@ public partial class SkillHandler : GodotObject
     
     // Modifiers
     public List<SkillModifier> SkillModifiers { get; set; }
-    
-    // TODO: FIGURE THIS OUT
-    public ModifierResults FinalSkillState { get; set; }
 
-    public SkillHandler(PlayerInputs mappedInput, SkillData skillData, Skill skillNode, List<SkillModifier> modifiers)
+    // Modifier handler (calculating final state)
+    public ModifierHandler SkillModifierHandler { get; set; } = new();
+
+    public SkillHandler(Actor actor, PlayerInputs mappedInput, SkillData skillData, Skill skillNode, List<SkillModifier> modifiers)
     {
+        Actor = actor;
         SkillNode = skillNode;
         SkillData = skillData;
         SkillModifiers = modifiers;
         MappedInput = mappedInput;
-        FinalSkillState = new ModifierResults();
         SkillCooldownManager = new SkillCooldownManager(this);
         SkillInputHandler = new SkillInputHandler();
 
@@ -66,21 +69,25 @@ public partial class SkillHandler : GodotObject
 
     private void OnExecutedSkill()
     {
+        // Recalculate skill modifiers
+        SkillModifierHandler.CalculateModifierResults(SkillModifiers);
+        
         if (SkillCooldownManager.TryUseCharge())
         {
-            SkillNode.Execute();
+            SkillNode.Execute(this.Actor, SkillModifierHandler.SkillModifierResults);
         }
     }
 
     // TODO: Replace with something more general
     public int GetMaxCharges()
     {
-        return SkillData.Charges + FinalSkillState.AdditionalCharges;
+        return SkillData.Charges + SkillModifierHandler.SkillModifierResults.AdditionalCharges;
     }
 
     // TODO: Calculate better. 
     public int GetSkillCooldownTime()
     {
-        return SkillData.CooldownTime - FinalSkillState.CooldownReduction;
+        return SkillData.CooldownTime - SkillModifierHandler.SkillModifierResults.CooldownReduction;
     }
+
 }

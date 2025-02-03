@@ -12,11 +12,11 @@ public partial class EnemyActor : Actor, IHittable
     
     public override void _Process(double delta)
     {
-        if (Controller.CanHitPosition(this.Position, GlobalVariables.PlayerCharacter.Position, 50f))
-        {
-            GD.Print("CAN HIT PLAYER");
-            GlobalVariables.PlayerCharacter.ReceiveHit(new HitInformation(10, 100, this.Position));
-        }
+        // if (Controller.CanHitPosition(this.Position, GlobalVariables.PlayerCharacter.Position, 50f))
+        // {
+        //     GD.Print("CAN HIT PLAYER");
+        //     GlobalVariables.PlayerCharacter.ReceiveHit(new HitInformation(10, 100, this.Position));
+        // }
         
         if (IsAirborne)
         {

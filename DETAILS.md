@@ -5,7 +5,6 @@
 - GameSetupManager
   - Talks to GameManager to setup game
 
-
 GameSetup tells GameManager to load last save
 GameManager makes sure the level managers are set up before running the level
 
@@ -46,6 +45,18 @@ Input -> Actor * Behaviour == Activity
 - There are different paths, which lead to different enemy types. 
 - Different enemy types require different setups:
   - Ex: A big fast insectoid insect is unkillable up close without some super reflexes/counters
+- When it rains, NPC's go for cover 
+
+
+## MULTIPLAYER
+https://www.youtube.com/watch?v=n8D3vEx7NAE
+- Establish authorities ?
+- MultiplayerSynchronizer to each player.
+  - Sync Position
+  - Sync sprites
+  - Sync projectiles
+  - Sync Health, Enemy Health, Enemy Position, etc... 
+
 
 
 ```mermaid

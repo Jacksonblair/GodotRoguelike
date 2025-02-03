@@ -56,7 +56,7 @@ public partial class PlayerController : ActorController
         var mousePos = MiscHelper.GetActiveMainSceneMousePosition();
         if (mousePos.HasValue)
         {
-            Vector2 direction = (mousePos.Value - GlobalVariables.PlayerCharacter.Position).Normalized();
+            Vector2 direction = (mousePos.Value - actorPosition).Normalized();
             return direction;
         }
         else

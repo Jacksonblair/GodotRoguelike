@@ -5,7 +5,7 @@ public partial class RetaliateSkillData : SkillData
 {
     public override Skill InstantiateSkillScene()
     {
-        var scene = SkillScene.Instantiate<RetaliateSkill>();
+        var scene = SkillScene.Instantiate<TESTCS.skills.Retaliate.RetaliateSkill>();
         scene.SkillData = this;
         return scene;
     }

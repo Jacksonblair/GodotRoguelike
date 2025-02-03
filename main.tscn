@@ -1,15 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://dpax7so0rssl5"]
+[gd_scene load_steps=16 format=3 uid="uid://dpax7so0rssl5"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_50u5v"]
 [ext_resource type="PackedScene" uid="uid://cuhg1d0m228ir" path="res://menus/MainMenu.tscn" id="3_3uhs0"]
 [ext_resource type="PackedScene" uid="uid://cr6lnjie2ibmv" path="res://managers/LevelManagers/LevelManagers.tscn" id="3_dim20"]
 [ext_resource type="PackedScene" uid="uid://dthefedhth8j6" path="res://active_main_scene.tscn" id="3_njnb7"]
+[ext_resource type="PackedScene" uid="uid://db4wyjshk3nf4" path="res://actors/PlayerCharacter.tscn" id="4_1gxas"]
+[ext_resource type="Resource" uid="uid://bh5fq7utrxig8" path="res://projectiles/GameProjectiles.tres" id="4_cwko5"]
 [ext_resource type="Script" path="res://managers/GameStateManager.cs" id="4_ox77f"]
 [ext_resource type="Resource" uid="uid://m2v336om28tl" path="res://resources/Levels.tres" id="4_yyvq6"]
 [ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/stone_level.tscn" id="5_hnfkl"]
 [ext_resource type="PackedScene" uid="uid://tjo6tkwode2q" path="res://levels/OtherLevel.tscn" id="6_ht3e6"]
 [ext_resource type="Resource" uid="uid://cblxsi7y72gkc" path="res://resources/game_state.tres" id="7_svh80"]
 [ext_resource type="Script" path="res://managers/GameManagers/GameSetupyPoos.cs" id="8_05xvc"]
+[ext_resource type="PackedScene" uid="uid://c4vrd5a4ebus2" path="res://ui/LevelUI/LevelUI.tscn" id="8_514k6"]
 [ext_resource type="PackedScene" uid="uid://cfq5nkrsaoxh5" path="res://scenes/framerate_displayer/FrameRateDisplayer.tscn" id="9_4dg4n"]
 [ext_resource type="PackedScene" uid="uid://irf1ikddo7ik" path="res://managers/GameManagers/GameManager.tscn" id="10_bqj8h"]
 
@@ -19,8 +22,11 @@ script = ExtResource("1_50u5v")
 [node name="ActiveMainScene" parent="." instance=ExtResource("3_njnb7")]
 
 [node name="GameManager" parent="." instance=ExtResource("10_bqj8h")]
+GameProjectiles = ExtResource("4_cwko5")
+PlayerScene = ExtResource("4_1gxas")
 Levels = ExtResource("4_yyvq6")
 MainMenuScene = ExtResource("3_3uhs0")
+LevelUIPackedScene = ExtResource("8_514k6")
 LevelManagersPackedScene = ExtResource("3_dim20")
 
 [node name="GameStateManager" type="Node" parent="."]

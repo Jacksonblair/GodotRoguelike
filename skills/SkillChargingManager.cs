@@ -65,42 +65,42 @@ public partial class SkillChargingManager : GodotObject
 
     public void Update(double delta)
     {
-        // if skill has no charges, dont update
-        if (SkillHandler.SkillData.ChargingStages.Count == 0) return;
+    // if skill has no charges, dont update
+    if (SkillHandler.SkillData.ChargingStages.Count == 0) return;
+    
+    if (SkillHandler.SkillInputHandler.IsCharging)
+    {
+        if (GlobalVariables.PlayerCharacter != null)
+        {
+            GlobalVariables.PlayerCharacter.SkillChargingRing.SkillChargingManager = this;
+        }
+    
+        ChargedFor += (float)delta;
         
-        if (SkillHandler.SkillInputHandler.IsCharging)
+        // Keep charging as long as we're not at the last stage
+        // If we are at less than OR stage 3, and there are three stages.
+        if (ChargeStage < SkillHandler.SkillData.ChargingStages.Count)
         {
-            if (GlobalVariables.Instance._character != null)
+            if (ChargedFor >= GetNextStageBreakpoint())
             {
-                GlobalVariables.Instance._character.SkillChargingRing.SkillChargingManager = this;
+                ChargeStage++;
+                // GD.Print($"Stage increased to: {ChargeStage}");
             }
-
-            ChargedFor += (float)delta;
-            
-            // Keep charging as long as we're not at the last stage
-            // If we are at less than OR stage 3, and there are three stages.
-            if (ChargeStage < SkillHandler.SkillData.ChargingStages.Count)
-            {
-                if (ChargedFor >= GetNextStageBreakpoint())
-                {
-                    ChargeStage++;
-                    // GD.Print($"Stage increased to: {ChargeStage}");
-                }
-            }
-            
-            // GD.Print("CHARGING: ", ChargedFor);
-            // GD.Print("CHARGE STAGE: ", ChargeStage);
-            // GD.Print("NEXT STAGE AT: ", GetNextStageBreakpoint());
         }
-        else
+        
+        // GD.Print("CHARGING: ", ChargedFor);
+        // GD.Print("CHARGE STAGE: ", ChargeStage);
+        // GD.Print("NEXT STAGE AT: ", GetNextStageBreakpoint());
+    }
+    else
+    {
+        if (GlobalVariables.Instance._character != null)
         {
-            if (GlobalVariables.Instance._character != null)
-            {
-                GlobalVariables.Instance._character.SkillChargingRing.SkillChargingManager = null;
-            }
-
-            ChargeStage = 0;
-            ChargedFor = 0;
+            GlobalVariables.PlayerCharacter.SkillChargingRing.SkillChargingManager = null;
         }
+    
+        ChargeStage = 0;
+        ChargedFor = 0;
+    }
     }
 }

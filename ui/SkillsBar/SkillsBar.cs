@@ -1,51 +1,58 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using TESTCS.managers;
 
 public partial class SkillsBar : Control
 {
 	[Export] public PackedScene ButtonScene; // The button scene to instantiate
 
-	private readonly List<SkillButton> _skillButtons = new();
+	private readonly List<TESTCS.ui.SkillsBar.SkillButton.SkillButton> _skillButtonRefs = new();
 
 	// Hover elements
 	private Panel _skillHoverPanel;
 	private Label _skillHoverLabel;
+	private HBoxContainer _hBoxContainer;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GlobalVariables.GameManager.LevelManagersReady += OnLevelManagersReady;
-	}
-
-	private void OnLevelManagersReady()
-	{
-		GD.Print("SETTING UP SKILLS BAR NOW");
+		GD.Print("THIS SHOULD RUN THIRD");
+		
+		GlobalVariables.LevelManagers.PlayerSkillSlotManager.EquippedSkill += OnEquippedSkill;
+		GlobalVariables.LevelManagers.PlayerSkillSlotManager.UnequippedSkill += OnUnequippedSkill;
 		
 		_skillHoverPanel = GetNode<Panel>("%SkillHoverPanel");
 		_skillHoverLabel = GetNode<Label>("%SkillHoverLabel");
-			
-		var ctr = GetNode<HBoxContainer>("%HBoxContainer");
+		_hBoxContainer = GetNode<HBoxContainer>("%HBoxContainer");
 		
-		GD.Print(GlobalVariables.SkillSlotManager.SkillSlots.Count);
-		
-		// Create buttons as children of hbox container
-		for (int i = 0; i < GlobalVariables.SkillSlotManager.SkillSlots.Count; i++)
+		for (int i = 0; i < GlobalVariables.LevelManagers.PlayerSkillSlotManager.SkillSlots.Count; i++)
 		{
-			var button = ButtonScene.Instantiate<SkillButton>();
+			var button = ButtonScene.Instantiate<TESTCS.ui.SkillsBar.SkillButton.SkillButton>();
 			button.SkillIndex = i;
-			ctr.AddChild(button);
+			_hBoxContainer.AddChild(button);
 			var i1 = i;
 			button.MouseEntered += () => ShowButtonTooltip(i1);
 			button.MouseExited += HideButtonTooltip;
-			_skillButtons.Add(button);
+			_skillButtonRefs.Add(button);
 		}
 	}
 
-	// public override void _Process(double delta) {}
+	private void OnUnequippedSkill(int abilityindex)
+	{
+		if (abilityindex + 1 > _skillButtonRefs.Count) return;
+		var button = _skillButtonRefs[abilityindex];
+		button.SkillHandler = null;
+		// throw new NotImplementedException();
+	}
 
+	private void OnEquippedSkill(int abilityindex)
+	{
+		if (abilityindex + 1 > _skillButtonRefs.Count) return;
+		var button = _skillButtonRefs[abilityindex];
+		button.SkillHandler = GlobalVariables.LevelManagers.PlayerSkillSlotManager.SkillSlots[abilityindex];
+	}
+
+	// public override void _Process(double delta) {}
 	private void HideButtonTooltip()
 	{
 		// GD.Print("HIDE TOOLTIP");
@@ -60,7 +67,7 @@ public partial class SkillsBar : Control
 
 	private void ShowTooltip(int index)
 	{
-		var skill = _skillButtons[index];
+		var skill = _skillButtonRefs[index];
 		if (skill == null) return;
 		
 		_skillHoverLabel.Text = "HELLO";

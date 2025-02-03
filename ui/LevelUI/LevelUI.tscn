@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4vrd5a4ebus2"]
+
+[ext_resource type="Script" path="res://ui/LevelUI/LevelUI.cs" id="1_ei8k0"]
+[ext_resource type="PackedScene" uid="uid://vulat7yh0c6k" path="res://ui/SkillsBar/SkillsBar.tscn" id="1_mkycp"]
+
+[node name="LevelUI" type="Node"]
+script = ExtResource("1_ei8k0")
+
+[node name="SkillsBar" parent="." instance=ExtResource("1_mkycp")]

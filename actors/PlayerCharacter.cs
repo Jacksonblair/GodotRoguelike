@@ -1,42 +1,46 @@
 using Godot;
-using TESTCS.actors;
 using TESTCS.actors.controllers;
+
+namespace TESTCS.actors;
 
 public partial class PlayerCharacter : Actor, IHittable
 {
-    string current_terrain;
-    CollisionShape2D collision;
-    AnimatedSprite2D sprite;
-    public ClosestEnemyGetter closestEnemyGetter;
-    Timer getEnemyTimer;
-    Area2D NPCArea2D;
+    private AnimatedSprite2D _sprite;
     public SkillChargingRing SkillChargingRing;
+    private Camera2D _camera;
 
+    // CollisionShape2D collision;
+    // public ClosestEnemyGetter closestEnemyGetter;
+    // Area2D NPCArea2D;
     // Nearby NPC
-    IInteractable nearbyNPC;
-    
+    // IInteractable nearbyNPC;
+
+    // public override void _EnterTree()
+    // {
+    //     SetMultiplayerAuthority(Name.ToString().ToInt());
+    // }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        GlobalVariables.Instance._character = this;
-        sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        sprite.Play();
-        closestEnemyGetter = GetNode<ClosestEnemyGetter>("ClosestEnemyGetter");
-        
-        NPCArea2D = GetNode<Area2D>("NPCArea2D");
-        NPCArea2D.AreaEntered += onNPCAreaEntered;
-        NPCArea2D.AreaExited += onNPCAreaExited;
+        _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _sprite.Play();
+        _camera = GetNode<Camera2D>("%Camera2D");
         SkillChargingRing = GetNode<SkillChargingRing>("SkillChargingRing");
 
+        // GlobalVariables.Instance._character = this;
+        // closestEnemyGetter = GetNode<ClosestEnemyGetter>("ClosestEnemyGetter");
+        // NPCArea2D = GetNode<Area2D>("NPCArea2D");
+        // NPCArea2D.AreaEntered += onNPCAreaEntered;
+        // NPCArea2D.AreaExited += onNPCAreaExited;
         Controller = new PlayerController();
-        
         Controller.AbilityPressed += OnAbilityPressed;
         Controller.Interacted += OnInteracted;
     }
 
     private void OnInteracted()
     {
-        nearbyNPC?.Interact();
+        // nearbyNPC?.Interact();
     }
 
     private void OnAbilityPressed(int abilityindex)
@@ -44,46 +48,39 @@ public partial class PlayerCharacter : Actor, IHittable
         // TODO: HANDLE ABILITY PRESSY POOS
     }
 
-    private void onNPCAreaExited(Area2D area)
-    {
-        nearbyNPC = null;
-    }
-
-    private void onNPCAreaEntered(Node2D body)
-    {
-        nearbyNPC = (IInteractable)body;
-    }
+    // private void onNPCAreaExited(Area2D area)
+    // {
+    //     nearbyNPC = null;
+    // }
+    //
+    // private void onNPCAreaEntered(Node2D body)
+    // {
+    //     nearbyNPC = (IInteractable)body;
+    // }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
         var velocity = Controller.GetMovementInput(this.Position);
-        
-        /**
-            If a character's input or other factors affect velocity: 
-            normalizing it and applying speed means the character’s movement remains consistent regardless of input strength.
-            So, even if velocity varies, the actual speed won’t change—only the direction will.
-        */
         if (velocity.Length() > 0)
         {
-            sprite.Animation = "run";
+            _sprite.Animation = "run";
 
             // Update sprite based on velocity
             if (velocity.X != 0)
             {
-                sprite.FlipH = velocity.X < 0;
+                _sprite.FlipH = velocity.X < 0;
             }
 
             velocity = velocity.Normalized() * MovementSpeed;
         }
         else
         {
-            sprite.Animation = "idle";
+            _sprite.Animation = "idle";
         }
 
-        var label = GetNode<Label>("Label");
-        label.Text = Position.ToString();
-
+        // var label = GetNode<Label>("Label");
+        // label.Text = Name;
         Velocity = velocity;
         MoveAndSlide();
     }
@@ -91,10 +88,8 @@ public partial class PlayerCharacter : Actor, IHittable
     public void ReceiveHit(HitInformation hitInformation)
     {
         Health -= hitInformation.Damage;
-
         if (Health > 0) return;
-        
-        GD.Print("PLAYED DIEDY POOS");        
+        GD.Print("PLAYED DIEDY POOS");
         QueueFree();
     }
 }
