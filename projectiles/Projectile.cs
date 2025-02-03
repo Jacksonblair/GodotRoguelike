@@ -31,15 +31,15 @@ public partial class Projectile : Node2D
     {
         TimeToLive = Lifetime;
         
+        HitBox = GetNode<Area2D>("Area2D");
+        ProjectileSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+                
         // Register listener for hitbox collision event
         if (HitBox != null)
         {
             HitBox.BodyEntered += OnHitboxBodyEntered;
         }
         
-        HitBox = GetNode<Area2D>("Area2D");
-        ProjectileSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-
         if (ProjectileData != null)
         {
             ProjectileSprite.SpriteFrames = ProjectileData.Sprite;

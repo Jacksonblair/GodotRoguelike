@@ -70,7 +70,10 @@ public partial class SkillHandler : GodotObject
     private void OnExecutedSkill()
     {
         // Recalculate skill modifiers
+        // ... Manually adding the charge stage... change this later?
         SkillModifierHandler.CalculateModifierResults(SkillModifiers);
+        SkillModifierHandler.SkillModifierResults.CurrentChargeStage = SkillChargingManager.ChargeStage;
+        GD.Print("ADDITIONAL PROJ: ", SkillModifierHandler.SkillModifierResults.AdditionalProjectiles);
         
         if (SkillCooldownManager.TryUseCharge())
         {

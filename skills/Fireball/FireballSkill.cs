@@ -34,16 +34,24 @@ public partial class FireballSkill : Skill, IProjectileSkill
         var level = GlobalVariables.ActiveMainSceneContainer;
         var projectileData = GlobalVariables.GameManager.GameProjectiles.FireballProjectileData;
         Vector2 direction = (target - origin).Normalized();
+
+        var finalNumProjectiles = numProjectiles + modifiers.AdditionalProjectiles;
+        var spreadPositions = ProjectileHelper.GetSpreadPositions(origin, direction, finalNumProjectiles, 20f);
+
+        // PROOF OF CONCEPT FOR ALTERING SKILL BASED ON CHARGING
+        var finalSpeed = speed;
+        if (modifiers.CurrentChargeStage > 0)
+        {
+            finalSpeed += modifiers.CurrentChargeStage * 100;    
+        }
         
-        var spreadPositions = ProjectileHelper.GetSpreadPositions(origin, direction, numProjectiles, 20f);
-        
-        for (int i = 0; i < numProjectiles; i++)
+        for (int i = 0; i < finalNumProjectiles; i++)
         {
             var projectile = GlobalVariables.GameManager.GameProjectiles.BaseProjectileScene.Instantiate<Projectile>();
             var position = spreadPositions[i];
 
             projectile.InitialDirection = direction;
-            projectile.Speed = speed;
+            projectile.Speed = finalSpeed;
             projectile.Position = position;
             projectile.ProjectileData = projectileData;
             projectile.Lifetime = 10f;

@@ -58,6 +58,7 @@ public partial class PlayerSkillSlotManager : Node
     {
         AssignSkill(PlayerInputs.Skill1, 0, FireballSkillData);
         AssignSkill(PlayerInputs.Skill2, 1, IceballSkillData);
+        SkillSlots[0].SkillModifiers.Add(new ExtraProjectileModifier(5));
     }
 
     public void AssignSkill(PlayerInputs input, int slotIndex, SkillData skillData)
