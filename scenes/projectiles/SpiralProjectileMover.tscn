@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3es350c4b2qa"]
-
-[ext_resource type="Script" path="res://scenes/projectiles/SpiralProjectileMover.cs" id="1_qykqv"]
-
-[node name="SpiralProjectileMover" type="Node2D"]
-script = ExtResource("1_qykqv")

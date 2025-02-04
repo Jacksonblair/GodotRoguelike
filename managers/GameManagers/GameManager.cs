@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using TESTCS.actors;
+using TESTCS.enemies;
 using TESTCS.levels;
 using TESTCS.managers.LevelManagers;
 using TESTCS.projectiles;
@@ -8,6 +9,7 @@ using TESTCS.projectiles;
 public partial class GameManager : Node
 {
 	[Export] public GameProjectiles GameProjectiles { get; set; }
+	[Export] public Enemies Enemies { get; set; }
 	
 	// public ENetMultiplayerPeer EnetPeer = new ENetMultiplayerPeer();
 	[Export] public PackedScene PlayerScene { get; set; }

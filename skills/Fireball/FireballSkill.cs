@@ -15,30 +15,35 @@ public partial class FireballSkill : Skill, IProjectileSkill
 
     public override void Execute(Actor executedBy, ModifierResults modifiers)
     {
-        FireProjectileAtMouse(executedBy, modifiers);
+        FireProjectile(executedBy, modifiers);
+        // FireProjectileAtMouse(executedBy, modifiers);
     }
 
-    public void FireProjectileAtMouse(Actor executedBy, ModifierResults modifiers)
-    {
-        // todo: is this overkill.
-        var pos = MiscHelper.GetActiveMainSceneMousePosition();
-        if (pos.HasValue)
-        {
-            // TODO: NEED ORIGIN OF PROJECTILE
-            FireProjectile(3, 200f, executedBy.Position, pos.Value, modifiers);
-        }
-    }
+    // public void FireProjectileAtMouse(Actor executedBy, ModifierResults modifiers)
+    // {
+    //     // todo: is this overkill.
+    //     var pos = MiscHelper.GetActiveMainSceneMousePosition();
+    //     if (pos.HasValue)
+    //     {
+    //         // TODO: NEED ORIGIN OF PROJECTILE
+    //         FireProjectile(3, 200f, executedBy.Position, pos.Value, modifiers);
+    //     }
+    // }
+    //
     
-    public void FireProjectile(int numProjectiles, float speed, Vector2 origin, Vector2 target, ModifierResults modifiers)
+    public void FireProjectile(Actor executedBy, ModifierResults modifiers)
     {
+        var target = MiscHelper.GetActiveMainSceneMousePosition().Value;
+        var origin = executedBy.Position;
+        
         var level = GlobalVariables.ActiveMainSceneContainer;
         Vector2 direction = (target - origin).Normalized();
 
-        var finalNumProjectiles = numProjectiles + modifiers.AdditionalProjectiles;
+        var finalNumProjectiles = SkillData.BaseProjectiles + modifiers.AdditionalProjectiles;
         var spreadPositions = ProjectileHelper.GetSpreadPositions(origin, direction, finalNumProjectiles, 20f);
 
         // PROOF OF CONCEPT FOR ALTERING SKILL BASED ON CHARGING
-        var finalSpeed = speed;
+        var finalSpeed = SkillData.ProjectileSpeed;
         if (modifiers.CurrentChargeStage > 0)
         {
             finalSpeed += modifiers.CurrentChargeStage * 100;    
@@ -54,7 +59,9 @@ public partial class FireballSkill : Skill, IProjectileSkill
             projectile.Position = position;
             projectile.ProjectileAnimation = GlobalVariables.GameManager.GameProjectiles.FireballFrames;
             projectile.ProjectileCollisionAnimation = GlobalVariables.GameManager.GameProjectiles.Explosion1;
-            projectile.Lifetime = 10f;
+            projectile.Damage = SkillData.BaseDamage + modifiers.AdditionalFlatDamage;
+            projectile.Weight = SkillData.BaseWeight;
+            projectile.Lifetime = 3f;
             
             level.AddChild(projectile);
         }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dpax7so0rssl5"]
+[gd_scene load_steps=17 format=3 uid="uid://dpax7so0rssl5"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_50u5v"]
 [ext_resource type="PackedScene" uid="uid://cuhg1d0m228ir" path="res://menus/MainMenu.tscn" id="3_3uhs0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://managers/GameStateManager.cs" id="4_ox77f"]
 [ext_resource type="Resource" uid="uid://m2v336om28tl" path="res://resources/Levels.tres" id="4_yyvq6"]
 [ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/stone_level.tscn" id="5_hnfkl"]
+[ext_resource type="Resource" uid="uid://kyt8luffclxq" path="res://actors/Enemies.tres" id="5_q8d2j"]
 [ext_resource type="PackedScene" uid="uid://tjo6tkwode2q" path="res://levels/OtherLevel.tscn" id="6_ht3e6"]
 [ext_resource type="Resource" uid="uid://cblxsi7y72gkc" path="res://resources/game_state.tres" id="7_svh80"]
 [ext_resource type="Script" path="res://managers/GameManagers/GameSetupyPoos.cs" id="8_05xvc"]
@@ -23,6 +24,7 @@ script = ExtResource("1_50u5v")
 
 [node name="GameManager" parent="." instance=ExtResource("10_bqj8h")]
 GameProjectiles = ExtResource("4_cwko5")
+Enemies = ExtResource("5_q8d2j")
 PlayerScene = ExtResource("4_1gxas")
 Levels = ExtResource("4_yyvq6")
 MainMenuScene = ExtResource("3_3uhs0")

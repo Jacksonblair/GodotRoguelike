@@ -22,8 +22,7 @@ public partial class MapEdgeSpawner : Node
         Vector2 viewportSize = GetViewport().GetVisibleRect().Size;
 
         float spawnDistance = 50f; // Distance outside the viewport bounds
-        float x,
-            y;
+        float x, y;
 
         // Randomly pick a side of the screen to spawn the enemy
         switch (_random.Next(4))
@@ -68,11 +67,13 @@ public partial class MapEdgeSpawner : Node
     public void SpawnEnemy()
     {
         var position = GetSpawnPosition();
-        // GD.Print(GetSpawnPosition());
-        var level = GlobalVariables.Instance._activeMainSceneContainer;
-        var scene = GD.Load<PackedScene>("res://actors/enemies/GhostEnemy1.tscn");
-        var instance = scene.Instantiate<GhostEnemy1>();
-        instance.Position = position;
-        level.AddChild(instance);
+        var enemy = GlobalVariables.GameManager.Enemies.GhostEnemy.Instantiate<Node2D>();
+        enemy.Position = position;
+        GlobalVariables.ActiveMainSceneContainer.AddChild(enemy);
+        // var level = GlobalVariables.Instance._activeMainSceneContainer;
+        // var scene = GD.Load<PackedScene>("res://actors/enemies/GhostEnemy1.tscn");
+        // var instance = scene.Instantiate<GhostEnemy1>();
+        // instance.Position = position;
+        // level.AddChild(instance);
     }
 }

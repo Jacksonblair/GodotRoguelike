@@ -3,7 +3,7 @@ using TESTCS.scenes.projectiles;
 
 namespace TESTCS.projectiles;
 
-public partial class Projectile : Node2D
+public partial class Projectile : Area2D
 {
     public SpriteFrames ProjectileAnimation;
     public SpriteFrames ProjectileCollisionAnimation;
@@ -11,11 +11,13 @@ public partial class Projectile : Node2D
     public float Speed { get; set; }
     public float TimeToLive { get; set; }
     public float Lifetime { get; set; }
+    public int Damage { get; set; }
+    public int Weight { get; set; }
     public Vector2 InitialDirection { get; set; }
-    public Area2D HitBox { get; set; }
     public AnimatedSprite2D ProjectileSprite { get; set; }
     public AnimatedSprite2D CollisionSprite { get; set; }
     public bool ExplodeOnCollision { get; set; } = true;
+    
     
     public override void _Process(double delta)
     {
@@ -34,15 +36,10 @@ public partial class Projectile : Node2D
     {
         TimeToLive = Lifetime;
         
-        HitBox = GetNode<Area2D>("Area2D");
         ProjectileSprite = GetNode<AnimatedSprite2D>("%ProjectileSprite");
         CollisionSprite = GetNode<AnimatedSprite2D>("%CollisionSprite");
                 
-        // Register listener for hitbox collision event
-        if (HitBox != null)
-        {
-            HitBox.BodyEntered += OnHitboxBodyEntered;
-        }
+        BodyEntered += OnHitboxBodyEntered;
         
         if (ProjectileAnimation != null)
         {
@@ -53,8 +50,13 @@ public partial class Projectile : Node2D
 
     private void OnHitboxBodyEntered(Node2D body)
     {
-        // TODO: FINISH THIS.
+        if (body is IHittable hittable)
+        {
+            hittable.ReceiveHit(new HitInformation(Damage, Weight, InitialDirection));
+        }
+        
         GD.Print("Hitbox body entered");
+        // TODO: FINISH THIS.
 
         if (ExplodeOnCollision && ProjectileCollisionAnimation != null)
         {
