@@ -5,7 +5,8 @@ namespace TESTCS.projectiles;
 
 public partial class Projectile : Node2D
 {
-    public ProjectileData ProjectileData { get; set; }
+    public SpriteFrames ProjectileAnimation;
+    public SpriteFrames ProjectileCollisionAnimation;
     protected IProjectileMover Mover = new LinearProjectileMover();
     public float Speed { get; set; }
     public float TimeToLive { get; set; }
@@ -13,6 +14,8 @@ public partial class Projectile : Node2D
     public Vector2 InitialDirection { get; set; }
     public Area2D HitBox { get; set; }
     public AnimatedSprite2D ProjectileSprite { get; set; }
+    public AnimatedSprite2D CollisionSprite { get; set; }
+    public bool ExplodeOnCollision { get; set; } = true;
     
     public override void _Process(double delta)
     {
@@ -32,7 +35,8 @@ public partial class Projectile : Node2D
         TimeToLive = Lifetime;
         
         HitBox = GetNode<Area2D>("Area2D");
-        ProjectileSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        ProjectileSprite = GetNode<AnimatedSprite2D>("%ProjectileSprite");
+        CollisionSprite = GetNode<AnimatedSprite2D>("%CollisionSprite");
                 
         // Register listener for hitbox collision event
         if (HitBox != null)
@@ -40,9 +44,9 @@ public partial class Projectile : Node2D
             HitBox.BodyEntered += OnHitboxBodyEntered;
         }
         
-        if (ProjectileData != null)
+        if (ProjectileAnimation != null)
         {
-            ProjectileSprite.SpriteFrames = ProjectileData.Sprite;
+            ProjectileSprite.SpriteFrames = ProjectileAnimation;
             ProjectileSprite.Play();
         }
     }
@@ -51,7 +55,17 @@ public partial class Projectile : Node2D
     {
         // TODO: FINISH THIS.
         GD.Print("Hitbox body entered");
-        DespawnProjectile();
+
+        if (ExplodeOnCollision && ProjectileCollisionAnimation != null)
+        {
+            CollisionSprite.SpriteFrames = ProjectileCollisionAnimation;
+            CollisionSprite.Play();
+            CollisionSprite.AnimationFinished += DespawnProjectile;
+        }
+        else
+        {
+            DespawnProjectile();
+        }
     }
 
     public void DespawnProjectile()

@@ -32,7 +32,6 @@ public partial class FireballSkill : Skill, IProjectileSkill
     public void FireProjectile(int numProjectiles, float speed, Vector2 origin, Vector2 target, ModifierResults modifiers)
     {
         var level = GlobalVariables.ActiveMainSceneContainer;
-        var projectileData = GlobalVariables.GameManager.GameProjectiles.FireballProjectileData;
         Vector2 direction = (target - origin).Normalized();
 
         var finalNumProjectiles = numProjectiles + modifiers.AdditionalProjectiles;
@@ -53,7 +52,8 @@ public partial class FireballSkill : Skill, IProjectileSkill
             projectile.InitialDirection = direction;
             projectile.Speed = finalSpeed;
             projectile.Position = position;
-            projectile.ProjectileData = projectileData;
+            projectile.ProjectileAnimation = GlobalVariables.GameManager.GameProjectiles.FireballFrames;
+            projectile.ProjectileCollisionAnimation = GlobalVariables.GameManager.GameProjectiles.Explosion1;
             projectile.Lifetime = 10f;
             
             level.AddChild(projectile);
