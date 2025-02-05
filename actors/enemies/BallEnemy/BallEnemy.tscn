@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://dpqd6mgl0bygi"]
+
+[ext_resource type="Script" path="res://actors/enemies/BallEnemy/BallEnemy.cs" id="1_gltsl"]
+[ext_resource type="Texture2D" uid="uid://ilnss5qmt4sc" path="res://assets/images/säure2.png" id="2_w45cy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqe6r"]
+atlas = ExtResource("2_w45cy")
+region = Rect2(0, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6ag5"]
+atlas = ExtResource("2_w45cy")
+region = Rect2(16, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upqcw"]
+atlas = ExtResource("2_w45cy")
+region = Rect2(32, 0, 16, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v4o1h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqe6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6ag5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upqcw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pmljo"]
+radius = 20.19
+
+[node name="BallEnemy" type="CharacterBody2D"]
+collision_layer = 8
+script = ExtResource("1_gltsl")
+MovementSpeed = 50.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_v4o1h")
+frame_progress = 0.392495
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pmljo")

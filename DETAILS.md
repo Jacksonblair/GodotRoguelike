@@ -46,7 +46,9 @@ Input -> Actor * Behaviour == Activity
 - Different enemy types require different setups:
   - Ex: A big fast insectoid insect is unkillable up close without some super reflexes/counters
 - When it rains, NPC's go for cover 
-
+- Each level has an associated infinite landscape. (duh?)
+- After cutscene, receive Ability or Item. Should be impactful.
+  - Certain abilities/items should open up progression in infinite landscapes. 
 
 ## MULTIPLAYER
 https://www.youtube.com/watch?v=n8D3vEx7NAE

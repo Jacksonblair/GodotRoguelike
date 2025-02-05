@@ -1,4 +1,4 @@
-using Godot;
+    using Godot;
 using TESTCS.scenes.projectiles;
 
 namespace TESTCS.projectiles;
@@ -17,7 +17,7 @@ public partial class Projectile : Area2D
     public AnimatedSprite2D ProjectileSprite { get; set; }
     public AnimatedSprite2D CollisionSprite { get; set; }
     public bool ExplodeOnCollision { get; set; } = true;
-    
+    public bool HasCollided = false;
     
     public override void _Process(double delta)
     {
@@ -28,12 +28,16 @@ public partial class Projectile : Area2D
             DespawnProjectile();
             return;
         }
-        
-        Mover?.Move(this, delta);
+
+        if (!HasCollided)
+        {
+            Mover?.Move(this, delta);
+        }
     }
 
     public override void _Ready()
     {
+        
         TimeToLive = Lifetime;
         
         ProjectileSprite = GetNode<AnimatedSprite2D>("%ProjectileSprite");
@@ -50,19 +54,26 @@ public partial class Projectile : Area2D
 
     private void OnHitboxBodyEntered(Node2D body)
     {
+        if (HasCollided) return;
+        HasCollided = true;
+        
+        GetNode<CollisionShape2D>("%ProjectileHitbox").CallDeferred(CollisionShape2D.MethodName.SetDisabled, true);
+        ProjectileSprite.Hide();
+        
         if (body is IHittable hittable)
         {
-            hittable.ReceiveHit(new HitInformation(Damage, Weight, InitialDirection));
+            hittable.ReceiveHit(new HitInformation(Damage, Weight, Position));
         }
         
-        GD.Print("Hitbox body entered");
-        // TODO: FINISH THIS.
-
         if (ExplodeOnCollision && ProjectileCollisionAnimation != null)
         {
             CollisionSprite.SpriteFrames = ProjectileCollisionAnimation;
             CollisionSprite.Play();
-            CollisionSprite.AnimationFinished += DespawnProjectile;
+            CollisionSprite.AnimationFinished += () =>
+            {
+                CollisionSprite.Hide();
+                DespawnProjectile();
+            };
         }
         else
         {

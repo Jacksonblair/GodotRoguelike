@@ -14,6 +14,11 @@ public class HitInformation
     }
 }
 
+public class HitResult
+{
+    public int RemainingHealth;
+}
+
 public interface IHittable
 {
     void ReceiveHit(HitInformation hitInformation);

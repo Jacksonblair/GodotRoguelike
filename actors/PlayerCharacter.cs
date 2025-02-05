@@ -8,17 +8,7 @@ public partial class PlayerCharacter : Actor, IHittable
     private AnimatedSprite2D _sprite;
     public SkillChargingRing SkillChargingRing;
     private Camera2D _camera;
-
-    // CollisionShape2D collision;
-    // public ClosestEnemyGetter closestEnemyGetter;
-    // Area2D NPCArea2D;
-    // Nearby NPC
-    // IInteractable nearbyNPC;
-
-    // public override void _EnterTree()
-    // {
-    //     SetMultiplayerAuthority(Name.ToString().ToInt());
-    // }
+    private HealthBar _healthBar;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -27,7 +17,10 @@ public partial class PlayerCharacter : Actor, IHittable
         _sprite.Play();
         _camera = GetNode<Camera2D>("%Camera2D");
         SkillChargingRing = GetNode<SkillChargingRing>("SkillChargingRing");
-
+        _healthBar = GetNode<HealthBar>("HealthBar");
+        _healthBar.MaxValue = MaxHealth;
+        _healthBar.SetValue(Health);
+           
         // GlobalVariables.Instance._character = this;
         // closestEnemyGetter = GetNode<ClosestEnemyGetter>("ClosestEnemyGetter");
         // NPCArea2D = GetNode<Area2D>("NPCArea2D");
@@ -61,35 +54,98 @@ public partial class PlayerCharacter : Actor, IHittable
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        var velocity = Controller.GetMovementInput(this.Position);
-        if (velocity.Length() > 0)
+        if (IsAirborne)
         {
-            _sprite.Animation = "run";
-
-            // Update sprite based on velocity
-            if (velocity.X != 0)
+            Height += VerticalVelocity * (float)delta;
+            VerticalVelocity -= GlobalVariables.Gravity * (float)delta;
+            
+            // Update sprites
+            // TODO: HANDLE HEIGHT
+            // Sprite.Position = new Vector2(Sprite.Position.X, -Height);
+            
+            // Check if the enemy "lands"
+            if (Height <= 0)
             {
-                _sprite.FlipH = velocity.X < 0;
+                Height = 0;
+                IsAirborne = false;
+                VerticalVelocity = 0;
+                // OnLand();
             }
-
-            velocity = velocity.Normalized() * MovementSpeed;
+                        
+            // Decay knockback horizontal velocity
+            Velocity = Velocity.MoveToward(Vector2.Zero, 50f * (float)delta);
+            
+            // Move the enemy
+            MoveAndSlide();
         }
         else
         {
-            _sprite.Animation = "idle";
+            var velocity = Controller.GetMovementInput(this.Position);
+    
+            if (velocity.Length() > 0)
+            {
+                _sprite.Animation = "run";
+
+                // Update sprite based on velocity
+                if (velocity.X != 0)
+                {
+                    _sprite.FlipH = velocity.X < 0;
+                }
+
+                velocity = velocity.Normalized() * MovementSpeed;
+            }
+            else
+            {
+                _sprite.Animation = "idle";
+            }
+            
+            Velocity = velocity;
+            MoveAndSlide();
         }
-
-        // var label = GetNode<Label>("Label");
-        // label.Text = Name;
-        Velocity = velocity;
-        MoveAndSlide();
+        
+        // var velocity = Controller.GetMovementInput(this.Position);
+        // // var label = GetNode<Label>("Label");
+        // // label.Text = Name;
+        // Velocity = velocity;
+        // MoveAndSlide();
     }
-
+    
+    
     public void ReceiveHit(HitInformation hitInformation)
     {
         Health -= hitInformation.Damage;
-        if (Health > 0) return;
-        GD.Print("PLAYED DIEDY POOS");
-        QueueFree();
+        _healthBar.MaxValue = MaxHealth;
+        _healthBar.SetValue(Health);
+        
+        // Divide enemy weight by hit weight to get force of knockback 
+        // 10/5 == 2
+        // 50/5 == 10
+        // 2/1 == 2
+        float knockbackForce = hitInformation.Weight / this.Weight * 25;
+        
+        // Calculate knockback direction
+        Vector2 knockbackDirection = (GlobalPosition - hitInformation.Position).Normalized();
+        
+        // Apply knockback force to Vector
+        Vector2 knockbackVector = knockbackDirection * knockbackForce;
+        
+        // Calculate the vertical lift (based on force magnitude and a multiplier)
+        float verticalLift = knockbackForce * 0.5f; // Lift multiplier
+
+        // Apply knockback
+        Velocity += knockbackVector;
+        VerticalVelocity = verticalLift;
+        IsAirborne = true;
+        
+        // TODO: MOVE SOMEWHERE ELSE
+        
+        if (Health <= 0)
+        {
+            GD.Print("YOU DIED");
+            Position = GlobalVariables.ActiveMainSceneContainer.GlobalPosition;
+            Health = MaxHealth;
+        }
+        
     }
+    
 }

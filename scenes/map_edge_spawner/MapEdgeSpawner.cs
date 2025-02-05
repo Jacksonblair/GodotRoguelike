@@ -66,10 +66,25 @@ public partial class MapEdgeSpawner : Node
 
     public void SpawnEnemy()
     {
+        Random random = new Random();
+        int choice = random.Next(2); // Generates either 0 or 1
         var position = GetSpawnPosition();
-        var enemy = GlobalVariables.GameManager.Enemies.GhostEnemy.Instantiate<Node2D>();
-        enemy.Position = position;
-        GlobalVariables.ActiveMainSceneContainer.AddChild(enemy);
+        
+        GD.Print("CHOICE: ", choice);
+
+        if (choice == 0)
+        {
+            var enemy = GlobalVariables.GameManager.Enemies.GhostEnemy.Instantiate<Node2D>();
+            enemy.Position = position;
+            GlobalVariables.ActiveMainSceneContainer.AddChild(enemy);
+        }
+        else
+        {
+            var enemy = GlobalVariables.GameManager.Enemies.BallEnemy.Instantiate<Node2D>();
+            enemy.Position = position;
+            GlobalVariables.ActiveMainSceneContainer.AddChild(enemy);
+        }
+
         // var level = GlobalVariables.Instance._activeMainSceneContainer;
         // var scene = GD.Load<PackedScene>("res://actors/enemies/GhostEnemy1.tscn");
         // var instance = scene.Instantiate<GhostEnemy1>();

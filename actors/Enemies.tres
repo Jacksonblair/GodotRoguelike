@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="Enemies" load_steps=3 format=3 uid="uid://kyt8luffclxq"]
+[gd_resource type="Resource" script_class="Enemies" load_steps=4 format=3 uid="uid://kyt8luffclxq"]
 
-[ext_resource type="PackedScene" uid="uid://chtnxfyfswn6m" path="res://actors/enemies/GhostEnemy1.tscn" id="1_j2yd4"]
+[ext_resource type="PackedScene" uid="uid://chtnxfyfswn6m" path="res://actors/enemies/GhostEnemy/GhostEnemy1.tscn" id="1_j2yd4"]
+[ext_resource type="PackedScene" uid="uid://dpqd6mgl0bygi" path="res://actors/enemies/BallEnemy/BallEnemy.tscn" id="1_nquuu"]
 [ext_resource type="Script" path="res://actors/Enemies.cs" id="2_nsx4y"]
 
 [resource]
 script = ExtResource("2_nsx4y")
 GhostEnemy = ExtResource("1_j2yd4")
+BallEnemy = ExtResource("1_nquuu")

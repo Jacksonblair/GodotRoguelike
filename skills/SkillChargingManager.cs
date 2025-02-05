@@ -64,8 +64,15 @@ public partial class SkillChargingManager : GodotObject
     }
 
     public void Update(double delta)
+    { 
+    // If skill has no charges, dont update
+    if (SkillHandler.SkillCooldownManager.CurrentCharges < 1)
     {
-    // if skill has no charges, dont update
+        ChargedFor = 0;
+        return;
+    };
+    
+    // if skill has no charge stages, dont update
     if (SkillHandler.SkillData.ChargingStages.Count == 0) return;
     
     if (SkillHandler.SkillInputHandler.IsCharging)

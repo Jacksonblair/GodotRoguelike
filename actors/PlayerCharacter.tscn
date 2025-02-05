@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://db4wyjshk3nf4"]
+[gd_scene load_steps=7 format=3 uid="uid://db4wyjshk3nf4"]
 
 [ext_resource type="Script" path="res://actors/PlayerCharacter.cs" id="1_1rxg6"]
 [ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/PlayerCharacter.tres" id="2_3lqu1"]
+[ext_resource type="PackedScene" uid="uid://dl0swqhy6tibb" path="res://ui/HealthBar.tscn" id="2_5u6gd"]
 [ext_resource type="PackedScene" uid="uid://fviw404lp836" path="res://skills/SkillChargingRing.tscn" id="3_y7pyh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_37i00"]
@@ -13,6 +14,8 @@ z_index = 10
 collision_layer = 4
 script = ExtResource("1_1rxg6")
 metadata/_edit_group_ = true
+
+[node name="HealthBar" parent="." instance=ExtResource("2_5u6gd")]
 
 [node name="SkillChargingRing" parent="." instance=ExtResource("3_y7pyh")]
 

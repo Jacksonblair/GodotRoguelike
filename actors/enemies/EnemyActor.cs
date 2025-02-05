@@ -5,19 +5,8 @@ namespace TESTCS.actors.enemies;
 
 public partial class EnemyActor : Actor, IHittable
 {
-    [Export]
-    public HealthBar HealthBar { get; set; }
-    [Export]
-    public AnimatedSprite2D Sprite { get; set; }
-    
     public override void _Process(double delta)
     {
-        // if (Controller.CanHitPosition(this.Position, GlobalVariables.PlayerCharacter.Position, 50f))
-        // {
-        //     GD.Print("CAN HIT PLAYER");
-        //     GlobalVariables.PlayerCharacter.ReceiveHit(new HitInformation(10, 100, this.Position));
-        // }
-        
         if (IsAirborne)
         {
             Height += VerticalVelocity * (float)delta;
@@ -54,8 +43,6 @@ public partial class EnemyActor : Actor, IHittable
     public void ReceiveHit(HitInformation hitInformation)
     {
         Health -= hitInformation.Damage;
-        HealthBar.MaxValue = 1;
-        HealthBar.Value = RemainingHealthPercent();
         
         // Divide enemy weight by hit weight to get force of knockback 
         // 10/5 == 2

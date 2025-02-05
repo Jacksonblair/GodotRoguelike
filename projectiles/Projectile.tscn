@@ -10,7 +10,8 @@ collision_layer = 2
 collision_mask = 9
 script = ExtResource("1_u0r62")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="ProjectileHitbox" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 shape = SubResource("CircleShape2D_amvsw")
 
 [node name="ProjectileSprite" type="AnimatedSprite2D" parent="."]

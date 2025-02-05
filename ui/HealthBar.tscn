@@ -24,3 +24,9 @@ max_value = 1.0
 value = 1.0
 show_percentage = false
 script = ExtResource("1_hptwy")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = -13.0
+offset_right = 52.0
+theme_override_font_sizes/font_size = 9

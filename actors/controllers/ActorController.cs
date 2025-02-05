@@ -24,14 +24,25 @@ public abstract partial class ActorController : Node
     
     public abstract Vector2 GetMovementInput(Vector2 actorPosition);
     public abstract Vector2 GetAimDirection(Vector2 actorPosition);
-    
-    
+
+    protected bool MovementInputDisabled;
+
     /**
      * If in range of player:
      * - Get direction of player from me
      * - Attack in that direction.
      * - Pray it hits something.
      */
+
+    public void DisableMovementInput()
+    {
+        MovementInputDisabled = true;
+    }
+    
+    public void EnableMovementInput()
+    {
+        MovementInputDisabled = false;
+    }
     
     public bool CanHitPosition(Vector2 actorPosition, Vector2 targetPosition, float range)
     {

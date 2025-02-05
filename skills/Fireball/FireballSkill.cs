@@ -19,18 +19,6 @@ public partial class FireballSkill : Skill, IProjectileSkill
         // FireProjectileAtMouse(executedBy, modifiers);
     }
 
-    // public void FireProjectileAtMouse(Actor executedBy, ModifierResults modifiers)
-    // {
-    //     // todo: is this overkill.
-    //     var pos = MiscHelper.GetActiveMainSceneMousePosition();
-    //     if (pos.HasValue)
-    //     {
-    //         // TODO: NEED ORIGIN OF PROJECTILE
-    //         FireProjectile(3, 200f, executedBy.Position, pos.Value, modifiers);
-    //     }
-    // }
-    //
-    
     public void FireProjectile(Actor executedBy, ModifierResults modifiers)
     {
         var target = MiscHelper.GetActiveMainSceneMousePosition().Value;

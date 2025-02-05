@@ -4,14 +4,14 @@ namespace TESTCS.actors;
 
 public abstract partial class Actor : CharacterBody2D
 {
-    public int MaxHealth = 100;
-    public int Health = 100;
-    public float Weight = 10;
-    public float Height = 0;
-    public float MovementSpeed = 200;
-    public bool IsAirborne = false;
     public ActorController Controller;
-    public float VerticalVelocity = 0;
+    [Export] public int MaxHealth = 100;
+    [Export] public int Health = 100;
+    [Export] public float Weight = 10;
+    [Export] public float Height = 0;
+    [Export] public float MovementSpeed = 200;
+    [Export] public bool IsAirborne = false;
+    [Export] public float VerticalVelocity = 0;
 
     public float RemainingHealthPercent()
     {
