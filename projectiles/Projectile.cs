@@ -37,7 +37,6 @@ public partial class Projectile : Area2D
 
     public override void _Ready()
     {
-        
         TimeToLive = Lifetime;
         
         ProjectileSprite = GetNode<AnimatedSprite2D>("%ProjectileSprite");

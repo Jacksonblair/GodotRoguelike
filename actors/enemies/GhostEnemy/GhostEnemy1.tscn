@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://chtnxfyfswn6m"]
+[gd_scene load_steps=14 format=3 uid="uid://chtnxfyfswn6m"]
 
 [ext_resource type="Script" path="res://actors/enemies/GhostEnemy/GhostEnemy1.cs" id="1_jousy"]
 [ext_resource type="Texture2D" uid="uid://dlpiswsx5ccu4" path="res://assets/Monster sprites.png" id="2_3fkgv"]
@@ -49,9 +49,13 @@ radius = 80.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v52u3"]
 size = Vector2(72, 40)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_j4le6"]
+radius = 188.54
+
 [node name="Enemy1" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 8
 script = ExtResource("1_jousy")
+metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_u5mkf")
@@ -98,3 +102,10 @@ color = Color(1, 0.172549, 0.168627, 0.372549)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackIndicator"]
 position = Vector2(62, 0)
 shape = SubResource("RectangleShape2D_v52u3")
+
+[node name="FireballHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireballHitbox"]
+shape = SubResource("CircleShape2D_j4le6")

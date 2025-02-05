@@ -28,27 +28,9 @@ public partial class GameManager : Node
 	[Signal]
 	public delegate void LevelManagersReadyEventHandler();
 	
-	// Called when the node enters the scene tree for the first time.
-	// public override void _Ready()
-	// {}
-
-	// // Called every frame. 'delta' is the elapsed time since the previous frame.
-	// public override void _Process(double delta)
-	// {}
-
 	public void OnStartGame()
 	{
-		/**
-		 * - Load player details (name, items?, stats?, configuration)
-		 * - Load location
-		 * - Spawn player actor in, get details from global store
-		 * - Chuck actor into location
-		 */
-
 		LoadLastSave();
-		var player = PlayerScene.Instantiate<PlayerCharacter>();
-		GlobalVariables.Instance._character = player;
-		GlobalVariables.ActiveMainSceneContainer.AddChild(player);
 	}
 
 	public void LoadMainMenu()
@@ -67,30 +49,40 @@ public partial class GameManager : Node
 		{
 			case 1:
 				LoadLevel(Levels.StoneLevel);
-				// GlobalVariables.GameSceneManager.LoadGameScene(Levels.StoneLevel);
 				break;
 			default:
 				return;
 		}
 	}
 	
-	public void LoadLevel(PackedScene scene)
+	public async void LoadLevel(PackedScene scene)
 	{
-		// Instance the scene to check its type
-		Node levelInstance = scene.Instantiate();
+		GlobalVariables.GameSceneManager.LoadTransitionScene(Levels.Transition1);
+		await GlobalVariables.GameSceneManager.CurrentTransitionScene.TransitionIn();
+		
+		GlobalVariables.GameSceneManager.UnloadCurrentGameScene();
 
-		if (levelInstance is BaseLevel)
+		// Remove cahracter
+		if (GlobalVariables.PlayerCharacter != null)
 		{
-			// Proceed with the level loading process
-			UnloadLevelSpecificStuff();
-			GlobalVariables.GameSceneManager.LoadGameScene(scene);
-			LoadLevelSpecificStuff();
+			GlobalVariables.ActiveMainSceneContainer.RemoveChild(GlobalVariables.PlayerCharacter);
 		}
-		else
-		{
-			GD.PrintErr("The PackedScene does not inherit from BaseLevel. Aborting level load.");
-			levelInstance.QueueFree(); // Cleanup the instanced node
-		}
+		
+		// Add them again? IDK
+		var player = PlayerScene.Instantiate<PlayerCharacter>();	
+		GlobalVariables.Instance._character = player;
+		GlobalVariables.ActiveMainSceneContainer.AddChild(player);
+		
+		// Load in the level stuff
+		UnloadLevelSpecificStuff();
+		GlobalVariables.GameSceneManager.LoadGameScene(scene);
+		LoadLevelSpecificStuff();
+		
+		// TODO: NEED TO PUT PLAYER IN THE SPAWN POSITION IN LEVEL
+		// CLEAR UP THIS PROCEDURE
+
+		await GlobalVariables.GameSceneManager.CurrentTransitionScene.TransitionOut();
+		GlobalVariables.GameSceneManager.UnloadCurrentTransitionScene();
 	}
 
 	public void LoadCredits()

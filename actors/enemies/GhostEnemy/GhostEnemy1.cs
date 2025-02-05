@@ -1,6 +1,8 @@
+    using System;
     using Godot;
 using TESTCS.actors.controllers;
 using TESTCS.actors.enemies;
+using TESTCS.projectiles;
 
 public partial class GhostEnemy1 : EnemyActor
 {
@@ -17,32 +19,83 @@ public partial class GhostEnemy1 : EnemyActor
     private Area2D _swipeHitbox;
     private bool _isSwiping = false;
 
+    private Area2D _fireballHitbox;
+    private bool _isInFireballHitbox = false;
+    private double _fireballCooldown = 3;
+    private double _fireballCooldoownTimeLeft = 0;
+
     public override void _Ready()
     {
         this.MovementSpeed = 50;
+        
         Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         ShadowSprite = GetNode<Sprite2D>("ShadowSprite");
         HealthBar = GetNode<HealthBar>("%HealthBar");
+        
         _swipeHitbox = GetNode<Area2D>("SwipeHitbox");
         _swipeHitbox.BodyEntered += OnBodyEnteredSwipeHitbox;
         _swipeHitbox.BodyExited += OnBodyExitedSwipeHitbox;
+        
+        _fireballHitbox = GetNode<Area2D>("FireballHitbox");
+        _fireballHitbox.BodyEntered += OnBodyEnteredFireballHitbox;
+        _fireballHitbox.BodyExited += OnBodyExitedFireballHitbox;
+        
         intialShadowScale = ShadowSprite.Scale;
         Controller = new BasicEnemyController();
-        
+
         HealthBar.MaxValue = MaxHealth;
         HealthBar.SetValue(Health);
+    }
+
+    private void OnBodyExitedFireballHitbox(Node2D body)
+    {
+        _isInFireballHitbox = false;
+    }
+
+    private void OnBodyEnteredFireballHitbox(Node2D body)
+    {
+        _isInFireballHitbox = true;
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
 
+        _fireballCooldoownTimeLeft = Math.Max(0, _fireballCooldoownTimeLeft - delta);
+
+        // TODO: Replace w signal? 
         HealthBar.Value = Health;
         
         if (_isSwiping)
         {
-            
+            // TODO: do something when swiping? 
         }
+
+        if (_isInFireballHitbox && _fireballCooldoownTimeLeft <= 0)
+        {
+            ShootFireball();
+            _fireballCooldoownTimeLeft = _fireballCooldown;
+        }
+    }
+
+    private void ShootFireball()
+    {
+        var projectile = GlobalVariables.GameManager.GameProjectiles.GetProjectile();
+        var direction = (GlobalVariables.PlayerCharacter.GlobalPosition - this.GlobalPosition).Normalized();
+        
+        projectile.InitialDirection = direction;
+        projectile.Speed = 100;
+        projectile.Position = this.GlobalPosition;
+        projectile.ProjectileAnimation = GlobalVariables.GameManager.GameProjectiles.FireballFrames;
+        projectile.ProjectileCollisionAnimation = GlobalVariables.GameManager.GameProjectiles.Explosion1;
+        projectile.Damage = 20;
+        projectile.Weight = 20;
+        projectile.Lifetime = 3f;
+        
+        projectile.SetCollisionMask(0);
+        projectile.SetCollisionMaskValue(3, true);
+        
+        GlobalVariables.ActiveMainSceneContainer.AddChild(projectile);
     }
 
     private void OnBodyExitedSwipeHitbox(Node2D body)

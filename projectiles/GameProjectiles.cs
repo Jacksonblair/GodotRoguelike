@@ -9,4 +9,9 @@ public partial class GameProjectiles : Resource
     [Export] public ProjectileData FireballProjectileData { get; set; }
     [Export] public SpriteFrames FireballFrames { get; set; }
     [Export] public SpriteFrames Explosion1 { get; set; }
+
+    public Projectile GetProjectile()
+    {
+        return BaseProjectileScene.Instantiate<Projectile>();
+    }
 }

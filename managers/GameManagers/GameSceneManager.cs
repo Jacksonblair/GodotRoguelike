@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using TESTCS.levels.transition_screens;
 
 namespace TESTCS.scripts.managers;
 
@@ -7,20 +8,40 @@ namespace TESTCS.scripts.managers;
 public partial class GameSceneManager : Node
 {
     private Node _currentActiveScene;
+    public Transition CurrentTransitionScene;
     
-    [Export]
-    public PackedScene MainMenuScene { get; set; }
+    // public override void _Ready() {}
 
-    public override void _Ready()
-    {}
+    public void LoadTransitionScene(PackedScene transitionScene)
+    {
+        var inst = transitionScene.Instantiate();
+
+        if (inst is Transition scene)
+        {
+            // Remove previous scene
+            if (CurrentTransitionScene != null)
+            {
+                GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(CurrentTransitionScene);
+            }
+        
+            scene.SetVisible(false);
+            
+            // Instantiate specified scene
+            GlobalVariables.Instance._activeMainSceneContainer.AddChild(scene);
+            CurrentTransitionScene = scene;
+            GD.Print("ADDED TRANSITION SCENE TO GAME");
+        }
+        else
+        {
+            inst.QueueFree();
+            GD.PrintErr("Invalid transition scene. Cannot load it");   
+        }
+    }
 
     public void LoadGameScene(PackedScene gameScene)
     {
-        // Remove previous scene
-        if (_currentActiveScene != null)
-        {
-            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(_currentActiveScene);
-        }
+        // TODO: VALIDATE LEVEL
+        UnloadCurrentGameScene();
         
         // Instantiate specified scene
         var inst = gameScene.Instantiate();
@@ -29,39 +50,24 @@ public partial class GameSceneManager : Node
         // Update internal reference
         _currentActiveScene = inst;
         
-        GD.Print("Loading: ", gameScene);
-        GD.Print(GlobalVariables.Instance._activeMainSceneContainer);
-
-        // Add player to level
-        // Rather... Despawn old level including player... and then respawn player in new level
-        // TODO: Unload old level
-        // TODO: Transition?
+        // GD.Print("Loading: ", gameScene);
     }
 
+    public void UnloadCurrentGameScene()
+    {
+        // Remove previous scene
+        if (_currentActiveScene != null)
+        {
+            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(_currentActiveScene);
+        }
+    }
     
-    // public void LoadGameLevel(PackedScene scene)
-    // {
-    //     /**
-    //      * When loading a level
-    //      * - Make sure level managers are set up
-    //      */
-    // }
-    //
-    // public void LoadMenuLevel(PackedScene scene)
-    // {
-    //     /**
-    //      * When loading a menu
-    //      * - Make sure level managers are torn down
-    //      */
-    // }    
-    
-
-    // Should this go elsewhere?
-    // public void AddPlayerToScene()
-    // {
-    //     var scene = GD.Load<PackedScene>("res://scenes/PlayerCharacter.tscn");
-    //     var inst = scene.Instantiate<PlayerCharacter>();
-    //     GlobalVariables.Instance.ActiveMainScene.AddChild(inst);
-    //     GlobalVariables.Instance.Character = inst;
-    // }
+    public void UnloadCurrentTransitionScene()
+    {
+        // Remove previous scene
+        if (CurrentTransitionScene != null)
+        {
+            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(CurrentTransitionScene);
+        }
+    }
 }

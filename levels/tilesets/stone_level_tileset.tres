@@ -1,11 +1,11 @@
-[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://wrhnknm5o2bd"]
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://cl50pmfki6aus"]
 
-[ext_resource type="Texture2D" uid="uid://c8u6a3i65cuh6" path="res://assets/images/Tile Set.png" id="1_ctawc"]
+[ext_resource type="Texture2D" uid="uid://c8u6a3i65cuh6" path="res://assets/images/Tile Set.png" id="1_wdfqg"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wsweo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ig268"]
-texture = ExtResource("1_ctawc")
+texture = ExtResource("1_wdfqg")
 1:1/0 = 0
 2:1/0 = 0
 3:1/0 = 0
