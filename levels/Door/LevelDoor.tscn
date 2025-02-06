@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyvmhciige74v"]
+
+[ext_resource type="Script" path="res://levels/Door/LevelDoor.cs" id="1_88jx0"]
+
+[node name="Door" type="Area2D" groups=["LevelDoor"]]
+script = ExtResource("1_88jx0")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 1.0
+offset_top = -24.0
+offset_right = 41.0
+offset_bottom = -1.0

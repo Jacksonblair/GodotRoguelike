@@ -1,9 +1,15 @@
-[gd_scene load_steps=8 format=4 uid="uid://b24flpni0ibbg"]
+[gd_scene load_steps=9 format=4 uid="uid://b24flpni0ibbg"]
 
 [ext_resource type="Script" path="res://levels/StoneLevel.cs" id="2_atf2c"]
 [ext_resource type="TileSet" uid="uid://cl50pmfki6aus" path="res://levels/tilesets/stone_level_tileset.tres" id="2_cy30q"]
+[ext_resource type="PackedScene" uid="uid://cyvmhciige74v" path="res://levels/Door/LevelDoor.tscn" id="2_vh1yt"]
 [ext_resource type="PackedScene" uid="uid://chtnxfyfswn6m" path="res://actors/enemies/GhostEnemy/GhostEnemy1.tscn" id="4_41gpo"]
-[ext_resource type="PackedScene" uid="uid://c8qakf4yb17bo" path="res://levels/PlayerSpawn.tscn" id="4_upnxe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqrms"]
+size = Vector2(94, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n67tw"]
+size = Vector2(96, 48)
 
 [sub_resource type="Gradient" id="Gradient_46ynm"]
 offsets = PackedFloat32Array(0.532164, 0.54386)
@@ -16,11 +22,28 @@ height = 200
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oile3"]
-size = Vector2(97, 49)
-
-[node name="Node" type="Node"]
+[node name="StoneLevel" type="Node"]
 script = ExtResource("2_atf2c")
+
+[node name="Door2" parent="." instance=ExtResource("2_vh1yt")]
+position = Vector2(-2, -439)
+collision_layer = 0
+collision_mask = 4
+goesToScene = 2
+DoorId = 1
+TargetDoorId = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door2"]
+shape = SubResource("RectangleShape2D_jqrms")
+
+[node name="Door" parent="." instance=ExtResource("2_vh1yt")]
+position = Vector2(-2, 439)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+shape = SubResource("RectangleShape2D_n67tw")
+disabled = true
 
 [node name="StoneLevel" type="TileMapLayer" parent="."]
 z_index = -1
@@ -40,14 +63,3 @@ visible = false
 scale = Vector2(5.68852, 5.68852)
 texture = SubResource("GradientTexture2D_73m3c")
 metadata/_edit_lock_ = true
-
-[node name="Exit" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit"]
-position = Vector2(-1, -459)
-shape = SubResource("RectangleShape2D_oile3")
-
-[node name="PlayerSpawn" parent="." instance=ExtResource("4_upnxe")]
-position = Vector2(0, 410)

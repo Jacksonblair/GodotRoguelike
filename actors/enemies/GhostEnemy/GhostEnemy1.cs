@@ -110,7 +110,7 @@ public partial class GhostEnemy1 : EnemyActor
     {
         _isSwiping = true;
         Controller.DisableMovementInput();
-        GD.Print("ENEMY NOW IN RANGE");
+        // GD.Print("ENEMY NOW IN RANGE");
 
         var attackIndicator = GetNode<Area2D>("AttackIndicator");   
         

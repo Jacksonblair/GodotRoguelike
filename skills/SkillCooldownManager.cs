@@ -39,7 +39,7 @@ public partial class SkillCooldownManager : GodotObject
                 CurrentCharges++;
 
                 EmitSignal(nameof(GainedCharge), CurrentCharges);
-                GD.Print("Restoring charges: ", CurrentCharges, "/", _skillHandler.GetMaxCharges());
+                // GD.Print("Restoring charges: ", CurrentCharges, "/", _skillHandler.GetMaxCharges());
 
                 if (CurrentCharges < _skillHandler.GetMaxCharges())
                 {

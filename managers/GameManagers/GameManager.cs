@@ -6,6 +6,13 @@ using TESTCS.levels;
 using TESTCS.managers.LevelManagers;
 using TESTCS.projectiles;
 
+public enum LevelsEnum
+{
+	NONE,
+	StoneLevel,
+	SecondFloorLevel
+}
+
 public partial class GameManager : Node
 {
 	[Export] public GameProjectiles GameProjectiles { get; set; }
@@ -48,35 +55,74 @@ public partial class GameManager : Node
 		switch (GlobalVariables.GameStateManager.GameState.CurrentSceneID)
 		{
 			case 1:
-				LoadLevel(Levels.StoneLevel);
+				LoadLevel(LevelsEnum.StoneLevel);
 				break;
 			default:
 				return;
 		}
 	}
 	
-	public async void LoadLevel(PackedScene scene)
+	public async void LoadLevel(LevelsEnum scene, int targetDoorId = -1)
 	{
+		if (scene == LevelsEnum.NONE)
+		{
+			GD.Print("No scene specified. Stopping loading level");
+		}
+		
 		GlobalVariables.GameSceneManager.LoadTransitionScene(Levels.Transition1);
 		await GlobalVariables.GameSceneManager.CurrentTransitionScene.TransitionIn();
 		
 		GlobalVariables.GameSceneManager.UnloadCurrentGameScene();
 
-		// Remove cahracter
+		// Remove all enemies
+		// Remove all projectiles
+		RemoveAllEnemies();
+		RemoveAllProjectiles();
+		
+		// Remove character
 		if (GlobalVariables.PlayerCharacter != null)
 		{
-			GlobalVariables.ActiveMainSceneContainer.RemoveChild(GlobalVariables.PlayerCharacter);
+			GlobalVariables.PlayerCharacter.QueueFree();
 		}
 		
-		// Add them again? IDK
+		// Add player before adding scene, otherwise things break atm
+		// TODO: Fix this one day ^
 		var player = PlayerScene.Instantiate<PlayerCharacter>();	
 		GlobalVariables.Instance._character = player;
 		GlobalVariables.ActiveMainSceneContainer.AddChild(player);
 		
 		// Load in the level stuff
 		UnloadLevelSpecificStuff();
-		GlobalVariables.GameSceneManager.LoadGameScene(scene);
+		
+		// TODO: THIS IS FUCKED REDO IT
+		if (scene == LevelsEnum.StoneLevel)
+		{
+			GlobalVariables.GameSceneManager.LoadGameScene(Levels.StoneLevel);
+		}
+
+		if (scene == LevelsEnum.SecondFloorLevel)
+		{
+			GlobalVariables.GameSceneManager.LoadGameScene(Levels.SecondFloorLevel);
+		}
+		
 		LoadLevelSpecificStuff();
+
+		// Based on 
+		if (GlobalVariables.GameSceneManager.CurrentActiveScene is Level)
+		{
+			Vector2 spawnPosition = Vector2.Zero;
+			var doors = GetTree().GetNodesInGroup("LevelDoor");
+			foreach (var door in doors)
+			{
+				if (door is LevelDoor levelDoor && levelDoor.DoorId == targetDoorId)
+				{
+					levelDoor.DeactivateDoorUntilReentry();
+					spawnPosition = levelDoor.GlobalPosition;
+				}
+			}
+
+			player.Position = spawnPosition;
+		}
 		
 		// TODO: NEED TO PUT PLAYER IN THE SPAWN POSITION IN LEVEL
 		// CLEAR UP THIS PROCEDURE
@@ -159,4 +205,22 @@ public partial class GameManager : Node
 	// 	// Assign PeerID to it as ID
 	// 	// Add it to scene
 	// }
+
+	private void RemoveAllEnemies()
+	{
+		var enemies = GetTree().GetNodesInGroup("Enemy");
+		foreach (var enemy in enemies)
+		{
+			enemy.QueueFree();
+		}
+	}
+
+	private void RemoveAllProjectiles()
+	{
+		var projectiles = GetTree().GetNodesInGroup("Projectile");
+		foreach (var p in projectiles)
+		{
+			p.QueueFree();
+		}
+	}
 }

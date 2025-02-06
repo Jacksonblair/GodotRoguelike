@@ -1,5 +1,4 @@
 using Godot;
-using Godot.Collections;
 using TESTCS.levels.transition_screens;
 
 namespace TESTCS.scripts.managers;
@@ -7,7 +6,7 @@ namespace TESTCS.scripts.managers;
 /** Specifically for loading/unloading scenes and handling transitions */
 public partial class GameSceneManager : Node
 {
-    private Node _currentActiveScene;
+    public Node CurrentActiveScene;
     public Transition CurrentTransitionScene;
     
     // public override void _Ready() {}
@@ -48,7 +47,7 @@ public partial class GameSceneManager : Node
         GlobalVariables.Instance._activeMainSceneContainer.AddChild(inst);
         
         // Update internal reference
-        _currentActiveScene = inst;
+        CurrentActiveScene = inst;
         
         // GD.Print("Loading: ", gameScene);
     }
@@ -56,9 +55,9 @@ public partial class GameSceneManager : Node
     public void UnloadCurrentGameScene()
     {
         // Remove previous scene
-        if (_currentActiveScene != null)
+        if (CurrentActiveScene != null)
         {
-            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(_currentActiveScene);
+            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(CurrentActiveScene);
         }
     }
     
