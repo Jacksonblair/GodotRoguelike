@@ -8,6 +8,18 @@ public partial class BasicEnemyController : ActorController
     {
         if (MovementInputDisabled) return Vector2.Zero;
         
+        if (TargetToMoveTo.HasValue) {
+            if (actorPosition.DistanceTo(TargetToMoveTo.Value) < 5f)
+            {
+                GD.Print("REACHED TARGET");
+                TargetToMoveTo = null;
+            }
+            else
+            {
+                return (TargetToMoveTo.Value - actorPosition).Normalized();
+            }
+        }
+        
         // Calculate the direction vector from the actor to the player
         // return actorPosition;
         return (GlobalVariables.PlayerCharacter.Position - actorPosition).Normalized();

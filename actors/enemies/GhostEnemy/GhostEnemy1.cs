@@ -2,7 +2,6 @@
     using Godot;
 using TESTCS.actors.controllers;
 using TESTCS.actors.enemies;
-using TESTCS.projectiles;
 
 public partial class GhostEnemy1 : EnemyActor
 {

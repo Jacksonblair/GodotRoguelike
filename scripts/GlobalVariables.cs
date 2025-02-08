@@ -14,6 +14,7 @@ public partial class GlobalVariables : Node
     
     public static GlobalVariables Instance { get; private set; }
     
+    public Camera2D Camera2D { get; set; }
     public GameManager _gameManager { get; set; }
     
     public LevelManagers _levelManagers { get; set; }
@@ -57,6 +58,7 @@ public partial class GlobalVariables : Node
         var MainScene = GetTree().Root.GetNode("Main");
         
         // Manages saving/loading the game state
+        Camera2D = GetNode<Camera2D>("Camera2D");
         _gameManager = MainScene.GetNode<GameManager>("GameManager");
         _gamePersistenceManager = MainScene.GetNode<GameStateManager>("GameStateManager");
         _activeMainSceneContainer = MainScene.GetNode<Node2D>("ActiveMainScene");

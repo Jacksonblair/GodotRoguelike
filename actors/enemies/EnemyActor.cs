@@ -3,6 +3,7 @@ using Godot;
 
 namespace TESTCS.actors.enemies;
 
+
 public partial class EnemyActor : Actor, IHittable
 {
     public override void _Process(double delta)
@@ -36,6 +37,7 @@ public partial class EnemyActor : Actor, IHittable
             var velocity = Controller.GetMovementInput(this.Position);
             velocity = velocity.Normalized() * MovementSpeed;
             Velocity = velocity;
+            // GD.Print("MOVING WITH: ", velocity);
             MoveAndSlide();
         }
     }

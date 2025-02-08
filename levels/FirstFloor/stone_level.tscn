@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://b24flpni0ibbg"]
+[gd_scene load_steps=15 format=4 uid="uid://b24flpni0ibbg"]
 
-[ext_resource type="Script" path="res://levels/StoneLevel.cs" id="2_atf2c"]
+[ext_resource type="Script" path="res://levels/FirstFloor/StoneLevel.cs" id="2_atf2c"]
 [ext_resource type="TileSet" uid="uid://cl50pmfki6aus" path="res://levels/tilesets/stone_level_tileset.tres" id="2_cy30q"]
 [ext_resource type="PackedScene" uid="uid://cyvmhciige74v" path="res://levels/Door/LevelDoor.tscn" id="2_vh1yt"]
-[ext_resource type="PackedScene" uid="uid://chtnxfyfswn6m" path="res://actors/enemies/GhostEnemy/GhostEnemy1.tscn" id="4_41gpo"]
+[ext_resource type="PackedScene" uid="uid://crpgc3fc18lb2" path="res://actors/enemies/Level1Enemy/Level1Enemy.tscn" id="4_7mav2"]
+[ext_resource type="PackedScene" uid="uid://vpn86521i8ol" path="res://levels/props/campfire/Campfire.tscn" id="5_dilwi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jqrms"]
 size = Vector2(94, 48)
@@ -21,6 +22,51 @@ width = 200
 height = 200
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n5p5q"]
+size = Vector2(195, 75)
+
+[sub_resource type="Animation" id="Animation_dk0i3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CutsceneCamera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oknpl"]
+resource_name = "TryExitEarly"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CutsceneCamera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -371), Vector2(118, -32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hp8mg"]
+_data = {
+"RESET": SubResource("Animation_dk0i3"),
+"TryExitEarly": SubResource("Animation_oknpl")
+}
+
+[sub_resource type="Curve2D" id="Curve2D_3n2ny"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 122, -53, 0, 0, 0, 0, -138, -59, 7.12715, 70.381, -7.12715, -70.381, 89, -179, 0, 0, 0, 0, -87, -113, 0, 0, 0, 0, 2, -277)
+}
+point_count = 5
 
 [node name="StoneLevel" type="Node"]
 script = ExtResource("2_atf2c")
@@ -52,14 +98,41 @@ tile_map_data = PackedByteArray("AAATABEAAAADAAUAAAATABAAAAACAAQAAAATAA8AAAACAAQ
 tile_set = ExtResource("2_cy30q")
 y_sort_origin = 1
 
-[node name="Enemy1" parent="." instance=ExtResource("4_41gpo")]
-position = Vector2(133, -57)
-
-[node name="Enemy2" parent="." instance=ExtResource("4_41gpo")]
-position = Vector2(-107, -51)
-
 [node name="CircleForMapBuilding" type="Sprite2D" parent="."]
 visible = false
 scale = Vector2(5.68852, 5.68852)
 texture = SubResource("GradientTexture2D_73m3c")
 metadata/_edit_lock_ = true
+
+[node name="Level1Enemy" parent="." instance=ExtResource("4_7mav2")]
+position = Vector2(157, -62)
+
+[node name="Campfire" parent="." instance=ExtResource("5_dilwi")]
+position = Vector2(187, -42)
+scale = Vector2(2, 2)
+
+[node name="PreDoorCollider" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PreDoorCollider"]
+position = Vector2(2, -379)
+shape = SubResource("RectangleShape2D_n5p5q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hp8mg")
+}
+
+[node name="CutsceneCamera2D" type="Camera2D" parent="."]
+scale = Vector2(8.47729, 815.179)
+
+[node name="MovePoint1" type="Node2D" parent="."]
+position = Vector2(0, -93)
+scale = Vector2(1.20679, 343.67)
+
+[node name="MovePoint2" type="Node2D" parent="."]
+position = Vector2(0, -285)
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_3n2ny")

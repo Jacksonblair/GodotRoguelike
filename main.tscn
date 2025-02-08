@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://bh5fq7utrxig8" path="res://projectiles/GameProjectiles.tres" id="4_cwko5"]
 [ext_resource type="Script" path="res://managers/GameStateManager.cs" id="4_ox77f"]
 [ext_resource type="Resource" uid="uid://m2v336om28tl" path="res://resources/Levels.tres" id="4_yyvq6"]
-[ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/stone_level.tscn" id="5_hnfkl"]
+[ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/FirstFloor/stone_level.tscn" id="5_hnfkl"]
 [ext_resource type="Resource" uid="uid://kyt8luffclxq" path="res://actors/Enemies.tres" id="5_q8d2j"]
 [ext_resource type="Resource" uid="uid://cblxsi7y72gkc" path="res://resources/game_state.tres" id="7_svh80"]
 [ext_resource type="Script" path="res://managers/GameManagers/GameSetupyPoos.cs" id="8_05xvc"]

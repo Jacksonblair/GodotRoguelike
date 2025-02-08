@@ -1,0 +1,69 @@
+[gd_scene load_steps=11 format=3 uid="uid://crpgc3fc18lb2"]
+
+[ext_resource type="Script" path="res://actors/enemies/Level1Enemy/Level1Enemy.cs" id="1_00kr5"]
+[ext_resource type="Texture2D" uid="uid://fwo7ohv2rm7n" path="res://actors/enemies/Level1Enemy/spr_KingIdle_strip_no_bkg.png" id="1_drqe2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rq6t"]
+atlas = ExtResource("1_drqe2")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qe2rl"]
+atlas = ExtResource("1_drqe2")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ku4p4"]
+atlas = ExtResource("1_drqe2")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6432"]
+atlas = ExtResource("1_drqe2")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abenu"]
+atlas = ExtResource("1_drqe2")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsnka"]
+atlas = ExtResource("1_drqe2")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7plkt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3rq6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qe2rl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ku4p4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6432")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abenu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsnka")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sc1u6"]
+radius = 8.0
+height = 38.0
+
+[node name="Level1Enemy" type="CharacterBody2D" groups=["Enemy"]]
+script = ExtResource("1_00kr5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7plkt")
+frame_progress = 0.00129297
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -10)
+shape = SubResource("CapsuleShape2D_sc1u6")

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Levels" load_steps=5 format=3 uid="uid://m2v336om28tl"]
 
 [ext_resource type="Script" path="res://resources/Levels.cs" id="1_q68yx"]
-[ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/stone_level.tscn" id="2_lmtki"]
+[ext_resource type="PackedScene" uid="uid://b24flpni0ibbg" path="res://levels/FirstFloor/stone_level.tscn" id="2_lmtki"]
 [ext_resource type="PackedScene" uid="uid://u652m08lrke2" path="res://levels/SecondFloor/SecondFloorLevel.tscn" id="2_qtvok"]
 [ext_resource type="PackedScene" uid="uid://dolpbjsh815to" path="res://levels/transition screens/Transition1.tscn" id="4_6gxon"]
 

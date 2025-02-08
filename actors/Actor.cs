@@ -19,6 +19,6 @@ public abstract partial class Actor : CharacterBody2D
     }
     
     // Debug
-    [Export]
-    public bool DebugGlobalPosition { get; set; }
+    // [Export]
+    // public bool DebugGlobalPosition { get; set; }
 }

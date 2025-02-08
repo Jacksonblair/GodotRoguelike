@@ -7,7 +7,7 @@ public partial class PlayerCharacter : Actor, IHittable
 {
     private AnimatedSprite2D _sprite;
     public SkillChargingRing SkillChargingRing;
-    private Camera2D _camera;
+    public Camera2D Camera;
     private HealthBar _healthBar;
 
     // Called when the node enters the scene tree for the first time.
@@ -15,7 +15,7 @@ public partial class PlayerCharacter : Actor, IHittable
     {
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _sprite.Play();
-        _camera = GetNode<Camera2D>("%Camera2D");
+        Camera = GetNode<Camera2D>("%Camera2D");
         SkillChargingRing = GetNode<SkillChargingRing>("SkillChargingRing");
         _healthBar = GetNode<HealthBar>("HealthBar");
         _healthBar.MaxValue = MaxHealth;

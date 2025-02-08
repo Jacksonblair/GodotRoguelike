@@ -55,7 +55,7 @@ public partial class GameManager : Node
 		switch (GlobalVariables.GameStateManager.GameState.CurrentSceneID)
 		{
 			case 1:
-				LoadLevel(LevelsEnum.StoneLevel);
+				LoadLevel(LevelsEnum.StoneLevel, 0);
 				break;
 			default:
 				return;
@@ -91,6 +91,7 @@ public partial class GameManager : Node
 		GlobalVariables.Instance._character = player;
 		GlobalVariables.ActiveMainSceneContainer.AddChild(player);
 		
+		
 		// Load in the level stuff
 		UnloadLevelSpecificStuff();
 		
@@ -106,6 +107,7 @@ public partial class GameManager : Node
 		}
 		
 		LoadLevelSpecificStuff();
+		
 
 		// Based on 
 		if (GlobalVariables.GameSceneManager.CurrentActiveScene is Level)
@@ -122,6 +124,9 @@ public partial class GameManager : Node
 			}
 
 			player.Position = spawnPosition;
+			
+			// Make sure the default camera position matches the player position. 
+			GetViewport().GetCamera2D()?.SetGlobalPosition(player.GlobalPosition);
 		}
 		
 		// TODO: NEED TO PUT PLAYER IN THE SPAWN POSITION IN LEVEL
