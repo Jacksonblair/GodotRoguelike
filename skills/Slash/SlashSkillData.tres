@@ -7,5 +7,6 @@
 script = ExtResource("1_0lbec")
 SkillScene = ExtResource("1_pbyo7")
 SkillName = ""
-CooldownTime = 1
+CooldownTime = 0
 Charges = 1
+ChargingStages = []

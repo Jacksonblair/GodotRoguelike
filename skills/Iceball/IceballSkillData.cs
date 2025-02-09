@@ -1,5 +1,7 @@
 using Godot;
 
+namespace TESTCS.skills.Iceball;
+
 [GlobalClass]
 public partial class IceballSkillData : SkillData
 {

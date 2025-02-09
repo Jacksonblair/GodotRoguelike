@@ -22,9 +22,7 @@ namespace TESTCS.managers;
 public partial class PlayerSkillSlotManager : Node
 {
     // Skilldata for spells
-    [Export] public skills.Fireball.FireballSkillData FireballSkillData { get; set; }
-    [Export] public IceballSkillData IceballSkillData { get; set; }
-
+    [Export] public Skills SkillsData { get; set; }
     [Export] public int MaxSlots = 4;
     
     [Signal] public delegate void EquippedSkillEventHandler(int abilityIndex);
@@ -56,8 +54,9 @@ public partial class PlayerSkillSlotManager : Node
 
     public void TempCreateDefaultSkills()
     {
-        AssignSkill(PlayerInputs.Skill1, 0, FireballSkillData);
-        AssignSkill(PlayerInputs.Skill2, 1, IceballSkillData);
+        AssignSkill(PlayerInputs.Skill1, 0, SkillsData.SlashSkillData);
+        AssignSkill(PlayerInputs.Skill2, 1, SkillsData.FireballSkillData);
+        AssignSkill(PlayerInputs.Skill3, 2, SkillsData.IceballSkillData);
         SkillSlots[0].SkillModifiers.Add(new ExtraProjectileModifier(5));
     }
 

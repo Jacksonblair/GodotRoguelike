@@ -7,7 +7,7 @@ using TESTCS.skills.Modifiers;
 
 public partial class IceballSkill : Skill, IProjectileSkill
 {
-    public IceballSkillData SkillData;
+    public TESTCS.skills.Iceball.IceballSkillData SkillData;
     
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)

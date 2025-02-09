@@ -3,24 +3,11 @@ using Godot;
 
 namespace TESTCS.actors;
 
-/**
- * Moving
- * - Player moves depending on WASD.
- * - Enemy moves depending on some movement generation (follow the player)
- *
- * So...
- * If i were to swap out the controllers.
- *
- * EnemyActor needs to be moved towards the player
- * Player needs to be moved towards wherever the vector is
- * - The common thing is that each Actor gets given a vector which they should update their movement to? 
- *
- * Aiming. Same thing. Generate a vector. 
- */
-
 public abstract partial class ActorController : Node
 {
     [Signal] public delegate void AbilityPressedEventHandler(int abilityIndex);
+    [Signal] public delegate void StartedBlockingEventHandler();
+    [Signal] public delegate void StoppedBlockingEventHandler();
     [Signal] public delegate void InteractedEventHandler();
     [Signal] public delegate void ReachedTargetEventHandler();
 
@@ -29,9 +16,13 @@ public abstract partial class ActorController : Node
     protected float PathProgress = 0f;
     protected int PathPointIndex = 0;
     
+    protected Vector2 _previousAimDirection;
+    
     public abstract Vector2 GetMovementInput(Vector2 actorPosition);
     public abstract Vector2 GetAimDirection(Vector2 actorPosition);
 
+    public virtual void Update(double delta) {}
+    
     public void MoveToTarget(Vector2 target)
     {
         TargetToMoveTo = target;

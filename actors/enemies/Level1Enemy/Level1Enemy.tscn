@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://crpgc3fc18lb2"]
+[gd_scene load_steps=13 format=3 uid="uid://crpgc3fc18lb2"]
 
 [ext_resource type="Script" path="res://actors/enemies/Level1Enemy/Level1Enemy.cs" id="1_00kr5"]
 [ext_resource type="Texture2D" uid="uid://fwo7ohv2rm7n" path="res://actors/enemies/Level1Enemy/spr_KingIdle_strip_no_bkg.png" id="1_drqe2"]
@@ -57,6 +57,12 @@ animations = [{
 radius = 8.0
 height = 38.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_svkym"]
+radius = 50.76
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2vho"]
+size = Vector2(72, 40)
+
 [node name="Level1Enemy" type="CharacterBody2D" groups=["Enemy"]]
 script = ExtResource("1_00kr5")
 
@@ -67,3 +73,31 @@ frame_progress = 0.00129297
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -10)
 shape = SubResource("CapsuleShape2D_sc1u6")
+
+[node name="MeleeHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox"]
+shape = SubResource("CircleShape2D_svkym")
+
+[node name="AttackIndicator" type="Area2D" parent="."]
+position = Vector2(-10, 0)
+collision_layer = 0
+collision_mask = 4
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="AttackIndicator"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 26.0
+offset_top = -20.0
+offset_right = 98.0
+offset_bottom = 20.0
+grow_vertical = 2
+color = Color(1, 0.172549, 0.168627, 0.372549)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackIndicator"]
+position = Vector2(62, 0)
+shape = SubResource("RectangleShape2D_p2vho")

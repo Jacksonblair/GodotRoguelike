@@ -14,6 +14,6 @@ public partial class SlashSkill : Skill, IProjectileSkill
 
     public override void Execute(Actor executedBy, ModifierResults modifiers)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

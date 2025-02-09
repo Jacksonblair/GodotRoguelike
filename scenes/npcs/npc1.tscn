@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dd8h5djhwsjp5"]
 
 [ext_resource type="Script" path="res://scenes/npcs/Npc1.cs" id="1_d2npg"]
-[ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/PlayerCharacter.tres" id="2_xtslw"]
+[ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/knight/PlayerCharacter.tres" id="2_xtslw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nvkrq"]
 radius = 25.83

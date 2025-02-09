@@ -5,24 +5,36 @@ namespace TESTCS.actors.controllers;
 
 public partial class PlayerController : ActorController
 {
-    public override void _UnhandledInput(InputEvent @event)
+    public override void Update(double delta)
     {
-        if (Input.IsActionJustPressed("Skill1"))
+        if (Input.IsActionJustPressed("block"))
         {
-            EmitSignal(nameof(AbilityPressed), 1);
+            GD.Print("BLOCKING");
+            EmitSignal(nameof(StartedBlocking));
         }
-        if (Input.IsActionJustPressed("Skill2"))
+
+        if (Input.IsActionJustReleased("block"))
         {
-            EmitSignal(nameof(AbilityPressed), 2);
+            GD.Print("STOP BLOCKING");
+            EmitSignal(nameof(StoppedBlocking));
         }
-        if (Input.IsActionJustPressed("Skill3"))
-        {
-            EmitSignal(nameof(AbilityPressed), 3);
-        }
-        if (Input.IsActionJustPressed("interact"))
-        {
-            EmitSignal(nameof(Interacted));
-        }
+        
+        // if (Input.IsActionJustPressed("Skill1"))
+        // {
+        //     EmitSignal(nameof(AbilityPressed), 1);
+        // }
+        // if (Input.IsActionJustPressed("Skill2"))
+        // {
+        //     EmitSignal(nameof(AbilityPressed), 2);
+        // }
+        // if (Input.IsActionJustPressed("Skill3"))
+        // {
+        //     EmitSignal(nameof(AbilityPressed), 3);
+        // }
+        // if (Input.IsActionJustPressed("interact"))
+        // {
+        //     EmitSignal(nameof(Interacted));
+        // }
     }
     
     public override Vector2 GetMovementInput(Vector2 actorPosition)
@@ -51,6 +63,21 @@ public partial class PlayerController : ActorController
 
     public override Vector2 GetAimDirection(Vector2 actorPosition)
     {
+        Vector2 joystickDirection = new Vector2(
+            Input.GetActionStrength("aim_right") - Input.GetActionStrength("aim_left"),
+            Input.GetActionStrength("aim_down") - Input.GetActionStrength("aim_up")
+        ).Normalized();
+
+        if (joystickDirection.Length() > 0)
+        {
+            _previousAimDirection = joystickDirection;
+            return joystickDirection;
+        } 
+        else
+        {
+            return _previousAimDirection;
+        }
+        
         // TODO: Add controller based aiming
         // Mouse based aiming
         var mousePos = MiscHelper.GetActiveMainSceneMousePosition();

@@ -1,16 +1,28 @@
-[gd_scene load_steps=7 format=3 uid="uid://db4wyjshk3nf4"]
+[gd_scene load_steps=11 format=3 uid="uid://db4wyjshk3nf4"]
 
 [ext_resource type="Script" path="res://actors/PlayerCharacter.cs" id="1_1rxg6"]
-[ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/PlayerCharacter.tres" id="2_3lqu1"]
+[ext_resource type="SpriteFrames" uid="uid://l415ghx1t7o0" path="res://spriteframes/knight/PlayerCharacter.tres" id="2_3lqu1"]
 [ext_resource type="PackedScene" uid="uid://dl0swqhy6tibb" path="res://ui/HealthBar.tscn" id="2_5u6gd"]
 [ext_resource type="PackedScene" uid="uid://fviw404lp836" path="res://skills/SkillChargingRing.tscn" id="3_y7pyh"]
+[ext_resource type="PackedScene" uid="uid://dych2tlnfpdfy" path="res://skills/Slash/SlashSkill.tscn" id="5_xasrf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_37i00"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kxemy"]
 
+[sub_resource type="Gradient" id="Gradient_c1lqf"]
+offsets = PackedFloat32Array(0.891813, 0.903509)
+colors = PackedColorArray(1, 0, 0, 0, 0.165977, 0.747508, 0.919099, 0.478431)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jcq6e"]
+gradient = SubResource("Gradient_c1lqf")
+
+[sub_resource type="Gradient" id="Gradient_upt08"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 z_index = 10
+position = Vector2(-23, 0)
 collision_layer = 4
 script = ExtResource("1_1rxg6")
 metadata/_edit_group_ = true
@@ -24,7 +36,9 @@ shape = SubResource("CapsuleShape2D_37i00")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_3lqu1")
-animation = &"idle"
+animation = &"attack"
+frame = 3
+frame_progress = 1.0
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 4
@@ -49,3 +63,25 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPCArea2D"]
 shape = SubResource("CapsuleShape2D_kxemy")
+
+[node name="BlockIndicator" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("GradientTexture2D_jcq6e")
+
+[node name="DragParticles" type="CPUParticles2D" parent="."]
+position = Vector2(1, 15)
+emitting = false
+amount = 10
+lifetime = 0.4
+emission_shape = 1
+emission_sphere_radius = 0.01
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 15.0
+initial_velocity_max = 15.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+color_ramp = SubResource("Gradient_upt08")
+
+[node name="SlashSkill" parent="." instance=ExtResource("5_xasrf")]

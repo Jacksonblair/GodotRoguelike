@@ -4,5 +4,6 @@ namespace TESTCS.enums
     {
         Skill1,
         Skill2,
+        Skill3
     }
 }

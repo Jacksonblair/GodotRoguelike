@@ -47,6 +47,7 @@ public partial class StoneLevel : Level
         DialogueManager.DialogueEnded += (res) => {
             GlobalVariables.PlayerCharacter.Controller = new PlayerController();
             GlobalVariables.PlayerCharacter.Camera.MakeCurrent();
+            _enemy1.Controller = new BasicEnemyController();
         };
         
         /**

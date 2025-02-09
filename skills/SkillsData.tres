@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Skills" load_steps=5 format=3 uid="uid://c88cs3m83n44d"]
+
+[ext_resource type="Resource" uid="uid://b12re7hchfngy" path="res://skills/Fireball/FireballSkillData.tres" id="1_q0ars"]
+[ext_resource type="Script" path="res://skills/Skills.cs" id="1_uh610"]
+[ext_resource type="Resource" uid="uid://bfy1vpwmy2h85" path="res://skills/Iceball/IceballSkillData.tres" id="2_3mjvw"]
+[ext_resource type="Resource" uid="uid://i1406k8wnmir" path="res://skills/Slash/SlashSkillData.tres" id="3_2ph4n"]
+
+[resource]
+script = ExtResource("1_uh610")
+FireballSkillData = ExtResource("1_q0ars")
+IceballSkillData = ExtResource("2_3mjvw")
+SlashSkillData = ExtResource("3_2ph4n")

@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dych2tlnfpdfy"]
+[gd_scene load_steps=3 format=3 uid="uid://dych2tlnfpdfy"]
 
 [ext_resource type="Script" path="res://skills/Slash/SlashSkill.cs" id="1_bogx8"]
 
-[node name="SlashSkill" type="Node"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_863iy"]
+size = Vector2(50, 50)
+
+[node name="SlashSkill" type="Node2D"]
 script = ExtResource("1_bogx8")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(25, 0)
+shape = SubResource("RectangleShape2D_863iy")
