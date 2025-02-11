@@ -79,14 +79,14 @@ public partial class GhostEnemy1 : EnemyActor
 
     private void ShootFireball()
     {
-        var projectile = GlobalVariables.GameManager.GameProjectiles.GetProjectile();
-        var direction = (GlobalVariables.PlayerCharacter.GlobalPosition - this.GlobalPosition).Normalized();
+        var projectile = GV.GameManager.GameProjectiles.GetProjectile();
+        var direction = (GV.PlayerCharacter.GlobalPosition - this.GlobalPosition).Normalized();
         
         projectile.InitialDirection = direction;
         projectile.Speed = 100;
         projectile.Position = this.GlobalPosition;
-        projectile.ProjectileAnimation = GlobalVariables.GameManager.GameProjectiles.FireballFrames;
-        projectile.ProjectileCollisionAnimation = GlobalVariables.GameManager.GameProjectiles.Explosion1;
+        projectile.ProjectileAnimation = GV.GameManager.GameProjectiles.FireballFrames;
+        projectile.ProjectileCollisionAnimation = GV.GameManager.GameProjectiles.Explosion1;
         projectile.Damage = 20;
         projectile.Weight = 20;
         projectile.Lifetime = 3f;
@@ -94,7 +94,7 @@ public partial class GhostEnemy1 : EnemyActor
         projectile.SetCollisionMask(0);
         projectile.SetCollisionMaskValue(3, true);
         
-        GlobalVariables.ActiveMainSceneContainer.AddChild(projectile);
+        GV.ActiveMainSceneContainer.AddChild(projectile);
     }
 
     private void OnBodyExitedSwipeHitbox(Node2D body)

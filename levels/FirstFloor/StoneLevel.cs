@@ -27,7 +27,7 @@ public partial class StoneLevel : Level
         _cutsceneCamera.MakeCurrent();
         
         // Disable player input
-        GlobalVariables.PlayerCharacter.Controller = new PassiveEnemyController();
+        GV.PlayerCharacter.Controller = new PassiveEnemyController();
         
         // Move camera
         _animationPlayer.Play("TryExitEarly");
@@ -45,8 +45,8 @@ public partial class StoneLevel : Level
         // Then start triggering dialogue
         DialogueManager.ShowDialogueBalloon(GD.Load<Resource>("res://dialogue/dialogue1.dialogue"));
         DialogueManager.DialogueEnded += (res) => {
-            GlobalVariables.PlayerCharacter.Controller = new PlayerController();
-            GlobalVariables.PlayerCharacter.Camera.MakeCurrent();
+            GV.PlayerCharacter.Controller = new PlayerController();
+            GV.PlayerCharacter.Camera.MakeCurrent();
             _enemy1.Controller = new BasicEnemyController();
         };
         

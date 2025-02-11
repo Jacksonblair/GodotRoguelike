@@ -28,7 +28,7 @@ public partial class LevelDoor : Area2D
 		}
 		
 		if (_ignoreBodyEntered) return;
-		GlobalVariables.GameManager.LoadLevel(goesToScene, TargetDoorId);
+		GV.GameManager.LoadLevel(goesToScene, TargetDoorId);
     }
 	
 	private void OnBodyExitedDoor(Node2D body)

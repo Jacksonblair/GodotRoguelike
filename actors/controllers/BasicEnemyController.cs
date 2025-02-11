@@ -32,12 +32,12 @@ public partial class BasicEnemyController : ActorController
         
         // Calculate the direction vector from the actor to the player
         // return actorPosition;
-        return (GlobalVariables.PlayerCharacter.Position - actorPosition).Normalized();
+        return (GV.PlayerCharacter.Position - actorPosition).Normalized();
     }
 
     public override Vector2 GetAimDirection(Vector2 actorPosition)
     {
         // return actorPosition;
-        return (GlobalVariables.PlayerCharacter.Position - actorPosition).Normalized();
+        return (GV.PlayerCharacter.Position - actorPosition).Normalized();
     }
 }

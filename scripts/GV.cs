@@ -8,11 +8,11 @@ using TESTCS.scripts.managers;
 
 /** Purely for being a singleton of references to game objects */
 [GlobalClass]
-public partial class GlobalVariables : Node
+public partial class GV : Node
 {
     public const float Gravity = 200f;
     
-    public static GlobalVariables Instance { get; private set; }
+    public static GV Instance { get; private set; }
     
     public Camera2D Camera2D { get; set; }
     public GameManager _gameManager { get; set; }
@@ -43,7 +43,6 @@ public partial class GlobalVariables : Node
     public static Node2D ActiveMainSceneContainer => Instance._activeMainSceneContainer;
     public static PlayerCharacter PlayerCharacter => Instance._character;
     public static LevelManagers LevelManagers => Instance._levelManagers;
-    
     
     // When global variables script is ready, update all references in game. 
     public override void _Ready()

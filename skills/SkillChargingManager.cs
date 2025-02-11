@@ -6,7 +6,12 @@ namespace TESTCS.skills;
 
 public partial class SkillChargingManager : GodotObject
 {
-    public SkillHandler SkillHandler;
+    private PlayerSkill _playerSkill;
+
+    public SkillChargingManager(PlayerSkill playerSkill)
+    {
+        this._playerSkill = playerSkill;
+    }
     
     public float ChargedFor { get; set; } = 0;
     public int ChargeStage { get; set; } = 0;
@@ -15,9 +20,9 @@ public partial class SkillChargingManager : GodotObject
     {
         get
         {
-            if (SkillHandler.SkillData.ChargingStages.Count < 1) return 0;
-            if (ChargeStage >= SkillHandler.SkillData.ChargingStages.Count) return 0;
-            return SkillHandler.SkillData.ChargingStages[ChargeStage];
+            if (_playerSkill.SkillData.ChargingStages.Count < 1) return 0;
+            if (ChargeStage >= _playerSkill.SkillData.ChargingStages.Count) return 0;
+            return _playerSkill.SkillData.ChargingStages[ChargeStage];
         }
     }
 
@@ -27,7 +32,7 @@ public partial class SkillChargingManager : GodotObject
         get
         {
             var val = 0f;
-            if (SkillHandler.SkillData.ChargingStages.Count < 1) return 0;
+            if (_playerSkill.SkillData.ChargingStages.Count < 1) return 0;
             if (ChargeStage == 0)
             {
                 val = ChargedFor / GetNextStageBreakpoint();
@@ -52,41 +57,41 @@ public partial class SkillChargingManager : GodotObject
 
     public float GetPreviousStageBreakpoint()
     {
-        if (SkillHandler.SkillData.ChargingStages.Count < 1) return 0;
+        if (_playerSkill.SkillData.ChargingStages.Count < 1) return 0;
         if (ChargeStage == 0) return -1;
-        return SkillHandler.SkillData.ChargingStages[ChargeStage - 1];
+        return _playerSkill.SkillData.ChargingStages[ChargeStage - 1];
     }
 
     public float GetNextStageBreakpoint()
     {
-        if (SkillHandler.SkillData.ChargingStages.Count < 1) return 0;
-        return SkillHandler.SkillData.ChargingStages[Math.Min(ChargeStage, SkillHandler.SkillData.ChargingStages.Count - 1)];
+        if (_playerSkill.SkillData.ChargingStages.Count < 1) return 0;
+        return _playerSkill.SkillData.ChargingStages[Math.Min(ChargeStage, _playerSkill.SkillData.ChargingStages.Count - 1)];
     }
 
     public void Update(double delta)
     { 
     // If skill has no charges, dont update
-    if (SkillHandler.SkillCooldownManager.CurrentCharges < 1)
+    if (_playerSkill.SkillCooldownManager.CurrentCharges < 1)
     {
         ChargedFor = 0;
         return;
     };
     
     // if skill has no charge stages, dont update
-    if (SkillHandler.SkillData.ChargingStages.Count == 0) return;
+    if (_playerSkill.SkillData.ChargingStages.Count == 0) return;
     
-    if (SkillHandler.SkillInputHandler.IsCharging)
+    if (_playerSkill.SkillInputHandler.IsCharging)
     {
-        if (GlobalVariables.PlayerCharacter != null)
+        if (GV.PlayerCharacter != null)
         {
-            GlobalVariables.PlayerCharacter.SkillChargingRing.SkillChargingManager = this;
+            GV.PlayerCharacter.SkillChargingRing.SkillChargingManager = this;
         }
     
         ChargedFor += (float)delta;
         
         // Keep charging as long as we're not at the last stage
         // If we are at less than OR stage 3, and there are three stages.
-        if (ChargeStage < SkillHandler.SkillData.ChargingStages.Count)
+        if (ChargeStage < _playerSkill.SkillData.ChargingStages.Count)
         {
             if (ChargedFor >= GetNextStageBreakpoint())
             {
@@ -101,9 +106,9 @@ public partial class SkillChargingManager : GodotObject
     }
     else
     {
-        if (GlobalVariables.Instance._character != null)
+        if (GV.Instance._character != null)
         {
-            GlobalVariables.PlayerCharacter.SkillChargingRing.SkillChargingManager = null;
+            GV.PlayerCharacter.SkillChargingRing.SkillChargingManager = null;
         }
     
         ChargeStage = 0;

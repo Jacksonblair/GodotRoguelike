@@ -5,7 +5,7 @@ using TESTCS.helpers;
 using TESTCS.skills.Interfaces;
 using TESTCS.skills.Modifiers;
 
-public partial class IceballSkill : Skill, IProjectileSkill
+public partial class IceballSkill : PlayerSkill, IProjectileSkill
 {
     public TESTCS.skills.Iceball.IceballSkillData SkillData;
     
@@ -13,5 +13,8 @@ public partial class IceballSkill : Skill, IProjectileSkill
     public override void _Process(double delta)
     {}
 
-    public override void Execute(Actor executedBy, ModifierResults modifiers) {}
+    public override void Execute()
+    {
+        throw new System.NotImplementedException();
+    }
 }

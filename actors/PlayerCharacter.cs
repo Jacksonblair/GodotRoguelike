@@ -3,6 +3,13 @@ using TESTCS.actors.controllers;
 
 namespace TESTCS.actors;
 
+public enum PlayerCharacterAnims
+{
+    attack,
+    block,
+    idle,
+    run
+}
 
 /**
  * - 'Equip' means:
@@ -20,27 +27,24 @@ namespace TESTCS.actors;
  *
  * Fireball?    
  *      - When I execute it, spawn a projectile at the players location and send it off.
- *
- *
- * 
- * 
  */
 
 public partial class PlayerCharacter : Actor, IHittable
 {
-    private AnimatedSprite2D _sprite;
+    public AnimatedSprite2D MainSprite;
     public SkillChargingRing SkillChargingRing;
     public Camera2D Camera;
     private HealthBar _healthBar;
     private Sprite2D _blockIndicator;
     private bool _isBlocking;
     private CpuParticles2D _dragParticles;
-
+    public bool IsAttacking;
+    
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        _sprite.Play();
+        MainSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        MainSprite.Play();
         Camera = GetNode<Camera2D>("%Camera2D");
         SkillChargingRing = GetNode<SkillChargingRing>("SkillChargingRing");
         _healthBar = GetNode<HealthBar>("HealthBar");
@@ -54,6 +58,15 @@ public partial class PlayerCharacter : Actor, IHittable
         Controller.Interacted += OnInteracted;
         Controller.StartedBlocking += OnStartedBlocking;
         Controller.StoppedBlocking += OnStoppedBlocking;
+        
+        
+        // Delete contents of 'Skills' child node. DONT DELETE THIS.
+        var SkillsNode = GetNode<Node>("Skills");
+        foreach (Node child in SkillsNode.GetChildren())
+        {
+            SkillsNode.RemoveChild(child);
+            child.QueueFree();
+        }
     }
 
     private void OnStoppedBlocking()
@@ -94,6 +107,22 @@ public partial class PlayerCharacter : Actor, IHittable
     {
         Controller.Update(delta);
 
+        /**
+         * If im attacking, i can either be attacking in a static position or moving.
+         * In this case, i set the animation to like:
+         * anim = attack, dontMove = true
+         *
+         * What if i implement an interrupt, so that my attack gets stopped. The anim needs to get reset.
+         * 
+         */
+
+        if (IsAttacking)
+        {
+            // Dont process input;
+            MoveAndSlide();
+            return;
+        }
+        
         // TODO: Update aim direction indicator
         if (_isBlocking)
         {
@@ -104,7 +133,7 @@ public partial class PlayerCharacter : Actor, IHittable
         {
             _dragParticles.SetEmitting(true);
             Height += VerticalVelocity * (float)delta;
-            VerticalVelocity -= GlobalVariables.Gravity * (float)delta;
+            VerticalVelocity -= GV.Gravity * (float)delta;
             
             // Update sprites
             // TODO: HANDLE HEIGHT
@@ -122,7 +151,6 @@ public partial class PlayerCharacter : Actor, IHittable
             // Decay knockback horizontal velocity
             Velocity = Velocity.MoveToward(Vector2.Zero, 50f * (float)delta);
             
-            // Move the enemy
             MoveAndSlide();
         }
         else
@@ -131,30 +159,24 @@ public partial class PlayerCharacter : Actor, IHittable
     
             if (velocity.Length() > 0)
             {
-                _sprite.Animation = "run";
+                MainSprite.Animation = "run";
 
                 // Update sprite based on velocity
                 if (velocity.X != 0)
                 {
-                    _sprite.FlipH = velocity.X < 0;
+                    MainSprite.FlipH = velocity.X < 0;
                 }
 
                 velocity = velocity.Normalized() * MovementSpeed;
             }
             else
             {
-                _sprite.Animation = "idle";
+                MainSprite.Animation = "idle";
             }
             
             Velocity = velocity;
             MoveAndSlide();
         }
-        
-        // var velocity = Controller.GetMovementInput(this.Position);
-        // // var label = GetNode<Label>("Label");
-        // // label.Text = Name;
-        // Velocity = velocity;
-        // MoveAndSlide();
     }
 
     private void OnLand()
@@ -183,7 +205,7 @@ public partial class PlayerCharacter : Actor, IHittable
         float knockbackForce = (hitInformation.Weight / this.Weight * 25) * blockCushion;
         
         // Calculate knockback direction
-        Vector2 knockbackDirection = (GlobalPosition - hitInformation.Position).Normalized();
+        Vector2 knockbackDirection = (GlobalPosition - hitInformation.PositionOfHit).Normalized();
         
         // Apply knockback force to Vector
         Vector2 knockbackVector = knockbackDirection * knockbackForce;
@@ -201,10 +223,14 @@ public partial class PlayerCharacter : Actor, IHittable
         if (Health <= 0)
         {
             GD.Print("YOU DIED");
-            Position = GlobalVariables.ActiveMainSceneContainer.GlobalPosition;
+            Position = GV.ActiveMainSceneContainer.GlobalPosition;
             Health = MaxHealth;
         }
         
     }
-    
+
+    public Vector2 GetAimDirection()
+    {
+        return Controller.GetAimDirection(this.Position);
+    }
 }

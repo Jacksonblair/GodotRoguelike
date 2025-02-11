@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cyvmhciige74v" path="res://levels/Door/LevelDoor.tscn" id="2_vh1yt"]
 [ext_resource type="PackedScene" uid="uid://crpgc3fc18lb2" path="res://actors/enemies/Level1Enemy/Level1Enemy.tscn" id="4_7mav2"]
 [ext_resource type="PackedScene" uid="uid://vpn86521i8ol" path="res://levels/props/campfire/Campfire.tscn" id="5_dilwi"]
-[ext_resource type="PackedScene" uid="uid://chtnxfyfswn6m" path="res://actors/enemies/GhostEnemy/GhostEnemy1.tscn" id="6_xmxu8"]
+[ext_resource type="PackedScene" uid="uid://chtnxfyfswn6m" path="res://actors/enemies/GhostEnemy/GhostEnemy1.tscn" id="5_s8kw3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jqrms"]
 size = Vector2(94, 48)
@@ -105,9 +105,6 @@ scale = Vector2(5.68852, 5.68852)
 texture = SubResource("GradientTexture2D_73m3c")
 metadata/_edit_lock_ = true
 
-[node name="Level1Enemy" parent="." instance=ExtResource("4_7mav2")]
-position = Vector2(157, -62)
-
 [node name="Campfire" parent="." instance=ExtResource("5_dilwi")]
 position = Vector2(187, -42)
 scale = Vector2(2, 2)
@@ -138,8 +135,14 @@ position = Vector2(0, -285)
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_3n2ny")
 
-[node name="Enemy1" parent="." instance=ExtResource("6_xmxu8")]
-position = Vector2(-252, -156)
+[node name="Level1Enemy2" parent="." instance=ExtResource("4_7mav2")]
+position = Vector2(209, 43)
 
-[node name="Enemy1" parent="Enemy1" instance=ExtResource("6_xmxu8")]
-position = Vector2(553, 6)
+[node name="Level1Enemy3" parent="." instance=ExtResource("4_7mav2")]
+position = Vector2(129, 114)
+
+[node name="Level1Enemy4" parent="." instance=ExtResource("4_7mav2")]
+position = Vector2(86, 24)
+
+[node name="Enemy1" parent="." instance=ExtResource("5_s8kw3")]
+position = Vector2(-249, 55)

@@ -9,9 +9,7 @@ public partial class SkillButton : TextureButton
     private Label _label;
     private Label _chargeLabel;
     private TextureProgressBar _progressBar;
-    public SkillHandler SkillState;
     public int SkillIndex;
-    public SkillHandler SkillHandler;
     
     public override void _Ready()
     {
@@ -27,24 +25,23 @@ public partial class SkillButton : TextureButton
         _progressBar.Value = 0;
         _progressBar.MaxValue = 0;
         _progressBar.Visible = false;
-        SkillState = null;
     }
     
     public override void _Process(double delta)
     {
-        if (SkillHandler == null)
-        {
-            _chargeLabel.Text = "";
-            _progressBar.Visible = false;
-        }
-        else
-        {
-            // TODO: One day, do this more efficiently. Or dont, whatever.
-
-            _chargeLabel.Text = SkillHandler.SkillCooldownManager.CurrentCharges.ToString();
-            _progressBar.MaxValue = SkillHandler.SkillData.CooldownTime;
-            _progressBar.Value = SkillHandler.SkillCooldownManager.CooldownTimeRemaining;
-            _progressBar.Visible = SkillHandler.SkillCooldownManager.CooldownTimeRemaining > 0;
-        }
+        // if (SkillHandler == null)
+        // {
+        //     _chargeLabel.Text = "";
+        //     _progressBar.Visible = false;
+        // }
+        // else
+        // {
+        //     // TODO: One day, do this more efficiently. Or dont, whatever.
+        //
+        //     _chargeLabel.Text = SkillHandler.SkillCooldownManager.CurrentCharges.ToString();
+        //     _progressBar.MaxValue = SkillHandler.SkillData.CooldownTime;
+        //     _progressBar.Value = SkillHandler.SkillCooldownManager.CooldownTimeRemaining;
+        //     _progressBar.Visible = SkillHandler.SkillCooldownManager.CooldownTimeRemaining > 0;
+        // }
     }
 }

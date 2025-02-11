@@ -7,18 +7,7 @@ using TESTCS.skills.Modifiers;
 
 namespace TESTCS.managers;
 
-/**
- * SkillSlotManager right now only handles a single player.
- * - I dont think it should be the child of the actor.
- * - What if i have an ally, who also uses skills (with cooldowns, etc)
- * 
- * What about enemies?
- * - My ghost enemy should use a Swipe/Fireball skill from time to time.
- *
- * Can i just associate a skillslotmanager with a particular actor?
- */
-
-/** Manages which skills are equipped, and calls .Update on them */
+/** Manages which skills are equipped */
 public partial class PlayerSkillSlotManager : Node
 {
     // Skilldata for spells
@@ -29,7 +18,7 @@ public partial class PlayerSkillSlotManager : Node
     [Signal] public delegate void UnequippedSkillEventHandler(int abilityIndex);
 
     // Array of skills
-    public List<SkillHandler> SkillSlots = new();
+    public List<PlayerSkill> SkillSlots = new();
 
     public override void _Ready()
     {
@@ -43,21 +32,13 @@ public partial class PlayerSkillSlotManager : Node
         
         CallDeferred(nameof(TempCreateDefaultSkills));
     }
-
-    public override void _Process(double delta)
-    {
-        for (var i = 0; i < MaxSlots; i++)
-        {
-            SkillSlots[i]?.Update(delta);
-        }
-    }
-
+    
     public void TempCreateDefaultSkills()
     {
         AssignSkill(PlayerInputs.Skill1, 0, SkillsData.SlashSkillData);
         AssignSkill(PlayerInputs.Skill2, 1, SkillsData.FireballSkillData);
-        AssignSkill(PlayerInputs.Skill3, 2, SkillsData.IceballSkillData);
-        SkillSlots[0].SkillModifiers.Add(new ExtraProjectileModifier(5));
+        // AssignSkill(PlayerInputs.Skill3, 2, SkillsData.IceballSkillData);
+        // SkillSlots[0].SkillModifiers.Add(new ExtraProjectileModifier(5));
     }
 
     public void AssignSkill(PlayerInputs input, int slotIndex, SkillData skillData)
@@ -69,14 +50,15 @@ public partial class PlayerSkillSlotManager : Node
 
         // SET UP NEW SKILL 
         var skillNode = skillData.InstantiateSkillScene();
-        var skillSlotData = new SkillHandler(GlobalVariables.PlayerCharacter, input, skillData, skillNode, new List<SkillModifier>());
-        skillNode.SkillHandler = skillSlotData;
-        
+        skillNode.MappedInput = input;
+        skillNode.Owner = GV.PlayerCharacter;
+
         // Add instances to scene
-        AddChild(skillNode);
+        GV.PlayerCharacter.AddChild(skillNode);
+        // AddChild(skillNode);
 
         // Store ref in skillSlots
-        SkillSlots[slotIndex] = skillSlotData;
+        SkillSlots[slotIndex] = skillNode;
         GD.Print($"Assigned {skillData.SkillName} to slot {slotIndex}");
         GD.Print("EMITTING SIGNAL");
         EmitSignal(nameof(EquippedSkill), slotIndex);
@@ -87,7 +69,7 @@ public partial class PlayerSkillSlotManager : Node
         // Unload existing skill
         if (SkillSlots[slotIndex] != null)
         {
-            SkillSlots[slotIndex].SkillNode.QueueFree();
+            SkillSlots[slotIndex].QueueFree();
             SkillSlots[slotIndex] = null;
             EmitSignal(nameof(UnequippedSkill), slotIndex);
         }

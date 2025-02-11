@@ -4,13 +4,13 @@ public class HitInformation
 {
     public int Damage;
     public int Weight;
-    public Vector2 Position;
+    public Vector2 PositionOfHit;
 
-    public HitInformation(int damage, int weight, Vector2 position)
+    public HitInformation(int damage, int weight, Vector2 positionOfHit)
     {
         Damage = damage;
         Weight = weight;
-        Position = position;    
+        PositionOfHit = positionOfHit;    
     }
 }
 

@@ -13,7 +13,7 @@ public partial class SkillData : Resource
     [Export] public int Charges { get; set; } = 1;
     [Export] public Array<float> ChargingStages { get; set; } = new Array<float>();
     
-    public virtual Skill InstantiateSkillScene()
+    public virtual PlayerSkill InstantiateSkillScene()
     {
         // Default implementation, can be empty or do nothing
         return null;

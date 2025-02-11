@@ -43,16 +43,16 @@ public partial class GameManager : Node
 	public void LoadMainMenu()
 	{
 		UnloadLevelSpecificStuff();
-		GlobalVariables.GameSceneManager.LoadGameScene(MainMenuScene);
+		GV.GameSceneManager.LoadGameScene(MainMenuScene);
 	}
 
 	public void LoadLastSave()
 	{
-		GlobalVariables.GameStateManager.CreateNewGameSave(1);
+		GV.GameStateManager.CreateNewGameSave(1);
 		// GlobalVariables.GameStateManager.LoadMostRecentGameState(1);
 		
-		GD.Print(GlobalVariables.Instance._gamePersistenceManager.GameState.CurrentSceneID);
-		switch (GlobalVariables.GameStateManager.GameState.CurrentSceneID)
+		GD.Print(GV.Instance._gamePersistenceManager.GameState.CurrentSceneID);
+		switch (GV.GameStateManager.GameState.CurrentSceneID)
 		{
 			case 1:
 				LoadLevel(LevelsEnum.StoneLevel, 0);
@@ -69,10 +69,10 @@ public partial class GameManager : Node
 			GD.Print("No scene specified. Stopping loading level");
 		}
 		
-		GlobalVariables.GameSceneManager.LoadTransitionScene(Levels.Transition1);
-		await GlobalVariables.GameSceneManager.CurrentTransitionScene.TransitionIn();
+		GV.GameSceneManager.LoadTransitionScene(Levels.Transition1);
+		await GV.GameSceneManager.CurrentTransitionScene.TransitionIn();
 		
-		GlobalVariables.GameSceneManager.UnloadCurrentGameScene();
+		GV.GameSceneManager.UnloadCurrentGameScene();
 
 		// Remove all enemies
 		// Remove all projectiles
@@ -80,16 +80,16 @@ public partial class GameManager : Node
 		RemoveAllProjectiles();
 		
 		// Remove character
-		if (GlobalVariables.PlayerCharacter != null)
+		if (GV.PlayerCharacter != null)
 		{
-			GlobalVariables.PlayerCharacter.QueueFree();
+			GV.PlayerCharacter.QueueFree();
 		}
 		
 		// Add player before adding scene, otherwise things break atm
 		// TODO: Fix this one day ^
 		var player = PlayerScene.Instantiate<PlayerCharacter>();	
-		GlobalVariables.Instance._character = player;
-		GlobalVariables.ActiveMainSceneContainer.AddChild(player);
+		GV.Instance._character = player;
+		GV.ActiveMainSceneContainer.AddChild(player);
 		
 		
 		// Load in the level stuff
@@ -98,19 +98,19 @@ public partial class GameManager : Node
 		// TODO: THIS IS FUCKED REDO IT
 		if (scene == LevelsEnum.StoneLevel)
 		{
-			GlobalVariables.GameSceneManager.LoadGameScene(Levels.StoneLevel);
+			GV.GameSceneManager.LoadGameScene(Levels.StoneLevel);
 		}
 
 		if (scene == LevelsEnum.SecondFloorLevel)
 		{
-			GlobalVariables.GameSceneManager.LoadGameScene(Levels.SecondFloorLevel);
+			GV.GameSceneManager.LoadGameScene(Levels.SecondFloorLevel);
 		}
 		
 		LoadLevelSpecificStuff();
 		
 
 		// Based on 
-		if (GlobalVariables.GameSceneManager.CurrentActiveScene is Level)
+		if (GV.GameSceneManager.CurrentActiveScene is Level)
 		{
 			Vector2 spawnPosition = Vector2.Zero;
 			var doors = GetTree().GetNodesInGroup("LevelDoor");
@@ -132,14 +132,14 @@ public partial class GameManager : Node
 		// TODO: NEED TO PUT PLAYER IN THE SPAWN POSITION IN LEVEL
 		// CLEAR UP THIS PROCEDURE
 
-		await GlobalVariables.GameSceneManager.CurrentTransitionScene.TransitionOut();
-		GlobalVariables.GameSceneManager.UnloadCurrentTransitionScene();
+		await GV.GameSceneManager.CurrentTransitionScene.TransitionOut();
+		GV.GameSceneManager.UnloadCurrentTransitionScene();
 	}
 
 	public void LoadCredits()
 	{
 		UnloadLevelSpecificStuff();
-		GlobalVariables.GameSceneManager.LoadGameScene(CreditsScene);
+		GV.GameSceneManager.LoadGameScene(CreditsScene);
 	}
 
 	private void UnloadLevelSpecificStuff()
@@ -148,7 +148,7 @@ public partial class GameManager : Node
 		{
 			LevelManagersSceneRef.QueueFree();
 			LevelManagersSceneRef = null;
-			GlobalVariables.Instance._levelManagers = null;
+			GV.Instance._levelManagers = null;
 		}
 
 		if (LevelUISceneRef != null)
@@ -163,13 +163,13 @@ public partial class GameManager : Node
 		// Setup level managers
 		var levelManagers = LevelManagersPackedScene.Instantiate();
 		LevelManagersSceneRef = levelManagers;
-		GlobalVariables.Instance._levelManagers = (LevelManagers)levelManagers;
-		GlobalVariables.Instance._activeMainSceneContainer.AddChild(levelManagers);
+		GV.Instance._levelManagers = (LevelManagers)levelManagers;
+		GV.Instance._activeMainSceneContainer.AddChild(levelManagers);
 
 		// Setup level UI	
 		var levelUI = LevelUIPackedScene.Instantiate<LevelUI>();
 		LevelUISceneRef = levelUI;
-		GlobalVariables.Instance._activeMainSceneContainer.AddChild(levelUI);
+		GV.Instance._activeMainSceneContainer.AddChild(levelUI);
 	}
 	
 	// public void OnHostButtonPressed()

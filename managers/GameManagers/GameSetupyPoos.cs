@@ -9,7 +9,7 @@ public partial class GameSetupyPoos : Node
 {
     public override void _Ready()
     {
-        GlobalVariables.GameManager.LoadMainMenu();
+        GV.GameManager.LoadMainMenu();
     }
 
     // public override void _Process(double delta) {}

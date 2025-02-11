@@ -11,7 +11,7 @@ public partial class EnemyActor : Actor, IHittable
         if (IsAirborne)
         {
             Height += VerticalVelocity * (float)delta;
-            VerticalVelocity -= GlobalVariables.Gravity * (float)delta;
+            VerticalVelocity -= GV.Gravity * (float)delta;
             
             // Update sprites
             // TODO: HANDLE HEIGHT
@@ -53,7 +53,9 @@ public partial class EnemyActor : Actor, IHittable
         float knockbackForce = hitInformation.Weight / this.Weight * 25;
         
         // Calculate knockback direction
-        Vector2 knockbackDirection = (GlobalPosition - hitInformation.Position).Normalized();
+        Vector2 knockbackDirection = (GlobalPosition - hitInformation.PositionOfHit).Normalized();
+        
+        GD.Print("KNOCKED BACK TOWARDS: ", knockbackDirection);
         
         // Apply knockback force to Vector
         Vector2 knockbackVector = knockbackDirection * knockbackForce;

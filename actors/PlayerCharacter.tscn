@@ -84,4 +84,7 @@ scale_amount_min = 5.0
 scale_amount_max = 10.0
 color_ramp = SubResource("Gradient_upt08")
 
-[node name="SlashSkill" parent="." instance=ExtResource("5_xasrf")]
+[node name="Skills" type="Node" parent="."]
+
+[node name="SlashSkill" parent="Skills" instance=ExtResource("5_xasrf")]
+position = Vector2(-23, 0)

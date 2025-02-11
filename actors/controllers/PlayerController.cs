@@ -63,20 +63,20 @@ public partial class PlayerController : ActorController
 
     public override Vector2 GetAimDirection(Vector2 actorPosition)
     {
-        Vector2 joystickDirection = new Vector2(
-            Input.GetActionStrength("aim_right") - Input.GetActionStrength("aim_left"),
-            Input.GetActionStrength("aim_down") - Input.GetActionStrength("aim_up")
-        ).Normalized();
-
-        if (joystickDirection.Length() > 0)
-        {
-            _previousAimDirection = joystickDirection;
-            return joystickDirection;
-        } 
-        else
-        {
-            return _previousAimDirection;
-        }
+        // Vector2 joystickDirection = new Vector2(
+        //     Input.GetActionStrength("aim_right") - Input.GetActionStrength("aim_left"),
+        //     Input.GetActionStrength("aim_down") - Input.GetActionStrength("aim_up")
+        // ).Normalized();
+        //
+        // if (joystickDirection.Length() > 0)
+        // {
+        //     _previousAimDirection = joystickDirection;
+        //     return joystickDirection;
+        // } 
+        // else
+        // {
+        //     return _previousAimDirection;
+        // }
         
         // TODO: Add controller based aiming
         // Mouse based aiming

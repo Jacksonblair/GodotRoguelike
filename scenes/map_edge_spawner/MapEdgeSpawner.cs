@@ -74,15 +74,15 @@ public partial class MapEdgeSpawner : Node
 
         if (choice == 0)
         {
-            var enemy = GlobalVariables.GameManager.Enemies.GhostEnemy.Instantiate<Node2D>();
+            var enemy = GV.GameManager.Enemies.GhostEnemy.Instantiate<Node2D>();
             enemy.Position = position;
-            GlobalVariables.ActiveMainSceneContainer.AddChild(enemy);
+            GV.ActiveMainSceneContainer.AddChild(enemy);
         }
         else
         {
-            var enemy = GlobalVariables.GameManager.Enemies.BallEnemy.Instantiate<Node2D>();
+            var enemy = GV.GameManager.Enemies.BallEnemy.Instantiate<Node2D>();
             enemy.Position = position;
-            GlobalVariables.ActiveMainSceneContainer.AddChild(enemy);
+            GV.ActiveMainSceneContainer.AddChild(enemy);
         }
 
         // var level = GlobalVariables.Instance._activeMainSceneContainer;

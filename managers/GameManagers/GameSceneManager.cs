@@ -20,13 +20,13 @@ public partial class GameSceneManager : Node
             // Remove previous scene
             if (CurrentTransitionScene != null)
             {
-                GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(CurrentTransitionScene);
+                GV.Instance._activeMainSceneContainer.RemoveChild(CurrentTransitionScene);
             }
         
             scene.SetVisible(false);
             
             // Instantiate specified scene
-            GlobalVariables.Instance._activeMainSceneContainer.AddChild(scene);
+            GV.Instance._activeMainSceneContainer.AddChild(scene);
             CurrentTransitionScene = scene;
             GD.Print("ADDED TRANSITION SCENE TO GAME");
         }
@@ -44,7 +44,7 @@ public partial class GameSceneManager : Node
         
         // Instantiate specified scene
         var inst = gameScene.Instantiate();
-        GlobalVariables.Instance._activeMainSceneContainer.AddChild(inst);
+        GV.Instance._activeMainSceneContainer.AddChild(inst);
         
         // Update internal reference
         CurrentActiveScene = inst;
@@ -57,7 +57,7 @@ public partial class GameSceneManager : Node
         // Remove previous scene
         if (CurrentActiveScene != null)
         {
-            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(CurrentActiveScene);
+            GV.Instance._activeMainSceneContainer.RemoveChild(CurrentActiveScene);
         }
     }
     
@@ -66,7 +66,7 @@ public partial class GameSceneManager : Node
         // Remove previous scene
         if (CurrentTransitionScene != null)
         {
-            GlobalVariables.Instance._activeMainSceneContainer.RemoveChild(CurrentTransitionScene);
+            GV.Instance._activeMainSceneContainer.RemoveChild(CurrentTransitionScene);
         }
     }
 }

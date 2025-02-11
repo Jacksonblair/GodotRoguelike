@@ -18,14 +18,14 @@ public partial class SkillsBar : Control
 	{
 		GD.Print("THIS SHOULD RUN THIRD");
 		
-		GlobalVariables.LevelManagers.PlayerSkillSlotManager.EquippedSkill += OnEquippedSkill;
-		GlobalVariables.LevelManagers.PlayerSkillSlotManager.UnequippedSkill += OnUnequippedSkill;
+		GV.LevelManagers.PlayerSkillSlotManager.EquippedSkill += OnEquippedSkill;
+		GV.LevelManagers.PlayerSkillSlotManager.UnequippedSkill += OnUnequippedSkill;
 		
 		_skillHoverPanel = GetNode<Panel>("%SkillHoverPanel");
 		_skillHoverLabel = GetNode<Label>("%SkillHoverLabel");
 		_hBoxContainer = GetNode<HBoxContainer>("%HBoxContainer");
 		
-		for (int i = 0; i < GlobalVariables.LevelManagers.PlayerSkillSlotManager.SkillSlots.Count; i++)
+		for (int i = 0; i < GV.LevelManagers.PlayerSkillSlotManager.SkillSlots.Count; i++)
 		{
 			var button = ButtonScene.Instantiate<TESTCS.ui.SkillsBar.SkillButton.SkillButton>();
 			button.SkillIndex = i;
@@ -41,7 +41,7 @@ public partial class SkillsBar : Control
 	{
 		if (abilityindex + 1 > _skillButtonRefs.Count) return;
 		var button = _skillButtonRefs[abilityindex];
-		button.SkillHandler = null;
+		// button.SkillHandler = null;
 		// throw new NotImplementedException();
 	}
 
@@ -49,7 +49,7 @@ public partial class SkillsBar : Control
 	{
 		if (abilityindex + 1 > _skillButtonRefs.Count) return;
 		var button = _skillButtonRefs[abilityindex];
-		button.SkillHandler = GlobalVariables.LevelManagers.PlayerSkillSlotManager.SkillSlots[abilityindex];
+		// button.SkillHandler = GlobalVariables.LevelManagers.PlayerSkillSlotManager.SkillSlots[abilityindex];
 	}
 
 	// public override void _Process(double delta) {}

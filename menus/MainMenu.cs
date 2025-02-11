@@ -41,7 +41,7 @@ public partial class MainMenu : Node2D
 
 	private void OnStartPressed()
 	{
-		GlobalVariables.GameManager.OnStartGame();
+		GV.GameManager.OnStartGame();
 		// GlobalVariables.Instance.GameManager.LoadLevel();
 		/**
 		 * When i press start, i want to:

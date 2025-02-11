@@ -10,10 +10,11 @@ public partial class FireballSkillData : SkillData
     public int BaseWeight { get; set; } = 30;
     public int ProjectileSpeed { get; set; } = 300;
     
-    public override Skill InstantiateSkillScene()
-    {
+    public override PlayerSkill InstantiateSkillScene()
+    {   
         var scene = SkillScene.Instantiate<FireballSkill>();
         scene.SkillData = this;
+        scene.FireballSkillData = this;
         return scene;
     }
 }

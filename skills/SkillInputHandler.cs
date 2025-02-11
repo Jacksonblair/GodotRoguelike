@@ -20,12 +20,20 @@ public class InputState
     }
 }
 
-public partial class SkillInputHandler : Godot.GodotObject
+// TODO: Make one of these for enemies, has to be generic
+public partial class SkillInputHandler : GodotObject
 {
+    private PlayerSkill _playerSkill;
+    
     [Signal]
     public delegate void StartedChargingSkillEventHandler();
     [Signal]
-    public delegate void ExecutedSkillEventHandler();
+    public delegate void TryExecuteSkillEventHandler();
+
+    public SkillInputHandler(PlayerSkill playerSkill)
+    {
+        this._playerSkill = playerSkill;
+    }
     
     [Export] public float ChargeThreshold = 0.0f; // Time required to consider a press as charging
     private float _chargeTimer = 0;
@@ -36,9 +44,10 @@ public partial class SkillInputHandler : Godot.GodotObject
     public void Update(double delta, PlayerInputs playerInput)
     {
         var inputName = EnumHelper.GetEnumName(playerInput);
-
+        
         if (Input.IsActionPressed(inputName))
         {
+            
             _chargeTimer += (float)delta;
 
             if (!IsCharging && _chargeTimer >= ChargeThreshold)
@@ -56,7 +65,7 @@ public partial class SkillInputHandler : Godot.GodotObject
         if (Input.IsActionJustReleased(inputName))
         {
             IsCharging = false;
-            EmitSignal(nameof(ExecutedSkill));
+            EmitSignal(nameof(TryExecuteSkill));
         }
     }
 }
