@@ -22,14 +22,22 @@ public abstract partial class PlayerSkill : Node
     public SkillInputHandler SkillInputHandler;
     public ModifierHandler SkillModifierHandler = new();
     public List<SkillModifier> SkillModifiers = new();
-
+    public bool Interrupted = false;
+    
     public override void _Ready()
     {
         SkillCooldownManager = new SkillCooldownManager(this);
         SkillChargingManager = new SkillChargingManager(this);
         SkillInputHandler = new SkillInputHandler(this);
         SkillInputHandler.TryExecuteSkill += OnTryExecuteSkill;
-        // TODO: Calculate modifiers 
+        
+        // Listen for player stuns
+        GV.PlayerCharacter.ActorStunned += OnPlayerStunned;
+    }
+
+    private void OnPlayerStunned()
+    {
+        Interrupt();
     }
 
     private void OnTryExecuteSkill()
@@ -64,4 +72,6 @@ public abstract partial class PlayerSkill : Node
     {
         return SkillCooldownManager.HasCharges();
     }
+
+    public abstract void Interrupt();
 }

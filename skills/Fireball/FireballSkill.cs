@@ -21,6 +21,11 @@ public partial class FireballSkill : PlayerSkill, IProjectileSkill
         FireProjectile();
     }
 
+    public override void Interrupt()
+    {
+        
+    }
+
     public void FireProjectile()
     {
         var modifiers = SkillModifierHandler.SkillModifierResults;

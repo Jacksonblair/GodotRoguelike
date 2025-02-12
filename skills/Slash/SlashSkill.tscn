@@ -1,6 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://dych2tlnfpdfy"]
+[gd_scene load_steps=6 format=3 uid="uid://dych2tlnfpdfy"]
 
 [ext_resource type="Script" path="res://skills/Slash/SlashSkill.cs" id="1_bogx8"]
+
+[sub_resource type="Animation" id="Animation_u5ro6"]
+resource_name = "flashhitbox"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 0.297302),
+"update": 0,
+"values": [Color(0.905882, 0, 0, 1), Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dn5uv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1t74b"]
+_data = {
+"RESET": SubResource("Animation_dn5uv"),
+"flashhitbox": SubResource("Animation_u5ro6")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_863iy"]
 size = Vector2(50, 50)
@@ -8,9 +45,21 @@ size = Vector2(50, 50)
 [node name="SlashSkill" type="Node2D"]
 script = ExtResource("1_bogx8")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Hitbox/ColorRect")
+libraries = {
+"": SubResource("AnimationLibrary_1t74b")
+}
+
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 9
+
+[node name="ColorRect" type="ColorRect" parent="Hitbox"]
+offset_top = -25.0
+offset_right = 50.0
+offset_bottom = 25.0
+color = Color(1, 1, 1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(25, 0)

@@ -12,6 +12,7 @@ public partial class SkillData : Resource
     [Export] public int CooldownTime { get; set; } = 1;
     [Export] public int Charges { get; set; } = 1;
     [Export] public Array<float> ChargingStages { get; set; } = new Array<float>();
+    [Export] public bool Interruptable { get; set; } = true;
     
     public virtual PlayerSkill InstantiateSkillScene()
     {

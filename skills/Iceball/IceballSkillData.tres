@@ -10,3 +10,4 @@ SkillName = "Iceball"
 CooldownTime = 1
 Charges = 1
 ChargingStages = []
+Interruptable = true

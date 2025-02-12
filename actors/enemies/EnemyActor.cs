@@ -8,7 +8,7 @@ public partial class EnemyActor : Actor, IHittable
 {
     public override void _Process(double delta)
     {
-        if (IsAirborne)
+        if (IsKnockedBack)
         {
             Height += VerticalVelocity * (float)delta;
             VerticalVelocity -= GV.Gravity * (float)delta;
@@ -21,7 +21,7 @@ public partial class EnemyActor : Actor, IHittable
             if (Height <= 0)
             {
                 Height = 0;
-                IsAirborne = false;
+                IsKnockedBack = false;
                 VerticalVelocity = 0;
                 // OnLand();
             }
@@ -66,7 +66,7 @@ public partial class EnemyActor : Actor, IHittable
         // Apply knockback
         Velocity += knockbackVector;
         VerticalVelocity = verticalLift;
-        IsAirborne = true;
+        IsKnockedBack = true;
         
         // TODO: MOVE SOMEWHERE ELSE
         

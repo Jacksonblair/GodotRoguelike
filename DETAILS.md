@@ -2,6 +2,36 @@
 
 
 
+Howdy. Does anyone have a good resource for queueing up things in an ability system?
+
+Say for instance i want my player to attack something. I play like an attack animation
+, and then i set it up so that halfway through the animation i actually apply the hit.
+
+Or i set up a timer, and when it finishes i shoot a projectile.
+
+If in the first case, my dude is interrupted before the animation gets halfway through,
+i dont want to apply that hit anymore.
+
+Or if i get inerrupted in the second cast, i want to cancel the timer, or 
+just not shoot the projectile
+
+Well animations can be updated in the Actor
+
+But id rather everything was singularly located, easier to debug.
+
+
+'Ability' is interruptable?
+
+Enemy aims hitbox towards player.
+Play animation
+Halfway through anim, apply hit
+
+
+
+
+
+
+
 Right now, i have SKills in their own little world.
 - THe skill creates a projectile, or plays an animation towards a certain direction.
 - Im trying to make them decoupled so that i can:

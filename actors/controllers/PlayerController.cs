@@ -39,6 +39,8 @@ public partial class PlayerController : ActorController
     
     public override Vector2 GetMovementInput(Vector2 actorPosition)
     {
+        if (MovementInputDisabled) return Vector2.Zero;
+     
         Vector2 velocity = Vector2.Zero;
 
         if (Input.IsActionPressed("move_left"))

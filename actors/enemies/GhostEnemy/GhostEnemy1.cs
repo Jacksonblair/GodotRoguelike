@@ -1,4 +1,5 @@
     using System;
+    using System.Collections.Generic;
     using Godot;
 using TESTCS.actors.controllers;
 using TESTCS.actors.enemies;
@@ -23,6 +24,8 @@ public partial class GhostEnemy1 : EnemyActor
     private double _fireballCooldown = 3;
     private double _fireballCooldoownTimeLeft = 0;
 
+    private List<string> _actionQueue = new();
+    
     public override void _Ready()
     {
         this.MovementSpeed = 50;
@@ -109,7 +112,6 @@ public partial class GhostEnemy1 : EnemyActor
     {
         _isSwiping = true;
         Controller.DisableMovementInput();
-        // GD.Print("ENEMY NOW IN RANGE");
 
         var attackIndicator = GetNode<Area2D>("AttackIndicator");   
         

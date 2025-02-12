@@ -12,4 +12,9 @@ public partial class RetaliateSkill : PlayerSkill, IProjectileSkill
     {
         throw new System.NotImplementedException();
     }
+
+    public override void Interrupt()
+    {
+        throw new System.NotImplementedException();
+    }
 }

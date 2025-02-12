@@ -10,3 +10,4 @@ SkillName = "Fireball"
 CooldownTime = 1
 Charges = 3
 ChargingStages = [1.0, 3.0, 5.0]
+Interruptable = true

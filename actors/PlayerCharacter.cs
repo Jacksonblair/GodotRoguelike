@@ -1,5 +1,6 @@
 using Godot;
 using TESTCS.actors.controllers;
+using TESTCS.managers.PlayerManagers;
 
 namespace TESTCS.actors;
 
@@ -38,7 +39,9 @@ public partial class PlayerCharacter : Actor, IHittable
     private Sprite2D _blockIndicator;
     private bool _isBlocking;
     private CpuParticles2D _dragParticles;
-    public bool IsAttacking;
+    public SpriteAnimationManager AnimationManager;
+    
+    public bool DontProcessInput;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -58,7 +61,8 @@ public partial class PlayerCharacter : Actor, IHittable
         Controller.Interacted += OnInteracted;
         Controller.StartedBlocking += OnStartedBlocking;
         Controller.StoppedBlocking += OnStoppedBlocking;
-        
+
+        AnimationManager = new SpriteAnimationManager(MainSprite);
         
         // Delete contents of 'Skills' child node. DONT DELETE THIS.
         var SkillsNode = GetNode<Node>("Skills");
@@ -116,7 +120,7 @@ public partial class PlayerCharacter : Actor, IHittable
          * 
          */
 
-        if (IsAttacking)
+        if (DontProcessInput)
         {
             // Dont process input;
             MoveAndSlide();
@@ -129,11 +133,11 @@ public partial class PlayerCharacter : Actor, IHittable
             _blockIndicator.Rotation = Controller.GetAimDirection(this.Position).Angle();
         }
         
-        if (IsAirborne)
+        if (IsKnockedBack)
         {
             _dragParticles.SetEmitting(true);
             Height += VerticalVelocity * (float)delta;
-            VerticalVelocity -= GV.Gravity * (float)delta;
+            // VerticalVelocity -= GV.Gravity * (float)delta;
             
             // Update sprites
             // TODO: HANDLE HEIGHT
@@ -143,8 +147,8 @@ public partial class PlayerCharacter : Actor, IHittable
             if (Height <= 0)
             {
                 Height = 0;
-                IsAirborne = false;
-                VerticalVelocity = 0;
+                IsKnockedBack = false;
+                // VerticalVelocity = 0;
                 OnLand();
             }
                         
@@ -159,7 +163,8 @@ public partial class PlayerCharacter : Actor, IHittable
     
             if (velocity.Length() > 0)
             {
-                MainSprite.Animation = "run";
+                AnimationManager.PlayAnimation(nameof(PlayerCharacterAnims.run));
+                // MainSprite.Animation = "run";
 
                 // Update sprite based on velocity
                 if (velocity.X != 0)
@@ -171,7 +176,7 @@ public partial class PlayerCharacter : Actor, IHittable
             }
             else
             {
-                MainSprite.Animation = "idle";
+                AnimationManager.PlayAnimation(nameof(PlayerCharacterAnims.idle));
             }
             
             Velocity = velocity;
@@ -211,14 +216,16 @@ public partial class PlayerCharacter : Actor, IHittable
         Vector2 knockbackVector = knockbackDirection * knockbackForce;
         
         // Calculate the vertical lift (based on force magnitude and a multiplier)
-        float verticalLift = knockbackForce * 0.5f; // Lift multiplier
+        // float verticalLift = knockbackForce * 0.5f; // Lift multiplier
 
         // Apply knockback
         Velocity += knockbackVector;
-        VerticalVelocity = verticalLift;
-        IsAirborne = true;
+        // VerticalVelocity = verticalLift;
+        IsKnockedBack = true;
         
         // TODO: MOVE SOMEWHERE ELSE
+        
+        AnimationManager.InterruptAnimation();
         
         if (Health <= 0)
         {

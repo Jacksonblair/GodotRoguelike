@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=4 uid="uid://b24flpni0ibbg"]
+[gd_scene load_steps=15 format=4 uid="uid://b24flpni0ibbg"]
 
 [ext_resource type="Script" path="res://levels/FirstFloor/StoneLevel.cs" id="2_atf2c"]
 [ext_resource type="TileSet" uid="uid://cl50pmfki6aus" path="res://levels/tilesets/stone_level_tileset.tres" id="2_cy30q"]
 [ext_resource type="PackedScene" uid="uid://cyvmhciige74v" path="res://levels/Door/LevelDoor.tscn" id="2_vh1yt"]
-[ext_resource type="PackedScene" uid="uid://crpgc3fc18lb2" path="res://actors/enemies/Level1Enemy/Level1Enemy.tscn" id="4_7mav2"]
 [ext_resource type="PackedScene" uid="uid://vpn86521i8ol" path="res://levels/props/campfire/Campfire.tscn" id="5_dilwi"]
 [ext_resource type="PackedScene" uid="uid://chtnxfyfswn6m" path="res://actors/enemies/GhostEnemy/GhostEnemy1.tscn" id="5_s8kw3"]
 
@@ -134,15 +133,6 @@ position = Vector2(0, -285)
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_3n2ny")
-
-[node name="Level1Enemy2" parent="." instance=ExtResource("4_7mav2")]
-position = Vector2(209, 43)
-
-[node name="Level1Enemy3" parent="." instance=ExtResource("4_7mav2")]
-position = Vector2(129, 114)
-
-[node name="Level1Enemy4" parent="." instance=ExtResource("4_7mav2")]
-position = Vector2(86, 24)
 
 [node name="Enemy1" parent="." instance=ExtResource("5_s8kw3")]
 position = Vector2(-249, 55)

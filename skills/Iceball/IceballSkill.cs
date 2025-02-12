@@ -17,4 +17,9 @@ public partial class IceballSkill : PlayerSkill, IProjectileSkill
     {
         throw new System.NotImplementedException();
     }
+
+    public override void Interrupt()
+    {
+        throw new System.NotImplementedException();
+    }
 }
