@@ -9,7 +9,8 @@ public partial class SpriteAnimationManager : GodotObject
     private bool _isLocked = false;
     private string _currentAnimation = "";
     
-    [Signal] public delegate void AnimationInterruptedOrEndedEventHandler();
+    [Signal] public delegate void AnimationInterruptedEventHandler();
+    [Signal] public delegate void AnimationFinishedEventHandler();
     
     public SpriteAnimationManager(AnimatedSprite2D sprite)
     {
@@ -39,12 +40,12 @@ public partial class SpriteAnimationManager : GodotObject
     public void InterruptAnimation()
     {
         UnlockAnimation();
-        EmitSignal(nameof(AnimationInterruptedOrEnded));
+        EmitSignal(nameof(AnimationInterrupted));
     }
 
     private void OnAnimationFinished()
     {
         UnlockAnimation();
-        EmitSignal(nameof(AnimationInterruptedOrEnded));
+        EmitSignal(nameof(AnimationFinished));
     }
 }

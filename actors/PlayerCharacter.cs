@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Godot;
 using TESTCS.actors.controllers;
 using TESTCS.managers.PlayerManagers;
@@ -37,11 +38,7 @@ public partial class PlayerCharacter : Actor, IHittable
     public Camera2D Camera;
     private HealthBar _healthBar;
     private Sprite2D _blockIndicator;
-    private bool _isBlocking;
     private CpuParticles2D _dragParticles;
-    public SpriteAnimationManager AnimationManager;
-    
-    public bool DontProcessInput;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -77,12 +74,12 @@ public partial class PlayerCharacter : Actor, IHittable
     {
         GD.Print("STOPPED BLOCKING");
         _blockIndicator.Hide();
-        _isBlocking = false;
+        IsBlocking = false;
     }
 
     private void OnStartedBlocking()
     {
-        _isBlocking = true;
+        IsBlocking = true;
         _blockIndicator.Show();
     }
 
@@ -111,24 +108,8 @@ public partial class PlayerCharacter : Actor, IHittable
     {
         Controller.Update(delta);
 
-        /**
-         * If im attacking, i can either be attacking in a static position or moving.
-         * In this case, i set the animation to like:
-         * anim = attack, dontMove = true
-         *
-         * What if i implement an interrupt, so that my attack gets stopped. The anim needs to get reset.
-         * 
-         */
-
-        if (DontProcessInput)
-        {
-            // Dont process input;
-            MoveAndSlide();
-            return;
-        }
-        
         // TODO: Update aim direction indicator
-        if (_isBlocking)
+        if (IsBlocking)
         {
             _blockIndicator.Rotation = Controller.GetAimDirection(this.Position).Angle();
         }
@@ -136,26 +117,12 @@ public partial class PlayerCharacter : Actor, IHittable
         if (IsKnockedBack)
         {
             _dragParticles.SetEmitting(true);
-            Height += VerticalVelocity * (float)delta;
-            // VerticalVelocity -= GV.Gravity * (float)delta;
-            
-            // Update sprites
-            // TODO: HANDLE HEIGHT
-            // Sprite.Position = new Vector2(Sprite.Position.X, -Height);
-            
-            // Check if the enemy "lands"
-            if (Height <= 0)
+            KnockbackHandler.ApplyKnockbackFriction(delta, this);
+
+            if (!IsKnockedBack)
             {
-                Height = 0;
-                IsKnockedBack = false;
-                // VerticalVelocity = 0;
-                OnLand();
+                _dragParticles.SetEmitting(false);
             }
-                        
-            // Decay knockback horizontal velocity
-            Velocity = Velocity.MoveToward(Vector2.Zero, 50f * (float)delta);
-            
-            MoveAndSlide();
         }
         else
         {
@@ -180,8 +147,9 @@ public partial class PlayerCharacter : Actor, IHittable
             }
             
             Velocity = velocity;
-            MoveAndSlide();
         }
+        
+        MoveAndSlide();
     }
 
     private void OnLand()
@@ -192,40 +160,20 @@ public partial class PlayerCharacter : Actor, IHittable
 
     public void ReceiveHit(HitInformation hitInformation)
     {
-        var blockCushion = 1f;
-        const float blockCushionMultiplier = 0.25f;
-        if (_isBlocking)
+        KnockbackHandler.ApplyKnockbackForce(hitInformation, this);
+
+        // Interrupt current anim when knocked back
+        if (IsKnockedBack)
         {
-            blockCushion = blockCushionMultiplier;
+            // TODO: Play knockback animation
+            AnimationManager.InterruptAnimation();
         }
         
-        Health -= (int)((float)hitInformation.Damage * blockCushion);
+        ProcessHitDamage(hitInformation);
+        
+        // Update healthbar
         _healthBar.MaxValue = MaxHealth;
         _healthBar.SetValue(Health);
-        
-        // Divide enemy weight by hit weight to get force of knockback 
-        // 10/5 == 2
-        // 50/5 == 10
-        // 2/1 == 2
-        float knockbackForce = (hitInformation.Weight / this.Weight * 25) * blockCushion;
-        
-        // Calculate knockback direction
-        Vector2 knockbackDirection = (GlobalPosition - hitInformation.PositionOfHit).Normalized();
-        
-        // Apply knockback force to Vector
-        Vector2 knockbackVector = knockbackDirection * knockbackForce;
-        
-        // Calculate the vertical lift (based on force magnitude and a multiplier)
-        // float verticalLift = knockbackForce * 0.5f; // Lift multiplier
-
-        // Apply knockback
-        Velocity += knockbackVector;
-        // VerticalVelocity = verticalLift;
-        IsKnockedBack = true;
-        
-        // TODO: MOVE SOMEWHERE ELSE
-        
-        AnimationManager.InterruptAnimation();
         
         if (Health <= 0)
         {
@@ -233,7 +181,6 @@ public partial class PlayerCharacter : Actor, IHittable
             Position = GV.ActiveMainSceneContainer.GlobalPosition;
             Health = MaxHealth;
         }
-        
     }
 
     public Vector2 GetAimDirection()

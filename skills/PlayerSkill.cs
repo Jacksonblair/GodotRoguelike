@@ -4,12 +4,6 @@ using TESTCS.enums;
 using TESTCS.skills;
 using TESTCS.skills.Modifiers;
 
-public interface ISkillOwner
-{
-    public Vector2 GetPosition();
-    public Vector2 GetAimDirection();
-}
-
 /**
  * Can an enemy use this too? 
  */
@@ -22,7 +16,6 @@ public abstract partial class PlayerSkill : Node
     public SkillInputHandler SkillInputHandler;
     public ModifierHandler SkillModifierHandler = new();
     public List<SkillModifier> SkillModifiers = new();
-    public bool Interrupted = false;
     
     public override void _Ready()
     {
@@ -32,10 +25,11 @@ public abstract partial class PlayerSkill : Node
         SkillInputHandler.TryExecuteSkill += OnTryExecuteSkill;
         
         // Listen for player stuns
-        GV.PlayerCharacter.ActorStunned += OnPlayerStunned;
+        // GV.PlayerCharacter.ActorStunned += OnPlayerStunned;
+        GV.PlayerCharacter.ActorInterrupted += OnPlayerInterrupted;
     }
 
-    private void OnPlayerStunned()
+    private void OnPlayerInterrupted()
     {
         Interrupt();
     }

@@ -3,18 +3,20 @@
     using Godot;
 using TESTCS.actors.controllers;
 using TESTCS.actors.enemies;
-
+using TESTCS.managers.PlayerManagers;
+    
+    /**
+     * Need to implement Interrupting enemy skills
+     * - Make Skill implement interrupt functionality
+     * - Give skill auto cooldowns, and so on.
+     * - In the Actor loop, check if you can use the skill each tick, and then use it.
+     */
+    
 public partial class GhostEnemy1 : EnemyActor
 {
-    private Vector2 intialShadowScale;
-    private float verticalVelocity = 0f; // Simulated vertical velocity
-    
     private AnimatedSprite2D Sprite;
     private Sprite2D ShadowSprite;
     private HealthBar HealthBar;
-    
-    private float MAX_HIT_FORCE = 10;
-    private float MAX_SHADOW_HEIGHT = 50;
 
     private Area2D _swipeHitbox;
     private bool _isSwiping = false;
@@ -24,8 +26,6 @@ public partial class GhostEnemy1 : EnemyActor
     private double _fireballCooldown = 3;
     private double _fireballCooldoownTimeLeft = 0;
 
-    private List<string> _actionQueue = new();
-    
     public override void _Ready()
     {
         this.MovementSpeed = 50;
@@ -34,6 +34,7 @@ public partial class GhostEnemy1 : EnemyActor
         ShadowSprite = GetNode<Sprite2D>("ShadowSprite");
         HealthBar = GetNode<HealthBar>("%HealthBar");
         
+        // From here ----
         _swipeHitbox = GetNode<Area2D>("SwipeHitbox");
         _swipeHitbox.BodyEntered += OnBodyEnteredSwipeHitbox;
         _swipeHitbox.BodyExited += OnBodyExitedSwipeHitbox;
@@ -41,10 +42,12 @@ public partial class GhostEnemy1 : EnemyActor
         _fireballHitbox = GetNode<Area2D>("FireballHitbox");
         _fireballHitbox.BodyEntered += OnBodyEnteredFireballHitbox;
         _fireballHitbox.BodyExited += OnBodyExitedFireballHitbox;
+        // To here ---- 
+        // Could just be skill related.
         
-        intialShadowScale = ShadowSprite.Scale;
         Controller = new BasicEnemyController();
-
+        AnimationManager = new SpriteAnimationManager(Sprite);
+        
         HealthBar.MaxValue = MaxHealth;
         HealthBar.SetValue(Health);
     }
@@ -139,18 +142,6 @@ public partial class GhostEnemy1 : EnemyActor
         };
         AddChild(indicatorTimer);
         indicatorTimer.Start();
-
-        // Start timer to remove indicator before attack
-        // _indicatorTimer = new Timer();
-        // _indicatorTimer.WaitTime = IndicatorDuration;
-        // _indicatorTimer.OneShot = true;
-        // _indicatorTimer.Timeout += () => attackIndicator.QueueFree();
-        // AddChild(_indicatorTimer);
-        // _indicatorTimer.Start();
     }
 
-    public void OnLand()
-    {
-        // Do something when we land.
-    }
 }
